@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import "../styles/Dashboard.css";
@@ -114,6 +115,7 @@ function ActivityIcon({ name }) {
 }
 
 export default function Dashboard({ user, onLogout, onNavigate }) {
+  const navigate = useNavigate();
   const [data, setData] = useState(FALLBACK_DATA);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -191,9 +193,21 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
               <button
                 className="sr-quick-action"
                 key={action.key}
+                type="button"
                 onClick={() => {
-                  if (action.key === "new-reservation" && onNavigate) {
-                    onNavigate("add-new-reservation");
+                  if (action.key === "new-reservation") {
+                    navigate("/packages");
+                  } else if (action.key === "search-booking") {
+                    navigate("/search");
+                  } else if (action.key === "pending-payments") {
+                    navigate("/pending-payments");
+                  } else if (action.key === "daily-audit") {
+                    navigate("/daily-arrival-report");
+                  } else if (action.key === "daily-departure") {
+                    navigate("/daily-departure-report");
+                  }
+                  if (onNavigate) {
+                    onNavigate(action.key);
                   }
                 }}
               >
@@ -204,6 +218,7 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
               </button>
             ))}
           </section>
+
 
           <h3 className="sr-section-title">Reservation Status</h3>
           <section className="sr-status-grid">
@@ -224,7 +239,7 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
             <div className="sr-panel sr-reservations">
               <div className="sr-panel-header">
                 <h3>Recent Reservations</h3>
-                <a href="#view-all" className="sr-view-all">View All →</a>
+                <Link to="/reservation-confirmed" className="sr-view-all">View All →</Link>
               </div>
               <div className="sr-table-wrap">
                 <table className="sr-table">
@@ -249,7 +264,11 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
                           <span className={`sr-pill ${STATUS_PILL_CLASS[row.status] || ""}`}>{row.status}</span>
                         </td>
                         <td>
-                          <button className="sr-view-link">
+                          <button
+                            className="sr-view-link"
+                            type="button"
+                            onClick={() => navigate("/reservation-confirmed")}
+                          >
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                               <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                               <circle cx="12" cy="12" r="3" />

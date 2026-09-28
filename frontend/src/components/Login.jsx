@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/Login.css";
 import logoImage from "../assets/login.png";
 import { loginUser } from "../api/authApi";
 
 export default function Login({ onLogin }) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -21,8 +24,12 @@ export default function Login({ onLogin }) {
 
     try {
       const response = await loginUser(userId.trim(), password);
-      if (onLogin && response.user) {
-        onLogin(response.user);
+      if (response && response.user) {
+        if (onLogin) {
+          onLogin(response.user);
+        }
+        const destination = location.state?.from?.pathname || "/dashboard";
+        navigate(destination, { replace: true });
       }
     } catch (err) {
       setError(err.message || "Invalid User ID or password.");

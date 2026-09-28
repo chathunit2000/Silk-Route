@@ -1,24 +1,8 @@
 import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/Dashboard.css";
+import { NAV_ROUTES } from "../routes/navRoutes";
 
-const NAV_ITEMS = [
-  { key: "dashboard", label: "Dashboard", icon: "grid" },
-  { key: "add-new-reservation", label: "Add New Reservation", icon: "plus-square" },
-  { key: "pending-payments", label: "Pending Payments", icon: "credit-card-clock" },
-  { key: "reservation-confirmed", label: "Reservation Confirmed", icon: "calendar-check" },
-  { key: "shrangila-reservation", label: "Shrangila Reservations", icon: "hotel" },
-  { key: "create-edit-user", label: "Create/Edit User", icon: "user-cog" },
-  { key: "on-credit-reservation", label: "On Credit Reservations", icon: "credit-card" },
-  { key: "edit-confirm-reservations", label: "Edit Confirm Reservations", icon: "calendar-edit" },
-  { key: "edit-pending-reservations", label: "Edit Pending Reservations", icon: "calendar-clock" },
-  { key: "visitors' details", label: "Visitors' Details", icon: "users" },
-  { key: "Immigration Emigration Report", label: "Immigration Emigration Report", icon: "globe" },
-  { key: "search", label: "Search", icon: "search" },
-  { key: "delete confirm reservation", label: "Delete Confirm Reservation", icon: "calendar-x" },
-  { key: "delete pending payments", label: "Delete Pending Payments", icon: "credit-card-x" },
-  { key: "daily arrival report", label: "Daily Arrival Report", icon: "plane-landing" },
-  { key: "daily departure report", label: "Daily Departure Report", icon: "plane-takeoff" },
-];
 
 function Icon({ name }) {
   // Minimal inline icon set so the sidebar has no external dependency.
@@ -258,7 +242,39 @@ function Icon({ name }) {
   }
 }
 
-export default function Sidebar({ active = "dashboard", onNavigate, isOpen = false, onClose }) {
+export default function Sidebar({ active, onNavigate, isOpen = false, onClose }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const isItemActive = (item) => {
+    if (active) {
+      return active === item.key;
+    }
+    if (location.pathname === item.path) {
+      return true;
+    }
+    if (
+      item.key === "add-new-reservation" &&
+      (location.pathname === "/packages" ||
+        location.pathname === "/add-new-reservation" ||
+        location.pathname.startsWith("/package-reservation") ||
+        location.pathname.startsWith("/reservation"))
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const handleItemClick = (item) => {
+    navigate(item.path);
+    if (onNavigate) {
+      onNavigate(item.key);
+    }
+    if (onClose) {
+      onClose();
+    }
+  };
+
   return (
     <>
       <div
@@ -282,15 +298,13 @@ export default function Sidebar({ active = "dashboard", onNavigate, isOpen = fal
           </button>
         </div>
         <nav className="sr-sidebar-nav">
-          {NAV_ITEMS.map((item) => (
+          {NAV_ROUTES.map((item) => (
             <button
               key={item.key}
-              className={`sr-sidebar-item ${active === item.key ? "is-active" : ""}`}
-              onClick={() => {
-                if (onNavigate) onNavigate(item.key);
-                if (onClose) onClose();
-              }}
+              className={`sr-sidebar-item ${isItemActive(item) ? "is-active" : ""}`}
+              onClick={() => handleItemClick(item)}
               title={item.label}
+              type="button"
             >
               <span className="sr-sidebar-icon-wrap">
                 <Icon name={item.icon} />
@@ -303,3 +317,4 @@ export default function Sidebar({ active = "dashboard", onNavigate, isOpen = fal
     </>
   );
 }
+

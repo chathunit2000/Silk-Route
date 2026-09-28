@@ -1,0 +1,979 @@
+/* ===================================================================
+   Silk Route - Dedicated Package Reservation Page Styles
+   =================================================================== */
+
+.sr-res-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  animation: srFadeIn 0.25s ease-out;
+}
+
+/* Header & Breadcrumb Bar */
+.sr-res-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--sr-card, #ffffff);
+  border: 1px solid var(--sr-border, #d5dfec);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(12, 33, 62, 0.04);
+}
+
+.sr-res-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sr-res-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f1f5f9;
+  color: #1e293b;
+  border: 1px solid #cbd5e1;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.sr-res-back-btn:hover {
+  background: #1474be;
+  color: #ffffff;
+  border-color: #1474be;
+  transform: translateX(-2px);
+  box-shadow: 0 3px 10px rgba(20, 116, 190, 0.25);
+}
+
+.sr-res-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sr-res-title-wrap h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--sr-navy, #0c213e);
+  letter-spacing: -0.01em;
+}
+
+.sr-res-title-wrap .sr-res-subtitle {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.sr-res-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.sr-res-breadcrumbs a,
+.sr-res-breadcrumbs button {
+  background: none;
+  border: none;
+  color: #1474be;
+  cursor: pointer;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.sr-res-breadcrumbs a:hover,
+.sr-res-breadcrumbs button:hover {
+  color: #0d5d9c;
+}
+
+.sr-res-breadcrumbs .separator {
+  color: #94a3b8;
+}
+
+/* Two-Column Grid Layout */
+.sr-res-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 1080px) {
+  .sr-res-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Main Form Card */
+.sr-res-form-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #d5dfec;
+  box-shadow: 0 4px 18px rgba(12, 33, 62, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sub-Bar User Greeting */
+.sr-res-subbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 14px 28px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 13.5px;
+}
+
+.sr-res-user-greeting {
+  color: #334155;
+  font-weight: 500;
+}
+
+.sr-res-badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #e0f2fe;
+  color: #0369a1;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid #bae6fd;
+}
+
+/* Reservation Form */
+.sr-res-form {
+  padding: 24px 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sr-res-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.sr-res-columns.is-single-col {
+  grid-template-columns: 1fr;
+  max-width: 520px;
+}
+
+@media (max-width: 768px) {
+  .sr-res-columns {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .sr-res-form {
+    padding: 18px 20px;
+  }
+}
+
+.sr-res-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.sr-res-col-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.sr-res-col-title svg {
+  color: #1474be;
+}
+
+/* Secondary Inputs row */
+.sr-res-extra-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding-top: 10px;
+  border-top: 1px dashed #e2e8f0;
+}
+
+@media (max-width: 640px) {
+  .sr-res-extra-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Submit Action Row */
+.sr-res-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.sr-res-submit-btn {
+  background: #1474be;
+  color: #ffffff;
+  border: none;
+  padding: 13px 48px;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(20, 116, 190, 0.35);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sr-res-submit-btn:hover {
+  background: #0d5d9c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(20, 116, 190, 0.45);
+}
+
+.sr-res-cancel-btn {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sr-res-cancel-btn:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+/* Sidebar / Overview Card */
+.sr-res-sidebar-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #d5dfec;
+  box-shadow: 0 4px 18px rgba(12, 33, 62, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 85px;
+}
+
+.sr-res-pkg-thumb-wrap {
+  position: relative;
+  width: 100%;
+  height: 190px;
+  background: #0f172a;
+  overflow: hidden;
+}
+
+.sr-res-pkg-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.sr-res-sidebar-card:hover .sr-res-pkg-thumb {
+  transform: scale(1.03);
+}
+
+.sr-res-pkg-badge-overlay {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(12, 33, 62, 0.88);
+  backdrop-filter: blur(4px);
+  color: #f19f12;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(241, 159, 18, 0.4);
+}
+
+.sr-res-sidebar-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sr-res-pkg-title-area {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-bottom: 1px solid #eef2f6;
+  padding-bottom: 14px;
+}
+
+.sr-res-pkg-title-area h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: #0c213e;
+}
+
+.sr-res-pkg-title-area p {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.sr-res-pkg-switcher {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sr-res-pkg-switcher label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sr-res-pkg-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #f8fafc;
+  color: #1e293b;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+}
+
+.sr-res-pkg-select:focus {
+  border-color: #1474be;
+  background: #ffffff;
+}
+
+/* Inclusions list */
+.sr-res-inclusions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sr-res-inclusions-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sr-res-inclusion-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #334155;
+  font-weight: 500;
+}
+
+.sr-res-inclusion-item svg {
+  color: #16a34a;
+  flex-shrink: 0;
+}
+
+/* Cost Breakdown Box */
+.sr-res-pricing-card {
+  background: #f0f7ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sr-res-pricing-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #334155;
+}
+
+.sr-res-pricing-row.is-total {
+  border-top: 1.5px solid #bfdbfe;
+  padding-top: 10px;
+  margin-top: 2px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0c213e;
+}
+
+.sr-res-pricing-row.is-total .price-tag {
+  color: #1474be;
+  font-size: 20px;
+}
+
+/* Contact desk */
+.sr-res-contact-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 12.5px;
+}
+
+.sr-res-contact-card svg {
+  color: #f19f12;
+  flex-shrink: 0;
+}
+
+.sr-res-contact-card strong {
+  display: block;
+  color: #1e293b;
+  font-size: 12.5px;
+}
+
+.sr-res-contact-card span {
+  color: #64748b;
+  font-size: 11.5px;
+}
+
+/* ===================================================================
+   Confirmation State Screen
+   =================================================================== */
+.sr-confirmed-card {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #d5dfec;
+  box-shadow: 0 6px 24px rgba(12, 33, 62, 0.08);
+  overflow: hidden;
+  max-width: 860px;
+  margin: 0 auto;
+  animation: srScaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sr-confirmed-banner {
+  background: linear-gradient(135deg, #15803d 0%, #16a34a 100%);
+  color: #ffffff;
+  padding: 32px 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.sr-confirmed-icon-circle {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sr-confirmed-banner-text h2 {
+  margin: 0 0 4px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.sr-confirmed-banner-text p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.92;
+}
+
+.sr-confirmed-body {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sr-confirmed-ref-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 10px;
+  padding: 16px 20px;
+}
+
+.sr-confirmed-ref-strip .ref-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.sr-confirmed-ref-strip .ref-code {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1474be;
+  letter-spacing: 0.05em;
+  font-family: monospace;
+}
+
+.sr-confirmed-ref-strip .ref-status {
+  background: #dcfce7;
+  color: #15803d;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid #bbf7d0;
+}
+
+.sr-confirmed-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  background: #fbfcfe;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+@media (max-width: 640px) {
+  .sr-confirmed-details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sr-confirmed-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sr-confirmed-detail-item span.label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sr-confirmed-detail-item span.value {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.sr-confirmed-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 20px;
+}
+
+@media print {
+  body {
+    background: #ffffff !important;
+  }
+  .sr-sidebar,
+  .sr-header,
+  .sr-res-header-bar,
+  .sr-confirmed-actions {
+    display: none !important;
+  }
+  .sr-confirmed-card {
+    border: none !important;
+    box-shadow: none !important;
+    max-width: 100% !important;
+  }
+}
+
+/* ===================================================================
+   Step 2: Passenger & Contact Details (Matching Silk Route Airport Form)
+   =================================================================== */
+
+.sr-step2-wrapper {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #d5dfec;
+  box-shadow: 0 4px 20px rgba(12, 33, 62, 0.06);
+  overflow: hidden;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+  animation: srFadeIn 0.25s ease-out;
+}
+
+.sr-step2-header-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 28px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.sr-step2-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sr-step2-back-link:hover {
+  background: #1474be;
+  color: #ffffff;
+  border-color: #1474be;
+}
+
+.sr-step2-pkg-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #e0f2fe;
+  color: #0369a1;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid #bae6fd;
+}
+
+.sr-step2-body {
+  padding: 24px 36px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+@media (max-width: 768px) {
+  .sr-step2-body {
+    padding: 18px 20px 24px;
+  }
+}
+
+.sr-step2-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sr-step2-section-title {
+  margin: 0;
+  font-size: 16.5px;
+  font-weight: 700;
+  color: #2b3545;
+}
+
+.sr-step2-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.sr-step2-field-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #556477;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.sr-step2-input {
+  width: 100%;
+  height: 38px;
+  padding: 0 12px;
+  background: #edf3fa;
+  border: 1px solid #dce4ee;
+  border-radius: 4px;
+  font-size: 13.5px;
+  color: #1e293b;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+}
+
+.sr-step2-input:focus {
+  background: #ffffff;
+  border-color: #1474be;
+  box-shadow: 0 0 0 2px rgba(20, 116, 190, 0.18);
+}
+
+.sr-step2-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  background: #edf3fa;
+  border: 1px solid #dce4ee;
+  border-radius: 4px;
+  font-size: 13.5px;
+  color: #1e293b;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.sr-step2-textarea:focus {
+  background: #ffffff;
+  border-color: #1474be;
+  box-shadow: 0 0 0 2px rgba(20, 116, 190, 0.18);
+}
+
+/* Passenger row: Title (small dropdown) + Name (flexible) + Passport No (medium) */
+.sr-step2-pax-grid {
+  display: grid;
+  grid-template-columns: 100px 1.5fr 1fr;
+  gap: 14px;
+  align-items: end;
+}
+
+@media (max-width: 640px) {
+  .sr-step2-pax-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sr-step2-title-select-wrap {
+  display: flex;
+  background: #edf3fa;
+  border: 1px solid #dce4ee;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 38px;
+}
+
+.sr-step2-title-select {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1e293b;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+}
+
+.sr-step2-title-btn-icon {
+  width: 32px;
+  background: #1474be;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Disclaimer text */
+.sr-step2-note {
+  font-size: 12px;
+  color: #64748b;
+  font-style: normal;
+  margin-top: 2px;
+}
+
+/* Payment row */
+.sr-step2-payment-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sr-step2-payin-wrap {
+  display: flex;
+  background: #edf3fa;
+  border: 1px solid #dce4ee;
+  border-radius: 4px;
+  overflow: hidden;
+  width: 240px;
+  height: 38px;
+}
+
+.sr-step2-payin-select {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1e293b;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+}
+
+.sr-step2-secure-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #475569;
+  font-weight: 600;
+}
+
+.sr-step2-card-logos {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sr-mc-logo {
+  display: inline-flex;
+  position: relative;
+  width: 28px;
+  height: 18px;
+}
+
+.sr-mc-circle-red {
+  position: absolute;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #eb001b;
+}
+
+.sr-mc-circle-yellow {
+  position: absolute;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ff5f00;
+  opacity: 0.9;
+}
+
+.sr-visa-text {
+  font-size: 14px;
+  font-weight: 900;
+  font-style: italic;
+  color: #1a1f71;
+  letter-spacing: -0.04em;
+}
+
+/* 2-column grids */
+.sr-step2-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+}
+
+@media (max-width: 640px) {
+  .sr-step2-grid-2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Divider */
+.sr-step2-divider {
+  border: none;
+  border-top: 1px solid #e5e9f0;
+  margin: 6px 0;
+}
+
+/* Terms checkbox */
+.sr-step2-terms {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 13.5px;
+  color: #334155;
+  font-weight: 600;
+  padding: 14px 0 6px;
+  cursor: pointer;
+}
+
+.sr-step2-terms input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #1474be;
+  cursor: pointer;
+}
+
+.sr-step2-terms a {
+  color: #1474be;
+  text-decoration: underline;
+}
+
+/* Submit button */
+.sr-step2-submit-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.sr-step2-submit-btn {
+  background: #1677c5;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 14px 80px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(22, 119, 197, 0.32);
+  transition: all 0.2s ease;
+  min-width: 280px;
+}
+
+.sr-step2-submit-btn:hover {
+  background: #0f62a4;
+  box-shadow: 0 6px 18px rgba(22, 119, 197, 0.42);
+  transform: translateY(-1px);
+}
+

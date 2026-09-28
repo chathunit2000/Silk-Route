@@ -1,3 +1,4 @@
+
 CREATE DATABASE IF NOT EXISTS silkroute CHARACTER SET utf8mb4;
 USE silkroute;
 

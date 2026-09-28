@@ -1,9 +1,23 @@
 import React, { useState } from "react";
+import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import BookingPackages from "./components/BookingPackages";
+import PackageReservation from "./components/PackageReservation";
 import Login from "./components/Login";
+import ModulePlaceholder from "./components/ModulePlaceholder";
+import { NAV_ROUTES } from "./routes/navRoutes";
+
+function ProtectedRoute({ user, children }) {
+  const location = useLocation();
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+  return children;
+}
 
 export default function App() {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState(() => {
     try {
       const saved = localStorage.getItem("silkroute_user");
@@ -12,8 +26,6 @@ export default function App() {
       return null;
     }
   });
-
-  const [currentView, setCurrentView] = useState("dashboard");
 
   const handleLogin = (userData) => {
     setUser(userData);
@@ -26,33 +38,121 @@ export default function App() {
 
   const handleLogout = () => {
     setUser(null);
-    setCurrentView("dashboard");
     try {
       localStorage.removeItem("silkroute_user");
     } catch (e) {
       console.error(e);
     }
+    navigate("/login", { replace: true });
   };
 
-  if (!user) {
-    return <Login onLogin={handleLogin} />;
-  }
-
-  if (currentView === "add-new-reservation" || currentView === "packages") {
-    return (
-      <BookingPackages
-        user={user}
-        onLogout={handleLogout}
-        onNavigate={setCurrentView}
-      />
-    );
-  }
-
   return (
-    <Dashboard
-      user={user}
-      onLogout={handleLogout}
-      onNavigate={setCurrentView}
-    />
+    <Routes>
+      {/* Login Route */}
+      <Route
+        path="/login"
+        element={
+          user ? <Navigate to="/dashboard" replace /> : <Login onLogin={handleLogin} />
+        }
+      />
+
+      {/* Main Dashboard Route */}
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute user={user}>
+            <Dashboard user={user} onLogout={handleLogout} />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Packages Overview Route */}
+      <Route
+        path="/packages"
+        element={
+          <ProtectedRoute user={user}>
+            <BookingPackages user={user} onLogout={handleLogout} />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Add New Reservation Path Alias */}
+      <Route
+        path="/add-new-reservation"
+        element={<Navigate to="/packages" replace />}
+      />
+
+      {/* Package Reservation Routes (with optional :packageId param) */}
+      <Route
+        path="/package-reservation"
+        element={
+          <ProtectedRoute user={user}>
+            <PackageReservation user={user} onLogout={handleLogout} />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/package-reservation/:packageId"
+        element={
+          <ProtectedRoute user={user}>
+            <PackageReservation user={user} onLogout={handleLogout} />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Reservation aliases */}
+      <Route
+        path="/reservation"
+        element={<Navigate to="/package-reservation" replace />}
+      />
+      <Route
+        path="/reservation/:packageId"
+        element={<Navigate to="/package-reservation/:packageId" replace />}
+      />
+
+      {/* Sidebar Operational Module Routes with Full History Navigation */}
+      {NAV_ROUTES.filter(
+        (item) => item.path !== "/dashboard" && item.path !== "/packages"
+      ).map((item) => (
+        <Route
+          key={item.key}
+          path={item.path}
+          element={
+            <ProtectedRoute user={user}>
+              <ModulePlaceholder
+                user={user}
+                onLogout={handleLogout}
+                title={item.label}
+                navKey={item.key}
+              />
+            </ProtectedRoute>
+          }
+        />
+      ))}
+
+      {/* Root redirect */}
+      <Route
+        path="/"
+        element={
+          user ? (
+            <Navigate to="/dashboard" replace />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+
+      {/* Catch-all 404 fallback */}
+      <Route
+        path="*"
+        element={
+          user ? (
+            <Navigate to="/dashboard" replace />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+    </Routes>
   );
 }

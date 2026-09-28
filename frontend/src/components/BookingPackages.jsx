@@ -1,276 +1,129 @@
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import "../styles/Dashboard.css";
 import "../styles/BookingPackages.css";
-
-import loungeSeatingImg from "../assets/packages/lounge_seating.jpg";
-import executiveLoungeImg from "../assets/packages/executive_lounge.jpg";
-import vipSofasImg from "../assets/packages/vip_sofas.jpg";
-
-
-// Helper functions for localized date and datetime strings
-function getTodayDateString() {
-  const d = new Date();
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
-function getTodayDateTimeString(hoursOffset = 0) {
-  const d = new Date();
-  if (hoursOffset) {
-    d.setHours(d.getHours() + hoursOffset);
-  }
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  const hours = String(d.getHours()).padStart(2, "0");
-  const minutes = String(d.getMinutes()).padStart(2, "0");
-  return `${year}-${month}-${day}T${hours}:${minutes}`;
-}
-
-function isArrivalPackage(pkg) {
-  if (!pkg) return false;
-  return (
-    pkg.category === "arrival-departure" ||
-    pkg.category === "arrival" ||
-    (pkg.inclusions && pkg.inclusions.some((i) => i.toLowerCase().includes("arrival")))
-  );
-}
-
-function isDeparturePackage(pkg) {
-  if (!pkg) return false;
-  return (
-    pkg.category === "arrival-departure" ||
-    pkg.category === "departure" ||
-    pkg.category === "lounge" ||
-    (pkg.inclusions && pkg.inclusions.some((i) => i.toLowerCase().includes("departure") || i.toLowerCase().includes("lounge")))
-  );
-}
-
-const PACKAGES_DATA = [
-  {
-    id: "ruby",
-    name: "Ruby Package",
-    subtitle: "Complete VIP airport experience",
-    price: 124,
-    badge: "All-Inclusive",
-    featured: true,
-    image: loungeSeatingImg,
-    category: "arrival-departure",
-    inclusions: [
-      "Silk Route Arrival",
-      "Silk Route Departure",
-      "Executive Lounge"
-    ],
-    openingHours: "24 hours",
-    childrenPolicy: "Children under 02 Years free of charge",
-    mapDetail: "Silk Route Dedicated Pier & Lounge Area"
-  },
-  {
-    id: "sapphire",
-    name: "Sapphire Package",
-    subtitle: "Fast-track departure & relaxation",
-    price: 72,
-    badge: "Departure + Lounge",
-    image: executiveLoungeImg,
-    category: "departure",
-    inclusions: [
-      "Silk Route Departure",
-      "Executive Lounge"
-    ],
-    openingHours: "24 hours",
-    childrenPolicy: "Children under 02 Years free of charge",
-    mapDetail: "Upper Departure Level Gate 8 Pier"
-  },
-  {
-    id: "amethyst",
-    name: "Amethyst Package",
-    subtitle: "Arrival & departure transit bundle",
-    price: 98,
-    badge: "Transit Special",
-    image: executiveLoungeImg,
-    category: "arrival-departure",
-    inclusions: [
-      "Silk Route Arrival",
-      "Silk Route Departure"
-    ],
-    openingHours: "24 hours",
-    childrenPolicy: "Children under 02 Years free of charge",
-    mapDetail: "Terminal 1 Silk Route Hub"
-  },
-  {
-    id: "topaz-arrival",
-    name: "Topaz Arrival Package",
-    subtitle: "Dedicated arrival assistance",
-    price: 52,
-    badge: "Arrival Only",
-    image: vipSofasImg,
-    category: "arrival",
-    inclusions: [
-      "Silk Route Arrival"
-    ],
-    openingHours: "24 hours",
-    childrenPolicy: "Children under 02 Years free of charge",
-    mapDetail: "Arrival Pier Gates 1-5 & Dedicated Immigration"
-  },
-  {
-    id: "topaz-departure",
-    name: "Topaz Departure Package",
-    subtitle: "Priority departure assistance",
-    price: 52,
-    badge: "Departure Only",
-    image: loungeSeatingImg,
-    category: "departure",
-    inclusions: [
-      "Silk Route Departure"
-    ],
-    openingHours: "24 hours",
-    childrenPolicy: "Children under 02 Years free of charge",
-    mapDetail: "Departure Pier Gate 6 Dedicated Clearance"
-  },
-  {
-    id: "garnet",
-    name: "Garnet Package",
-    subtitle: "Executive lounge access & hospitality",
-    price: 21,
-    badge: "Lounge Only",
-    image: executiveLoungeImg,
-    category: "lounge",
-    inclusions: [
-      "Executive Lounge"
-    ],
-    openingHours: "24 hours",
-    childrenPolicy: "Children under 02 Years free of charge",
-    locationNote: "Location : Pier details..",
-    mapDetail: "Main Pier Executive Lounge Wing"
-  }
-];
+import { PACKAGES_DATA } from "../data/packagesData";
 
 const CATEGORY_TABS = [
-  { key: "all", label: "All Packages (6)" },
-  { key: "arrival-departure", label: "Arrival & Departure (2)" },
-  { key: "arrival", label: "Arrival Only (1)" },
-  { key: "departure", label: "Departure Only (2)" },
-  { key: "lounge", label: "Lounge Only (1)" }
+  { key: "all", label: "All Packages", icon: "all" },
+  { key: "arrival-departure", label: "Arrival & Departure", icon: "arrival-departure" },
+  { key: "arrival", label: "Arrival Only", icon: "arrival" },
+  { key: "departure", label: "Departure Only", icon: "departure" },
+  { key: "lounge", label: "Lounge Only", icon: "lounge" },
 ];
 
-export default function BookingPackages({ user, onLogout, onNavigate }) {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+function CategoryIcon({ type }) {
+  const common = {
+    width: 15,
+    height: 15,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 2,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+  };
+
+  switch (type) {
+    case "all":
+      return (
+        <svg {...common}>
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+        </svg>
+      );
+    case "arrival-departure":
+      return (
+        <svg {...common}>
+          <path d="M17.8 19.2 16 11l3.5-3.5a1.5 1.5 0 0 0-2.1-2.1L14 9 5.8 7.2 4 9l6 3-3 3H4l-1 2 5 1.5L9.5 23l2-1-1.8-8.2 3-3 3 6z" />
+        </svg>
+      );
+    case "arrival":
+      return (
+        <svg {...common}>
+          <path d="M2 22h20" />
+          <path d="M19 13l-6-6-7 2-2-2 4-1 3-3 3 1 6 6z" />
+          <path d="M4 17l4-2" />
+        </svg>
+      );
+    case "departure":
+      return (
+        <svg {...common}>
+          <path d="M2 22h20" />
+          <path d="M19 8l-6 6-7-2-2 2 4 1 3 3 3-1 6-6z" />
+          <path d="M4 10l4 2" />
+        </svg>
+      );
+    case "lounge":
+      return (
+        <svg {...common}>
+          <path d="M3 11v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5" />
+          <path d="M2 14h20" />
+          <path d="M6 18v2" />
+          <path d="M18 18v2" />
+          <path d="M6 8a4 4 0 0 1 8 0v3H6V8z" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+}
+
+export default function BookingPackages({
+  user,
+  onLogout,
+  onNavigate,
+  onSelectPackage,
+}) {
+  const navigate = useNavigate();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
-  
-  // Modals state
-  const [activeModalPackage, setActiveModalPackage] = useState(null); // for Booking Modal
-  const [mapModalPackage, setMapModalPackage] = useState(null); // for Map Details Modal
-  
-  // Booking Form State
-  const [paxCount, setPaxCount] = useState(1);
-  const [arrivalDate, setArrivalDate] = useState("");
-  const [arrivalFlightNumber, setArrivalFlightNumber] = useState("");
-  const [departureDate, setDepartureDate] = useState("");
-  const [departureFlightNumber, setDepartureFlightNumber] = useState("");
-  const [validationError, setValidationError] = useState("");
-  const [successToast, setSuccessToast] = useState(null);
 
-  const arrivalDateRef = useRef(null);
-  const departureDateRef = useRef(null);
+  // Map Details Modal state
+  const [mapModalPackage, setMapModalPackage] = useState(null);
+
+  // Dynamic counts for category tabs
+  const categoryCounts = useMemo(() => {
+    return {
+      all: PACKAGES_DATA.length,
+      "arrival-departure": PACKAGES_DATA.filter(
+        (p) => p.category === "arrival-departure"
+      ).length,
+      arrival: PACKAGES_DATA.filter((p) => p.category === "arrival").length,
+      departure: PACKAGES_DATA.filter((p) => p.category === "departure").length,
+      lounge: PACKAGES_DATA.filter((p) => p.category === "lounge").length,
+    };
+  }, []);
 
   const filteredPackages = useMemo(() => {
     return PACKAGES_DATA.filter((pkg) => {
       const matchesCategory =
         selectedCategory === "all" || pkg.category === selectedCategory;
+      const term = searchTerm.toLowerCase().trim();
       const matchesSearch =
-        pkg.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        pkg.inclusions.some((inc) =>
-          inc.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+        !term ||
+        pkg.name.toLowerCase().includes(term) ||
+        (pkg.subtitle && pkg.subtitle.toLowerCase().includes(term)) ||
+        (pkg.badge && pkg.badge.toLowerCase().includes(term)) ||
+        pkg.inclusions.some((inc) => inc.toLowerCase().includes(term));
       return matchesCategory && matchesSearch;
     });
   }, [selectedCategory, searchTerm]);
 
-    const handleOpenBooking = (pkg) => {
-    setActiveModalPackage(pkg);
-    setValidationError("");
-    setPaxCount(1);
-    setArrivalFlightNumber("");
-    setDepartureFlightNumber("");
-    const today = getTodayDateString();
-    setArrivalDate(`${today}T10:00`);
-    setDepartureDate(`${today}T14:30`);
-  };
-
-  const handleConfirmBooking = (e) => {
-    e.preventDefault();
-    if (!activeModalPackage) return;
-    setValidationError("");
-
-    const hasArrival = isArrivalPackage(activeModalPackage);
-    const hasDeparture = isDeparturePackage(activeModalPackage);
-    const todayDateOnly = getTodayDateString();
-
-    if (hasArrival) {
-      const arrDateOnly = (arrivalDate || "").slice(0, 10);
-      if (!arrDateOnly || arrDateOnly < todayDateOnly) {
-        setValidationError("Arrival Date cannot be in the past. Please select today or a future date.");
-        return;
-      }
-      if (!arrivalFlightNumber.trim()) {
-        setValidationError("Arrival flight number is mandatory.");
-        return;
-      }
+  // Navigate directly to the package reservation page
+  const handleOpenBooking = (pkg) => {
+    if (onSelectPackage) {
+      onSelectPackage(pkg);
     }
-
-    if (hasDeparture) {
-      const depDateOnly = (departureDate || "").slice(0, 10);
-      if (!depDateOnly || depDateOnly < todayDateOnly) {
-        setValidationError("Departure Date cannot be in the past. Please select today or a future date.");
-        return;
-      }
-      if (!departureFlightNumber.trim()) {
-        setValidationError("Departure flight number is mandatory.");
-        return;
-      }
+    if (onNavigate) {
+      onNavigate("package-reservation", pkg);
     }
-
-    if (hasArrival && hasDeparture) {
-      if (arrivalDate && departureDate && departureDate < arrivalDate) {
-        setValidationError("Departure Date and Time cannot be earlier than Arrival Date and Time.");
-        return;
-      }
-    }
-
-    const bookingId = "BK" + Math.floor(10000 + Math.random() * 90000);
-    const totalAmount = activeModalPackage.price * paxCount;
-
-    let flightSummary = "";
-    if (hasArrival && hasDeparture) {
-      flightSummary = `${arrivalFlightNumber.trim()} / ${departureFlightNumber.trim()}`;
-    } else if (hasArrival) {
-      flightSummary = arrivalFlightNumber.trim();
-    } else if (hasDeparture) {
-      flightSummary = departureFlightNumber.trim();
-    } else {
-      flightSummary = "UL-504";
-    }
-
-    setSuccessToast({
-      bookingId,
-      packageName: activeModalPackage.name,
-      flight: flightSummary,
-      passenger: user?.username || "Administrator",
-      pax: paxCount,
-      total: totalAmount
-    });
-
-    setActiveModalPackage(null);
-
-    // Auto-dismiss toast after 6 seconds
-    setTimeout(() => {
-      setSuccessToast(null);
-    }, 6000);
+    navigate(`/package-reservation/${pkg.id}`, { state: { packageData: pkg } });
   };
 
   return (
@@ -287,28 +140,41 @@ export default function BookingPackages({ user, onLogout, onNavigate }) {
           onLogout={onLogout}
           user={user}
         />
-        
+
         <main className="sr-content">
           <div className="sr-packages-page">
-            
             {/* Top Navigation & Breadcrumb Header */}
             <div className="sr-packages-header-bar">
               <div className="sr-packages-header-left">
                 <button
                   className="sr-back-btn"
-                  onClick={() => onNavigate && onNavigate("dashboard")}
+                  onClick={() => {
+                    if (onNavigate) onNavigate("dashboard");
+                    navigate("/dashboard");
+                  }}
                   type="button"
                   title="Return to Dashboard Overview"
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
                     <line x1="19" y1="12" x2="5" y2="12" />
                     <polyline points="12 19 5 12 12 5" />
                   </svg>
-                  <span>&lt; HOME</span>
+
                 </button>
                 <div className="sr-packages-title-wrap">
-                  <h2>Silk Route Special Offers & Packages</h2>
-                  <p>Select a package to initiate a new VIP passenger reservation.</p>
+                  <h2>Silk Route Special Offers &amp; Packages</h2>
+                  <p>
+                    Select a VIP package to initiate a new passenger reservation.
+                  </p>
                 </div>
               </div>
               <div className="sr-packages-header-meta">
@@ -319,68 +185,68 @@ export default function BookingPackages({ user, onLogout, onNavigate }) {
               </div>
             </div>
 
-            {/* Success Toast */}
-            {successToast && (
-              <div className="sr-toast-success">
-                <div>
-                  <strong>Reservation Created Successfully!</strong>
-                  <span>
-                    Booking <b>{successToast.bookingId}</b> confirmed for {successToast.passenger} ({successToast.pax} Pax) • {successToast.packageName} (Total: ${successToast.total})
-                  </span>
-                </div>
-                <button
-                  className="sr-modal-close"
-                  onClick={() => setSuccessToast(null)}
-                  style={{ width: 26, height: 26 }}
-                >
-                  ✕
-                </button>
-              </div>
-            )}
-
-            {/* Advisory Vaccination Notice Banner */}
-            <div className="sr-notice-banner" role="alert">
-              <div className="sr-notice-icon" aria-hidden="true">
-                !
-              </div>
+            {/* Official Silk Route VIP Notice Banner */}
+            <div className="sr-notice-banner">
+              <span className="sr-notice-icon">i</span>
               <div className="sr-notice-content">
-                <span className="sr-notice-title">
-                  NOTE: The Silk Route arrival facility is open for fully vaccinated passengers only.
-                </span>
-                Please make sure your reservation only if you have taken all recommended doses of the vaccine and a period of 14 days have lapsed after the final dose.
+                <span className="sr-notice-title">Silk Route Operations:</span>
+                VIP terminal services are operated 24 hours daily at Bandaranaike International Airport (CMB). Fast-track immigration, baggage escort, and luxury lounge amenities included.
               </div>
             </div>
 
-            {/* Search and Category Filter Bar */}
-            <div className="sr-filters-bar">
-              <div className="sr-filter-tabs">
-                {CATEGORY_TABS.map((tab) => (
-                  <button
-                    key={tab.key}
-                    className={`sr-filter-tab ${selectedCategory === tab.key ? "is-active" : ""}`}
-                    onClick={() => setSelectedCategory(tab.key)}
-                    type="button"
-                  >
-                    {tab.label}
-                  </button>
-                ))}
+            {/* Upgraded Filter Tabs & Search Bar */}
+            <div className="sr-packages-toolbar">
+              <div className="sr-category-tabs" role="tablist" aria-label="Package category filters">
+                {CATEGORY_TABS.map((tab) => {
+                  const isActive = selectedCategory === tab.key;
+                  return (
+                    <button
+                      key={tab.key}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      className={`sr-tab-btn ${isActive ? "is-active" : ""}`}
+                      onClick={() => setSelectedCategory(tab.key)}
+                    >
+                      <CategoryIcon type={tab.icon} />
+                      <span>{tab.label}</span>
+                      <span className="sr-tab-count">
+                        {categoryCounts[tab.key] || 0}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
-              
-              <div className="sr-search-box">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--sr-text-muted)" }}>
+
+              <div className="sr-packages-search">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
                   <circle cx="11" cy="11" r="8" />
                   <line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
                 <input
                   type="text"
-                  placeholder="Search package or service..."
+                  placeholder="Search package name, service..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
+                  aria-label="Search packages"
                 />
                 {searchTerm && (
                   <button
+                    className="sr-search-clear"
                     onClick={() => setSearchTerm("")}
-                    style={{ background: "none", border: "none", cursor: "pointer", color: "#888", padding: 0 }}
+                    type="button"
+                    title="Clear search"
+                    aria-label="Clear search"
                   >
                     ✕
                   </button>
@@ -388,124 +254,261 @@ export default function BookingPackages({ user, onLogout, onNavigate }) {
               </div>
             </div>
 
-            {/* Packages Grid */}
-            <div className="sr-packages-grid">
-              {filteredPackages.map((pkg) => (
-                <div className="sr-pkg-card" key={pkg.id}>
-                  {/* Card Media */}
-                  <div className="sr-pkg-media">
-                    <img src={pkg.image} alt={pkg.name} loading="lazy" />
-                    <span className={`sr-pkg-badge ${pkg.featured ? "is-featured" : ""}`}>
-                      {pkg.badge}
-                    </span>
-                  </div>
-
-                  {/* Card Content Body */}
-                  <div className="sr-pkg-body">
-                    <div className="sr-pkg-header">
-                      <div>
-                        <h3 className="sr-pkg-name">{pkg.name}</h3>
-                        <div className="sr-pkg-subtitle">{pkg.subtitle}</div>
-                      </div>
-                      <div className="sr-pkg-price-wrap">
-                        <div className="sr-pkg-price-label">Total Price Per Pax</div>
-                        <div className="sr-pkg-price">
-                          <span className="sr-currency">$</span>
-                          <span>{pkg.price}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Features / Inclusions Checklist */}
-                    <ul className="sr-pkg-inclusions">
-                      {pkg.inclusions.map((item, idx) => (
-                        <li key={idx}>
-                          <span className="sr-check-icon">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                              <polyline points="20 6 9 17 4 12" />
-                            </svg>
-                          </span>
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    {/* Meta Specifications */}
-                    <div className="sr-pkg-meta">
-                      <div className="sr-pkg-meta-row">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <circle cx="12" cy="12" r="10" />
-                          <polyline points="12 6 12 12 16 14" />
-                        </svg>
-                        <span>Opening Hours : {pkg.openingHours}</span>
-                      </div>
-                      <div className="sr-pkg-meta-row">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                          <circle cx="9" cy="7" r="4" />
-                        </svg>
-                        <span>{pkg.childrenPolicy}</span>
-                      </div>
-                      {pkg.locationNote && (
-                        <div className="sr-pkg-meta-row">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                            <circle cx="12" cy="10" r="3" />
-                          </svg>
-                          <span>{pkg.locationNote}</span>
-                        </div>
-                      )}
-                      <div>
-                        <button
-                          className="sr-pkg-map-link"
-                          type="button"
-                          onClick={() => setMapModalPackage(pkg)}
-                        >
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" />
-                            <line x1="8" y1="2" x2="8" y2="18" />
-                            <line x1="16" y1="6" x2="16" y2="22" />
-                          </svg>
-                          <span>Silk Route Map details..</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Card Action */}
-                  <div className="sr-pkg-footer">
-                    <button
-                      className="sr-btn-book"
-                      onClick={() => handleOpenBooking(pkg)}
-                      type="button"
-                    >
-                      <span>BOOK NOW</span>
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12" />
-                        <polyline points="12 5 19 12 12 19" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              ))}
+            {/* Filter Feedback Status Bar */}
+            <div className="sr-filter-status-bar">
+              <span className="sr-filter-status-text">
+                Showing <strong>{filteredPackages.length}</strong> of{" "}
+                <strong>{PACKAGES_DATA.length}</strong> VIP packages
+                {selectedCategory !== "all" && (
+                  <span>
+                    {" "}&bull; Filter: <em>{CATEGORY_TABS.find(t => t.key === selectedCategory)?.label}</em>
+                  </span>
+                )}
+              </span>
+              {(selectedCategory !== "all" || searchTerm) && (
+                <button
+                  type="button"
+                  className="sr-clear-filters-link"
+                  onClick={() => {
+                    setSelectedCategory("all");
+                    setSearchTerm("");
+                  }}
+                >
+                  Reset filters ✕
+                </button>
+              )}
             </div>
 
+            {/* Empty Search Results State */}
+            {filteredPackages.length === 0 ? (
+              <div className="sr-no-results">
+                <div className="sr-no-results-icon">
+                  <svg
+                    width="34"
+                    height="34"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    <line x1="8" y1="11" x2="14" y2="11" />
+                  </svg>
+                </div>
+                <h3>No VIP packages found</h3>
+                <p>
+                  We couldn't find any packages matching "
+                  <strong>{searchTerm || selectedCategory}</strong>".
+                  Try searching for another keyword or reset the filters.
+                </p>
+                <button
+                  type="button"
+                  className="sr-reset-btn"
+                  onClick={() => {
+                    setSelectedCategory("all");
+                    setSearchTerm("");
+                  }}
+                >
+                  Reset All Filters
+                </button>
+              </div>
+            ) : (
+              /* Packages Grid */
+              <div className="sr-packages-grid">
+                {filteredPackages.map((pkg) => (
+                  <div
+                    className={`sr-pkg-card ${pkg.featured ? "is-featured" : ""}`}
+                    key={pkg.id}
+                  >
+                    {/* Card Media Header */}
+                    <div className="sr-pkg-media">
+                      <img
+                        src={pkg.image}
+                        alt={pkg.name}
+                        className="sr-pkg-img"
+                      />
+                      <div className="sr-pkg-media-overlay"></div>
+                      <span className="sr-pkg-badge">{pkg.badge}</span>
+                      {pkg.featured && (
+                        <span className="sr-pkg-badge-featured">★ POPULAR</span>
+                      )}
+                      <div className="sr-pkg-price-tag">
+                        <span className="sr-pkg-currency">$</span>
+                        <span className="sr-pkg-amount">{pkg.price}</span>
+                        <span className="sr-pkg-unit">USD</span>
+                      </div>
+                    </div>
+
+                    {/* Card Body */}
+                    <div className="sr-pkg-body">
+                      <div className="sr-pkg-header">
+                        <h3 className="sr-pkg-name">{pkg.name}</h3>
+                        <p className="sr-pkg-subtitle">{pkg.subtitle}</p>
+                      </div>
+
+                      <div className="sr-pkg-section-title">
+                        PACKAGE INCLUSIONS
+                      </div>
+                      <ul className="sr-pkg-inclusions">
+                        {pkg.inclusions.map((inc, i) => (
+                          <li key={i}>
+                            <svg
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="#10b981"
+                              strokeWidth="2.8"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            <span>{inc}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      {/* Operational Details */}
+                      <div className="sr-pkg-meta">
+                        <div className="sr-pkg-meta-row">
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                          </svg>
+                          <span>Opening Hours : {pkg.openingHours}</span>
+                        </div>
+                        <div className="sr-pkg-meta-row">
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                          </svg>
+                          <span>Children Policy : {pkg.childrenPolicy}</span>
+                        </div>
+                        {pkg.locationNote && (
+                          <div className="sr-pkg-meta-row">
+                            <svg
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                              <circle cx="12" cy="10" r="3" />
+                            </svg>
+                            <span>{pkg.locationNote}</span>
+                          </div>
+                        )}
+                        <div>
+                          <button
+                            className="sr-pkg-map-link"
+                            type="button"
+                            onClick={() => setMapModalPackage(pkg)}
+                          >
+                            <svg
+                              width="13"
+                              height="13"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" />
+                              <line x1="8" y1="2" x2="8" y2="18" />
+                              <line x1="16" y1="6" x2="16" y2="22" />
+                            </svg>
+                            <span>Silk Route Map details..</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card Action - Navigates directly to dedicated package-reservation page */}
+                    <div className="sr-pkg-footer">
+                      <button
+                        className="sr-btn-book"
+                        onClick={() => handleOpenBooking(pkg)}
+                        type="button"
+                      >
+                        <span>BOOK NOW</span>
+                        <svg
+                          width="15"
+                          height="15"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <line x1="5" y1="12" x2="19" y2="12" />
+                          <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </main>
 
         <footer className="sr-footer">
-          <span>© 2026 Silk Route Manual Booking. All rights reserved.</span>
-          <span className="sr-footer-support">Airport &amp; Aviation Services (Sri Lanka)</span>
+          <span>&copy; 2026 Silk Route Manual Booking. All rights reserved.</span>
+          <span className="sr-footer-support">
+            Airport &amp; Aviation Services (Sri Lanka)
+          </span>
         </footer>
       </div>
 
       {/* Map Details Modal */}
       {mapModalPackage && (
-        <div className="sr-modal-backdrop" onClick={() => setMapModalPackage(null)}>
+        <div
+          className="sr-modal-backdrop"
+          onClick={() => setMapModalPackage(null)}
+        >
           <div className="sr-modal-card" onClick={(e) => e.stopPropagation()}>
             <div className="sr-modal-header">
               <div className="sr-modal-title">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--sr-blue)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--sr-blue)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" />
                   <line x1="8" y1="2" x2="8" y2="18" />
                   <line x1="16" y1="6" x2="16" y2="22" />
@@ -522,9 +525,18 @@ export default function BookingPackages({ user, onLogout, onNavigate }) {
             </div>
             <div className="sr-modal-body">
               <div className="sr-map-preview">
-                <strong>Bandaranaike International Airport (BIA) — Silk Route Terminal Facilities</strong>
-                <p style={{ margin: "6px 0 0", fontSize: 13, color: "var(--sr-text-muted)" }}>
-                  Package: <b>{mapModalPackage.name}</b> • {mapModalPackage.mapDetail}
+                <strong>
+                  Bandaranaike International Airport (BIA) — Silk Route Terminal Facilities
+                </strong>
+                <p
+                  style={{
+                    margin: "6px 0 0",
+                    fontSize: 13,
+                    color: "var(--sr-text-muted)",
+                  }}
+                >
+                  Package: <b>{mapModalPackage.name}</b> &bull;{" "}
+                  {mapModalPackage.mapDetail}
                 </p>
                 <div className="sr-map-diagram">
                   <div className="sr-map-node">
@@ -586,251 +598,6 @@ export default function BookingPackages({ user, onLogout, onNavigate }) {
           </div>
         </div>
       )}
-
-      {/* Silk Route Package Reservation Modal */}
-      {activeModalPackage && (() => {
-        const hasArrival = isArrivalPackage(activeModalPackage);
-        const hasDeparture = isDeparturePackage(activeModalPackage);
-
-        return (
-          <div className="sr-modal-backdrop" onClick={() => setActiveModalPackage(null)}>
-            <div className="sr-ruby-modal-card" onClick={(e) => e.stopPropagation()}>
-              {/* Header Banner */}
-              <div className="sr-ruby-banner">
-                <div className="sr-ruby-banner-left">
-                  <span className="sr-ruby-banner-plane" aria-hidden="true">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" />
-                    </svg>
-                  </span>
-                  <h2 className="sr-ruby-banner-title">
-                    Silk Route {activeModalPackage.name} Reservation
-                  </h2>
-                </div>
-                <div className="sr-ruby-banner-right">
-                  <div className="sr-ruby-silk-emblem" title="Silk Route VIP">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                      <circle cx="12" cy="12" r="10" />
-                      <path d="m10 8 4 4-4 4" />
-                    </svg>
-                    <span>SILK</span>
-                  </div>
-                  <button
-                    type="button"
-                    className="sr-ruby-close-btn"
-                    onClick={() => setActiveModalPackage(null)}
-                    aria-label="Close dialog"
-                  >
-                    ✕
-                  </button>
-                </div>
-              </div>
-
-              {/* Sub-Bar */}
-              <div className="sr-ruby-subbar">
-                <span className="sr-ruby-user-greeting">
-                  Welcome {user?.username || "Administrator"} |{" "}
-                  <button type="button" className="sr-ruby-logout-btn" onClick={onLogout}>
-                    Log out
-                  </button>
-                </span>
-              </div>
-
-              {/* Validation Error Message */}
-              {validationError && (
-                <div className="sr-ruby-error-banner">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="12" />
-                    <line x1="12" y1="16" x2="12.01" y2="16" />
-                  </svg>
-                  <span>{validationError}</span>
-                </div>
-              )}
-
-              {/* Reservation Form */}
-              <form onSubmit={handleConfirmBooking} className="sr-ruby-form">
-                <div className={`sr-ruby-columns ${!hasArrival || !hasDeparture ? "is-single-col" : ""}`}>
-                  {/* Arrival Details Column */}
-                  {hasArrival && (
-                    <div className="sr-ruby-col">
-                      <h3 className="sr-ruby-col-title">Arrival Details</h3>
-
-                      <div className="sr-ruby-group">
-                        <label className="sr-ruby-label" htmlFor="sr-arrival-date">
-                          Arrival Date*
-                        </label>
-                        <div className="sr-ruby-input-box">
-                          <input
-                            id="sr-arrival-date"
-                            ref={arrivalDateRef}
-                            type="datetime-local"
-                            required
-                            min={getTodayDateTimeString()}
-                            className="sr-ruby-input"
-                            value={arrivalDate}
-                            onChange={(e) => {
-                              setValidationError("");
-                              const newArrival = e.target.value;
-                              setArrivalDate(newArrival);
-                              if (departureDate && departureDate < newArrival) {
-                                setDepartureDate(newArrival);
-                              }
-                            }}
-                          />
-                          <button
-                            type="button"
-                            className="sr-ruby-picker-btn"
-                            onClick={() =>
-                              arrivalDateRef.current?.showPicker
-                                ? arrivalDateRef.current.showPicker()
-                                : arrivalDateRef.current?.focus()
-                            }
-                            title="Choose Arrival Date and Time"
-                            tabIndex={-1}
-                          >
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z" />
-                            </svg>
-                          </button>
-                        </div>
-                        <div className="sr-ruby-hint">
-                          SELECT THE ARRIVAL DATE AND THE TIME OF YOUR FLIGHT
-                        </div>
-                      </div>
-
-                      <div className="sr-ruby-group">
-                        <label className="sr-ruby-label" htmlFor="sr-arrival-flight">
-                          Flight No *
-                        </label>
-                        <input
-                          id="sr-arrival-flight"
-                          type="text"
-                          required
-                          className="sr-ruby-input sr-ruby-input-flat"
-                          placeholder="Arrival flight number"
-                          value={arrivalFlightNumber}
-                          onChange={(e) => {
-                            setValidationError("");
-                            setArrivalFlightNumber(e.target.value);
-                          }}
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Departure Details Column */}
-                  {hasDeparture && (
-                    <div className="sr-ruby-col">
-                      <h3 className="sr-ruby-col-title">Departure Details</h3>
-
-                      <div className="sr-ruby-group">
-                        <label className="sr-ruby-label" htmlFor="sr-departure-date">
-                          Departure Date*
-                        </label>
-                        <div className="sr-ruby-input-box">
-                          <input
-                            id="sr-departure-date"
-                            ref={departureDateRef}
-                            type="datetime-local"
-                            required
-                            min={hasArrival ? arrivalDate || getTodayDateTimeString() : getTodayDateTimeString()}
-                            className="sr-ruby-input"
-                            value={departureDate}
-                            onChange={(e) => {
-                              setValidationError("");
-                              setDepartureDate(e.target.value);
-                            }}
-                          />
-                          <button
-                            type="button"
-                            className="sr-ruby-picker-btn"
-                            onClick={() =>
-                              departureDateRef.current?.showPicker
-                                ? departureDateRef.current.showPicker()
-                                : departureDateRef.current?.focus()
-                            }
-                            title="Choose Departure Date and Time"
-                            tabIndex={-1}
-                          >
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h5v5H7z" />
-                            </svg>
-                          </button>
-                        </div>
-                        <div className="sr-ruby-hint">
-                          SELECT THE DEPARTURE DATE AND THE TIME OF YOUR FLIGHT
-                        </div>
-                      </div>
-
-                      <div className="sr-ruby-group">
-                        <label className="sr-ruby-label" htmlFor="sr-departure-flight">
-                          Flight No *
-                        </label>
-                        <input
-                          id="sr-departure-flight"
-                          type="text"
-                          required
-                          className="sr-ruby-input sr-ruby-input-flat"
-                          placeholder="Departure flight number"
-                          value={departureFlightNumber}
-                          onChange={(e) => {
-                            setValidationError("");
-                            setDepartureFlightNumber(e.target.value);
-                          }}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Number of Passengers */}
-                <div className="sr-ruby-pax-section">
-                  <label className="sr-ruby-label" htmlFor="sr-ruby-pax">
-                    Number of passengers*
-                  </label>
-                  <div className="sr-ruby-select-wrap">
-                    <select
-                      id="sr-ruby-pax"
-                      className="sr-ruby-select"
-                      value={paxCount}
-                      onChange={(e) => setPaxCount(Number(e.target.value))}
-                    >
-                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20].map((num) => (
-                        <option key={num} value={num}>
-                          {num}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="sr-ruby-select-icon">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M7 10l5 5 5-5z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                {/* SUBMIT Button */}
-                <div className="sr-ruby-submit-row">
-                  <button type="submit" className="sr-ruby-submit-btn">
-                    SUBMIT
-                  </button>
-                </div>
-
-                {/* Disclaimers & Notes */}
-                <div className="sr-ruby-footer-notes">
-                  <div className="sr-ruby-mandatory-note">
-                    All fields marked as * are mandatory
-                  </div>
-                  <div className="sr-ruby-disclaimer-note">
-                    <strong>Note:</strong> Guests are allowed to stay in the Silk Route Lounges only until formalities are completed.
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        );
-      })()}
     </div>
   );
 }
