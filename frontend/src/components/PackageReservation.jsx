@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams, useLocation, useSearchParams, Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+import BookingConfirmation from "./BookingConfirmation";
 import "../styles/Dashboard.css";
 import "../styles/BookingPackages.css";
 import "../styles/PackageReservation.css";
@@ -27,6 +28,7 @@ export default function PackageReservation({
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [step, setStep] = useState(() => {
+    if (location.pathname.includes("/confirmation") || location.pathname.includes("/confirm-reservation")) return 3;
     const s = parseInt(searchParams.get("step") || "1", 10);
     return s === 1 || s === 2 || s === 3 ? s : 1;
   });
@@ -58,11 +60,15 @@ export default function PackageReservation({
 
   // Synchronize step with browser back/forward navigation
   useEffect(() => {
+    if (location.pathname.includes("/confirmation") || location.pathname.includes("/confirm-reservation")) {
+      setStep(3);
+      return;
+    }
     const s = parseInt(searchParams.get("step") || "1", 10);
     if (s === 1 || s === 2 || s === 3) {
       setStep(s);
     }
-  }, [searchParams]);
+  }, [searchParams, location.pathname]);
 
 
   // Step 1: Flight & Passenger count state
@@ -84,11 +90,22 @@ export default function PackageReservation({
 
   const hasArrival = isArrivalPackage(selectedPkg);
   const hasDeparture = isDeparturePackage(selectedPkg);
+  const isRuby = selectedPkg?.id?.toLowerCase() === "ruby";
+
+  // Step 1 & 2 Refreshment Selection (for Ruby Package)
+  const [refreshment, setRefreshment] = useState("Vegetarian");
 
   // Step 2: Passenger & Contact Details (matching Image 2)
   const [passengers, setPassengers] = useState([
-    { title: "Mr", name: "", passportNo: "" },
+    { title: "Mr", name: "", passportNo: "", refreshment: "Vegetarian" },
   ]);
+
+  const handleGlobalRefreshmentChange = (val) => {
+    setRefreshment(val);
+    setPassengers((prev) =>
+      prev.map((p) => ({ ...p, refreshment: val }))
+    );
+  };
 
   // Adjust passengers list whenever paxCount changes
   useEffect(() => {
@@ -96,14 +113,19 @@ export default function PackageReservation({
       const next = [...prev];
       if (next.length < paxCount) {
         while (next.length < paxCount) {
-          next.push({ title: "Mr", name: "", passportNo: "" });
+          next.push({
+            title: "Mr",
+            name: "",
+            passportNo: "",
+            refreshment: refreshment || "Vegetarian",
+          });
         }
       } else if (next.length > paxCount) {
         return next.slice(0, paxCount);
       }
       return next;
     });
-  }, [paxCount]);
+  }, [paxCount, refreshment]);
 
   const [payIn, setPayIn] = useState("Rupees");
 
@@ -241,6 +263,8 @@ export default function PackageReservation({
 
     setConfirmedBooking({
       bookingId,
+      isRuby,
+      refreshment: passengers[0]?.refreshment || refreshment || "Vegetarian",
       packageName: selectedPkg.name,
       packageBadge: selectedPkg.badge,
       passengerTitle: passengers[0]?.title || "Mr",
@@ -263,6 +287,10 @@ export default function PackageReservation({
       vehicleNos: vehicleNos.trim() || "N/A",
       comments: comments.trim() || "None",
       flightSummary,
+      hasArrival,
+      hasDeparture,
+      selectedPkg,
+      passengers,
       arrivalFlightNumber: arrivalFlightNumber.trim() || "N/A",
       arrivalDate: hasArrival ? arrivalDate.replace("T", " ") : "N/A",
       departureFlightNumber: departureFlightNumber.trim() || "N/A",
@@ -278,9 +306,6 @@ export default function PackageReservation({
   };
 
 
-  const handlePrint = () => {
-    window.print();
-  };
 
   return (
     <div className="sr-app">
@@ -299,231 +324,46 @@ export default function PackageReservation({
 
         <main className="sr-content">
           <div className="sr-res-page">
-            {/* Step 3: Confirmed Booking State Screen */}
-            {confirmedBooking && step === 3 ? (
-              <div className="sr-confirmed-card">
-                <div className="sr-confirmed-banner">
-                  <div className="sr-confirmed-icon-circle">
-                    <svg
-                      width="32"
-                      height="32"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#ffffff"
-                      strokeWidth="2.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                  <div className="sr-confirmed-banner-text">
-                    <h2>Reservation Confirmed Successfully!</h2>
-                    <p>
-                      Your Silk Route VIP reservation has been booked and
-                      confirmed in the system.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="sr-confirmed-body">
-                  <div className="sr-confirmed-ref-strip">
-                    <div>
-                      <div className="ref-title">BOOKING REFERENCE</div>
-                      <div className="ref-code">
-                        {confirmedBooking.bookingId}
-                      </div>
-                    </div>
-                    <div>
-                      <span className="ref-status">&bull; CONFIRMED</span>
-                    </div>
-                  </div>
-
-                  <div className="sr-confirmed-details-grid">
-                    <div className="sr-confirmed-detail-item">
-                      <span className="label">Package</span>
-                      <span className="value">
-                        {confirmedBooking.packageName} (
-                        {confirmedBooking.packageBadge})
-                      </span>
-                    </div>
-                    <div className="sr-confirmed-detail-item">
-                      <span className="label">Lead Passenger</span>
-                      <span className="value">
-                        {confirmedBooking.passengerTitle}{" "}
-                        {confirmedBooking.passengerName}
-                      </span>
-                    </div>
-                    <div className="sr-confirmed-detail-item">
-                      <span className="label">Passport No</span>
-                      <span className="value">
-                        {confirmedBooking.passportNo}
-                      </span>
-                    </div>
-                    <div className="sr-confirmed-detail-item">
-                      <span className="label">Number of Passengers</span>
-                      <span className="value">
-                        {confirmedBooking.paxCount} Passenger(s)
-                      </span>
-                    </div>
-                    <div className="sr-confirmed-detail-item">
-                      <span className="label">Payment Mode</span>
-                      <span className="value">
-                        Pay in {confirmedBooking.payIn}
-                      </span>
-                    </div>
-                    <div className="sr-confirmed-detail-item">
-                      <span className="label">Total Amount</span>
-                      <span
-                        className="value"
-                        style={{ color: "#1474be", fontSize: 17 }}
-                      >
-                        ${confirmedBooking.totalAmount} USD
-                      </span>
-                    </div>
-                    <div className="sr-confirmed-detail-item">
-                      <span className="label">Flight Summary</span>
-                      <span className="value">
-                        {confirmedBooking.flightSummary}
-                      </span>
-                    </div>
-                    <div className="sr-confirmed-detail-item">
-                      <span className="label">Lead Contact Phone</span>
-                      <span className="value">
-                        {confirmedBooking.leadContactNumber}
-                      </span>
-                    </div>
-                    <div className="sr-confirmed-detail-item">
-                      <span className="label">Lead Contact Email</span>
-                      <span className="value">
-                        {confirmedBooking.leadEmail}
-                      </span>
-                    </div>
-                    {confirmedBooking.localContactName !== "N/A" && (
-                      <div className="sr-confirmed-detail-item">
-                        <span className="label">Local Contact Person</span>
-                        <span className="value">
-                          {confirmedBooking.localContactName} (
-                          {confirmedBooking.localContactNumber})
-                        </span>
-                      </div>
-                    )}
-                    {confirmedBooking.visitor1Name !== "N/A" && (
-                      <div className="sr-confirmed-detail-item">
-                        <span className="label">Visitor</span>
-                        <span className="value">
-                          {confirmedBooking.visitor1Name} (ID:{" "}
-                          {confirmedBooking.visitor1Id})
-                        </span>
-                      </div>
-                    )}
-                    {confirmedBooking.vehicleNos !== "N/A" && (
-                      <div className="sr-confirmed-detail-item">
-                        <span className="label">Vehicle No(s)</span>
-                        <span className="value">
-                          {confirmedBooking.vehicleNos}
-                        </span>
-                      </div>
-                    )}
-                    {hasArrival && (
-                      <div className="sr-confirmed-detail-item">
-                        <span className="label">Arrival Schedule</span>
-                        <span className="value">
-                          Flight {confirmedBooking.arrivalFlightNumber} &bull;{" "}
-                          {confirmedBooking.arrivalDate}
-                        </span>
-                      </div>
-                    )}
-                    {hasDeparture && (
-                      <div className="sr-confirmed-detail-item">
-                        <span className="label">Departure Schedule</span>
-                        <span className="value">
-                          Flight {confirmedBooking.departureFlightNumber} &bull;{" "}
-                          {confirmedBooking.departureDate}
-                        </span>
-                      </div>
-                    )}
-                    {confirmedBooking.comments !== "None" && (
-                      <div
-                        className="sr-confirmed-detail-item"
-                        style={{ gridColumn: "1 / -1" }}
-                      >
-                        <span className="label">Comments / Requirements</span>
-                        <span className="value">
-                          {confirmedBooking.comments}
-                        </span>
-                      </div>
-                    )}
-                    <div
-                      className="sr-confirmed-detail-item"
-                      style={{ gridColumn: "1 / -1" }}
-                    >
-                      <span className="label">Date Booked</span>
-                      <span className="value">
-                        {confirmedBooking.dateBooked}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="sr-confirmed-actions">
-                    <button
-                      type="button"
-                      className="sr-res-submit-btn"
-                      onClick={() => {
-                        setConfirmedBooking(null);
-                        setStep(1);
-                        setSearchParams({});
-                        if (onNavigate) onNavigate("add-new-reservation");
-                        navigate("/packages");
-                      }}
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                      >
-                        <line x1="12" y1="5" x2="12" y2="19" />
-                        <line x1="5" y1="12" x2="19" y2="12" />
-                      </svg>
-                      <span>Book Another Package</span>
-                    </button>
-                    <button
-                      type="button"
-                      className="sr-res-cancel-btn"
-                      onClick={handlePrint}
-                    >
-                      <svg
-                        width="15"
-                        height="15"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        style={{ verticalAlign: "middle", marginRight: 6 }}
-                      >
-                        <polyline points="6 9 6 2 18 2 18 9" />
-                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-                        <rect x="6" y="14" width="12" height="8" />
-                      </svg>
-                      Print Receipt
-                    </button>
-                    <button
-                      type="button"
-                      className="sr-res-cancel-btn"
-                      onClick={() => {
-                        if (onNavigate) onNavigate("dashboard");
-                        navigate("/dashboard");
-                      }}
-                    >
-                      Go to Dashboard
-                    </button>
-
-                  </div>
-                </div>
-              </div>
+            {/* Step 3: Confirmation Page (Matching Image) */}
+            {step === 3 ? (
+              <BookingConfirmation
+                bookingData={
+                  confirmedBooking || {
+                    packageName: selectedPkg?.name || "GARNET",
+                    selectedPkg,
+                    hasArrival,
+                    hasDeparture,
+                    arrivalDate,
+                    arrivalFlightNumber,
+                    departureDate,
+                    departureFlightNumber,
+                    passengers,
+                    paxCount,
+                    payIn,
+                    leadName,
+                    leadEmail,
+                    leadContactNumber,
+                    localContactName,
+                    localContactNumber,
+                    localContactEmail,
+                    localOrganisation,
+                    visitor1Name,
+                    visitor1Id,
+                    visitor2Name,
+                    visitor2Id,
+                    vehicleNos,
+                    comments,
+                    unitPrice: selectedPkg?.price || 21,
+                  }
+                }
+                onBack={() => {
+                  setStep(2);
+                  setSearchParams({ step: "2" });
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                onLogout={onLogout}
+                user={user}
+              />
             ) : step === 2 ? (
               /* Step 2: Passenger & Contact Details (Exactly matching Image 2) */
               <div className="sr-step2-wrapper">
@@ -627,7 +467,11 @@ export default function PackageReservation({
                     <h3 className="sr-step2-section-title">Passenger Details</h3>
 
                     {passengers.map((pax, index) => (
-                      <div key={index} className="sr-step2-pax-grid">
+                      <div
+                        key={index}
+                        className={`sr-step2-pax-grid ${isRuby ? "has-refreshment" : ""
+                          }`}
+                      >
                         <div className="sr-step2-field">
                           <label className="sr-step2-field-label">TITLE</label>
                           <div className="sr-step2-title-select-wrap">
@@ -702,13 +546,47 @@ export default function PackageReservation({
                             }
                           />
                         </div>
+
+                        {isRuby && (
+                          <div className="sr-step2-field">
+                            <label className="sr-step2-field-label">
+                              REFRESHMENT
+                            </label>
+                            <div className="sr-step2-title-select-wrap">
+                              <select
+                                className="sr-step2-title-select"
+                                value={pax.refreshment || "Vegetarian"}
+                                onChange={(e) =>
+                                  handlePassengerChange(
+                                    index,
+                                    "refreshment",
+                                    e.target.value
+                                  )
+                                }
+                              >
+                                <option value="Vegetarian">Vegetarian</option>
+                                <option value="Non-Vegetarian">
+                                  Non-Vegetarian
+                                </option>
+                                <option value="None">None</option>
+                              </select>
+                              <div className="sr-step2-title-btn-icon">
+                                <svg
+                                  width="12"
+                                  height="12"
+                                  viewBox="0 0 24 24"
+                                  fill="currentColor"
+                                >
+                                  <path d="M7 10l5 5 5-5z" />
+                                </svg>
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     ))}
 
-                    <div className="sr-step2-note">
-                      **Refreshments/ Meals will not be provided at Departure
-                      Silk Route
-                    </div>
+
                   </div>
 
                   {/* 2. Payment Details */}
@@ -1142,9 +1020,8 @@ export default function PackageReservation({
                       className="sr-res-form"
                     >
                       <div
-                        className={`sr-res-columns ${
-                          !hasArrival || !hasDeparture ? "is-single-col" : ""
-                        }`}
+                        className={`sr-res-columns ${!hasArrival || !hasDeparture ? "is-single-col" : ""
+                          }`}
                       >
                         {/* Arrival Details Column */}
                         {hasArrival && (
@@ -1335,42 +1212,90 @@ export default function PackageReservation({
                         )}
                       </div>
 
-                      {/* Number of Passengers */}
-                      <div className="sr-ruby-pax-section">
-                        <label
-                          className="sr-ruby-label"
-                          htmlFor="sr-ruby-pax"
-                        >
-                          Number of passengers*
-                        </label>
-                        <div className="sr-ruby-select-wrap">
-                          <select
-                            id="sr-ruby-pax"
-                            className="sr-ruby-select"
-                            value={paxCount}
-                            onChange={(e) =>
-                              setPaxCount(Number(e.target.value))
-                            }
+                      {/* Number of Passengers & Refreshment Preference Row */}
+                      <div
+                        className={
+                          isRuby
+                            ? "sr-ruby-pax-refreshment-row"
+                            : "sr-ruby-pax-single-row"
+                        }
+                      >
+                        <div className="sr-ruby-pax-section">
+                          <label
+                            className="sr-ruby-label"
+                            htmlFor="sr-ruby-pax"
                           >
-                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20].map(
-                              (num) => (
-                                <option key={num} value={num}>
-                                  {num} {num === 1 ? "Passenger" : "Passengers"}
-                                </option>
-                              )
-                            )}
-                          </select>
-                          <div className="sr-ruby-select-icon">
-                            <svg
-                              width="14"
-                              height="14"
-                              viewBox="0 0 24 24"
-                              fill="currentColor"
+                            Number of passengers*
+                          </label>
+                          <div className="sr-ruby-select-wrap">
+                            <select
+                              id="sr-ruby-pax"
+                              className="sr-ruby-select"
+                              value={paxCount}
+                              onChange={(e) =>
+                                setPaxCount(Number(e.target.value))
+                              }
                             >
-                              <path d="M7 10l5 5 5-5z" />
-                            </svg>
+                              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20].map(
+                                (num) => (
+                                  <option key={num} value={num}>
+                                    {num} {num === 1 ? "Passenger" : "Passengers"}
+                                  </option>
+                                )
+                              )}
+                            </select>
+                            <div className="sr-ruby-select-icon">
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                              >
+                                <path d="M7 10l5 5 5-5z" />
+                              </svg>
+                            </div>
                           </div>
                         </div>
+
+                        {isRuby && (
+                          <div className="sr-ruby-pax-section">
+                            <label
+                              className="sr-ruby-label"
+                              htmlFor="sr-ruby-refreshment"
+                            >
+                              Refreshment*
+                            </label>
+                            <div className="sr-ruby-select-wrap">
+                              <select
+                                id="sr-ruby-refreshment"
+                                className="sr-ruby-select"
+                                value={refreshment}
+                                onChange={(e) =>
+                                  handleGlobalRefreshmentChange(e.target.value)
+                                }
+                              >
+                                <option value="Vegetarian">Vegetarian</option>
+                                <option value="Non-Vegetarian">
+                                  Non-Vegetarian
+                                </option>
+                                <option value="None">None</option>
+                              </select>
+                              <div className="sr-ruby-select-icon">
+                                <svg
+                                  width="14"
+                                  height="14"
+                                  viewBox="0 0 24 24"
+                                  fill="currentColor"
+                                >
+                                  <path d="M7 10l5 5 5-5z" />
+                                </svg>
+                              </div>
+                            </div>
+                            <div className="sr-ruby-hint">
+                              EXECUTIVE LOUNGE REFRESHMENT SELECTION
+                            </div>
+                          </div>
+                        )}
                       </div>
 
                       {/* Actions Row */}
@@ -1470,7 +1395,11 @@ export default function PackageReservation({
                               >
                                 <polyline points="20 6 9 17 4 12" />
                               </svg>
-                              <span>{item}</span>
+                              <span>
+                                {item === "Complimentary Refreshments" && isRuby
+                                  ? `${item} (${refreshment})`
+                                  : item}
+                              </span>
                             </div>
                           ))}
                       </div>

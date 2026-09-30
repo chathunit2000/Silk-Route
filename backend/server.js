@@ -4,6 +4,7 @@ require("dotenv").config();
 
 const dashboardRoutes = require("./routes/dashboard");
 const authRoutes = require("./routes/auth");
+const reservationRoutes = require("./routes/reservations");
 
 const app = express();
 app.use(cors());
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api", authRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/reservations", reservationRoutes);
 
 const pool = require("./config/db");
 

@@ -3,6 +3,7 @@ import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-
 import Dashboard from "./components/Dashboard";
 import BookingPackages from "./components/BookingPackages";
 import PackageReservation from "./components/PackageReservation";
+import PendingPayments from "./components/PendingPayments";
 import Login from "./components/Login";
 import ModulePlaceholder from "./components/ModulePlaceholder";
 import { NAV_ROUTES } from "./routes/navRoutes";
@@ -110,9 +111,33 @@ export default function App() {
         element={<Navigate to="/package-reservation/:packageId" replace />}
       />
 
+      {/* Confirmation page routes */}
+      <Route
+        path="/confirmation"
+        element={
+          <ProtectedRoute user={user}>
+            <PackageReservation user={user} onLogout={handleLogout} />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/confirm-reservation"
+        element={<Navigate to="/confirmation" replace />}
+      />
+
+      {/* Pending Payments Route */}
+      <Route
+        path="/pending-payments"
+        element={
+          <ProtectedRoute user={user}>
+            <PendingPayments user={user} onLogout={handleLogout} />
+          </ProtectedRoute>
+        }
+      />
+
       {/* Sidebar Operational Module Routes with Full History Navigation */}
       {NAV_ROUTES.filter(
-        (item) => item.path !== "/dashboard" && item.path !== "/packages"
+        (item) => item.path !== "/dashboard" && item.path !== "/packages" && item.path !== "/pending-payments"
       ).map((item) => (
         <Route
           key={item.key}

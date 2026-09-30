@@ -184,6 +184,7 @@
     grid-template-columns: 1fr;
     gap: 18px;
   }
+
   .sr-res-form {
     padding: 18px 20px;
   }
@@ -611,12 +612,14 @@
   body {
     background: #ffffff !important;
   }
+
   .sr-sidebar,
   .sr-header,
   .sr-res-header-bar,
   .sr-confirmed-actions {
     display: none !important;
   }
+
   .sr-confirmed-card {
     border: none !important;
     box-shadow: none !important;
@@ -774,9 +777,26 @@
   align-items: end;
 }
 
+/* Step 2: Passenger row with Refreshment (Ruby Package) */
+.sr-step2-pax-grid.has-refreshment {
+  display: grid;
+  grid-template-columns: 85px 1.3fr 1fr 1.15fr;
+  gap: 14px;
+  align-items: end;
+}
+
+@media (max-width: 860px) {
+  .sr-step2-pax-grid.has-refreshment {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 @media (max-width: 640px) {
-  .sr-step2-pax-grid {
+
+  .sr-step2-pax-grid,
+  .sr-step2-pax-grid.has-refreshment {
     grid-template-columns: 1fr;
+    gap: 10px;
   }
 }
 
@@ -812,12 +832,57 @@
   pointer-events: none;
 }
 
+/* Step 1: Pax + Refreshment Row for Ruby Package */
+.sr-ruby-pax-refreshment-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.sr-ruby-pax-refreshment-row .sr-ruby-pax-section {
+  max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  .sr-ruby-pax-refreshment-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
 /* Disclaimer text */
 .sr-step2-note {
   font-size: 12px;
   color: #64748b;
   font-style: normal;
   margin-top: 2px;
+}
+
+/* Ruby VIP meal note */
+.sr-step2-ruby-meal-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  margin-top: 4px;
+}
+
+.sr-step2-ruby-meal-note svg {
+  color: #15803d;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.sr-res-inclusion-highlight {
+  color: #0369a1;
+  font-weight: 600;
 }
 
 /* Payment row */
@@ -976,4 +1041,3 @@
   box-shadow: 0 6px 18px rgba(22, 119, 197, 0.42);
   transform: translateY(-1px);
 }
-

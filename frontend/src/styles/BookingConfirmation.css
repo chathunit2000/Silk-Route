@@ -1,0 +1,564 @@
+/* ===================================================================
+   Silk Route Airport Services - Booking Confirmation Page Styles
+   Matching exact UI layout from official Silk Route reservation system
+   =================================================================== */
+
+.sr-confirm-wrapper {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #d8e3ed;
+  box-shadow: 0 4px 20px rgba(12, 33, 62, 0.06);
+  max-width: 980px;
+  margin: 0 auto 30px;
+  width: 100%;
+  overflow: hidden;
+  font-family: inherit;
+  color: #334155;
+  animation: srFadeIn 0.25s ease-out;
+}
+
+@keyframes srFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 1. Silk Route Dual-Tone Header Banner */
+.sr-confirm-banner {
+  display: flex;
+  align-items: stretch;
+  background: #f19f12;
+  position: relative;
+  min-height: 52px;
+  overflow: hidden;
+}
+
+.sr-confirm-banner-tab {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #1474be;
+  color: #ffffff;
+  padding: 12px 42px 12px 24px;
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 50%, calc(100% - 24px) 100%, 0 100%);
+  z-index: 2;
+  box-shadow: 3px 0 10px rgba(0, 0, 0, 0.15);
+}
+
+.sr-confirm-plane-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f7b731;
+  flex-shrink: 0;
+  transform: rotate(-10deg);
+}
+
+.sr-confirm-banner-title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.sr-confirm-banner-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 20px 0 12px;
+  background: #f19f12;
+}
+
+.sr-confirm-silk-emblem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #663d00;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.sr-confirm-silk-emblem svg {
+  color: #663d00;
+}
+
+/* 2. Sub-strip with User Greeting / Logout / Back */
+.sr-confirm-substrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 36px;
+  background: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.sr-confirm-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sr-confirm-back-btn:hover {
+  background: #1474be;
+  color: #ffffff;
+  border-color: #1474be;
+}
+
+.sr-confirm-user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: #334155;
+  margin-left: auto;
+}
+
+.sr-confirm-divider {
+  color: #94a3b8;
+}
+
+.sr-confirm-logout-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #1474be;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.sr-confirm-logout-link:hover {
+  text-decoration: underline;
+  color: #0c4a6e;
+}
+
+/* 3. Main Body Container */
+.sr-confirm-body {
+  padding: 24px 44px 44px;
+  background: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .sr-confirm-body {
+    padding: 16px 20px 30px;
+  }
+  .sr-confirm-substrip {
+    padding: 10px 18px;
+  }
+}
+
+/* Info Alert Callout */
+.sr-confirm-alert {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #edf5fc;
+  border: 1px solid #c8e2f8;
+  border-radius: 8px;
+  padding: 14px 20px;
+  margin-bottom: 28px;
+}
+
+.sr-confirm-alert-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #3aa1e4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #ffffff;
+  color: #3aa1e4;
+}
+
+.sr-confirm-alert-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sr-confirm-alert-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #2b84c7;
+}
+
+.sr-confirm-alert-desc {
+  margin: 0;
+  font-size: 13px;
+  color: #4b5563;
+  line-height: 1.4;
+}
+
+/* Common Section */
+.sr-confirm-section {
+  margin-bottom: 24px;
+}
+
+.sr-confirm-section-title {
+  margin: 0 0 14px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #374151;
+  letter-spacing: -0.01em;
+}
+
+/* Passenger Table */
+.sr-confirm-pax-table {
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.sr-confirm-pax-header-row {
+  display: grid;
+  grid-template-columns: 280px 280px 1fr;
+  padding: 8px 0;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.sr-confirm-pax-data-row {
+  display: grid;
+  grid-template-columns: 280px 280px 1fr;
+  padding: 10px 0;
+  font-size: 13.5px;
+  color: #4b5563;
+  border-bottom: 1px solid #f8fafc;
+}
+
+@media (max-width: 768px) {
+  .sr-confirm-pax-header-row,
+  .sr-confirm-pax-data-row {
+    grid-template-columns: 1fr 1fr 1fr;
+    font-size: 12px;
+  }
+}
+
+/* Key-Value Details List */
+.sr-confirm-kv-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sr-confirm-kv-row {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  min-height: 22px;
+}
+
+.sr-confirm-key {
+  width: 290px;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #248bdf;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.sr-confirm-val {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #374151;
+  word-break: break-word;
+}
+
+@media (max-width: 768px) {
+  .sr-confirm-kv-row {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .sr-confirm-key {
+    width: 100%;
+  }
+}
+
+/* Comments Text */
+.sr-confirm-comment-box {
+  padding-left: 200px;
+  color: #4b5563;
+  font-size: 13.5px;
+  min-height: 24px;
+}
+
+@media (max-width: 768px) {
+  .sr-confirm-comment-box {
+    padding-left: 0;
+  }
+}
+
+/* Total Payable Amount */
+.sr-confirm-total-box {
+  padding-left: 200px;
+  font-size: 19px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .sr-confirm-total-box {
+    padding-left: 0;
+  }
+}
+
+/* CONFIRM Button Action */
+.sr-confirm-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 28px;
+  padding-top: 14px;
+}
+
+.sr-confirm-submit-btn {
+  background: #258cdb;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 13px 86px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  box-shadow: 0 2px 8px rgba(37, 140, 219, 0.25);
+}
+
+.sr-confirm-submit-btn:hover:not(:disabled) {
+  background: #1773be;
+  box-shadow: 0 4px 14px rgba(23, 115, 190, 0.35);
+  transform: translateY(-1px);
+}
+
+.sr-confirm-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* ===================================================================
+   Success Confirmation Modal / Receipt View
+   =================================================================== */
+
+.sr-success-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(12, 33, 62, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: srFadeIn 0.2s ease-out;
+}
+
+.sr-success-modal-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 580px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #d5dfec;
+}
+
+.sr-success-modal-header {
+  background: #10b981;
+  color: #ffffff;
+  padding: 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.sr-success-modal-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sr-success-modal-header h3 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.sr-success-modal-header p {
+  margin: 0;
+  font-size: 13.5px;
+  opacity: 0.95;
+}
+
+.sr-success-modal-body {
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sr-success-ref-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  padding: 12px 18px;
+  border-radius: 8px;
+}
+
+.sr-success-ref-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.05em;
+}
+
+.sr-success-ref-code {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0c213e;
+  letter-spacing: 0.04em;
+}
+
+.sr-success-status-pill {
+  background: #d1fae5;
+  color: #065f46;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.sr-success-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 20px;
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.sr-success-summary-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.sr-success-summary-item .label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.sr-success-summary-item .value {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.sr-success-modal-actions {
+  display: flex;
+  gap: 10px;
+  padding: 18px 28px 24px;
+  justify-content: flex-end;
+  border-top: 1px solid #f1f5f9;
+}
+
+.sr-btn-primary {
+  background: #1474be;
+  color: #ffffff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.sr-btn-primary:hover {
+  background: #0d5d9c;
+}
+
+.sr-btn-secondary {
+  background: #f1f5f9;
+  color: #1e293b;
+  border: 1px solid #cbd5e1;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sr-btn-secondary:hover {
+  background: #e2e8f0;
+}
+
+/* Print Styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .sr-confirm-wrapper,
+  .sr-confirm-wrapper * {
+    visibility: visible;
+  }
+  .sr-confirm-wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+  }
+  .sr-confirm-actions,
+  .sr-confirm-back-btn,
+  .sr-confirm-logout-link {
+    display: none !important;
+  }
+}

@@ -56,7 +56,8 @@ export const PACKAGES_DATA = [
     inclusions: [
       "Silk Route Arrival",
       "Silk Route Departure",
-      "Executive Lounge"
+      "Executive Lounge",
+      "Complimentary Refreshments"
     ],
     openingHours: "24 hours",
     childrenPolicy: "Children under 02 Years free of charge",
