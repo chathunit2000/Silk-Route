@@ -1,0 +1,701 @@
+/* ===================================================================
+   Silk Route Airport Services - Delete Confirm Reservation Page Styles
+   Professional Silk Route Modern Design System
+   =================================================================== */
+
+.sr-delconf-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto 36px;
+  animation: srFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes srFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 1. Breadcrumb & Navigation Header Bar */
+.sr-delconf-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: #ffffff;
+  padding: 16px 24px;
+  border-radius: 10px;
+  border: 1px solid #d8e3ed;
+  box-shadow: 0 2px 10px rgba(15, 34, 58, 0.04);
+}
+
+.sr-delconf-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sr-delconf-back-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: #0f172a;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.2);
+}
+
+.sr-delconf-back-btn:hover {
+  background: #1474be;
+  transform: translateX(-2px);
+  box-shadow: 0 4px 12px rgba(20, 116, 190, 0.3);
+}
+
+.sr-delconf-title-wrap h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.sr-delconf-title-wrap p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.sr-delconf-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sr-delconf-badge-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #fecaca;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.sr-delconf-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25);
+  animation: srPulse 2s infinite;
+}
+
+@keyframes srPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* 2. Security Notice Banner */
+.sr-delconf-notice-banner {
+  background: linear-gradient(135deg, #fff5f5 0%, #fee2e2 100%);
+  border: 1px solid #fca5a5;
+  border-left: 5px solid #dc2626;
+  border-radius: 8px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.06);
+}
+
+.sr-delconf-notice-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #dc2626;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.sr-delconf-notice-content {
+  font-size: 13px;
+  color: #7f1d1d;
+  line-height: 1.5;
+}
+
+.sr-delconf-notice-title {
+  font-weight: 800;
+  margin-right: 6px;
+}
+
+/* 3. Stats Strip */
+.sr-delconf-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.sr-delconf-stat-card {
+  background: #ffffff;
+  border: 1px solid #d8e3ed;
+  border-radius: 10px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 10px rgba(15, 34, 58, 0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sr-delconf-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(15, 34, 58, 0.07);
+}
+
+.sr-delconf-stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sr-delconf-stat-icon.red {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.sr-delconf-stat-icon.blue {
+  background: #eff6ff;
+  color: #1474be;
+}
+
+.sr-delconf-stat-icon.amber {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.sr-delconf-stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.sr-delconf-stat-val {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.sr-delconf-stat-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* 4. Main Card Container */
+.sr-delconf-card {
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #d8e3ed;
+  box-shadow: 0 4px 20px rgba(15, 34, 58, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Card Header Banner */
+.sr-delconf-card-header {
+  background: linear-gradient(135deg, #f8fafc 0%, #edf5fc 100%);
+  border-bottom: 1px solid #d8e3ed;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.sr-delconf-card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sr-delconf-card-icon {
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+}
+
+.sr-delconf-card-title-group h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: #0a2240;
+  letter-spacing: -0.01em;
+}
+
+/* Toolbar & Filters */
+.sr-delconf-card-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.sr-delconf-search-input {
+  width: 300px;
+  height: 38px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 0 14px;
+  font-size: 13px;
+  color: #0f172a;
+  outline: none;
+  background: #ffffff;
+  transition: all 0.15s ease;
+}
+
+.sr-delconf-search-input:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
+.sr-delconf-refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 38px;
+  padding: 0 16px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  color: #1e293b;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sr-delconf-refresh-btn:hover {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+}
+
+/* 5. Modern Data Table */
+.sr-delconf-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.sr-delconf-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.sr-delconf-table thead th {
+  background: #f8fafc;
+  color: #475569;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 12px 14px;
+  border-bottom: 2px solid #e2e8f0;
+  text-align: left;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.sr-delconf-table thead th.center {
+  text-align: center;
+}
+
+.sr-delconf-table tbody tr {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.15s ease;
+}
+
+.sr-delconf-table tbody tr:hover {
+  background-color: #fff1f2;
+}
+
+.sr-delconf-table tbody td {
+  padding: 12px 14px;
+  color: #1e293b;
+  vertical-align: middle;
+}
+
+.sr-delconf-td-center {
+  text-align: center;
+}
+
+.sr-delconf-td-amount {
+  text-align: center;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.sr-delconf-td-datetime {
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.sr-delconf-sub-line {
+  display: block;
+  color: #475569;
+  font-size: 12px;
+}
+
+.sr-delconf-sub-flight {
+  display: inline-block;
+  margin-top: 2px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.sr-delconf-ref-badge {
+  font-family: monospace, inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.sr-delconf-pax-name {
+  display: block;
+  font-size: 11.5px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.sr-delconf-td-access {
+  text-align: center;
+  font-family: monospace, inherit;
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
+/* Action Delete Button */
+.sr-delete-btn-pro {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.sr-delete-btn-pro:hover:not(:disabled) {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+  transform: translateY(-1px);
+}
+
+.sr-delete-btn-pro:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Empty State */
+.sr-delconf-empty-state {
+  padding: 60px 20px;
+  text-align: center;
+  color: #64748b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.sr-delconf-empty-state svg {
+  color: #94a3b8;
+}
+
+/* 6. Pagination Bar */
+.sr-delconf-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 16px 24px;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  font-size: 13px;
+  color: #475569;
+}
+
+.sr-delconf-page-btns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sr-delconf-page-btn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #1e293b;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.sr-delconf-page-btn:hover:not(:disabled) {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.sr-delconf-page-btn.is-active {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.25);
+}
+
+.sr-delconf-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Feedback banners */
+.sr-delconf-alert-banner {
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.sr-delconf-alert-banner.success {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.sr-delconf-alert-banner.error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+/* 7. Professional Confirmation Modal */
+.sr-delconf-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+  padding: 16px;
+}
+
+.sr-delconf-modal-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  width: 100%;
+  max-width: 480px;
+  overflow: hidden;
+  animation: srModalIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes srModalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.sr-delconf-modal-top {
+  padding: 20px 24px;
+  background: #fef2f2;
+  border-bottom: 1px solid #fee2e2;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sr-delconf-modal-warning-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fee2e2;
+  border: 2px solid #ef4444;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sr-delconf-modal-title-wrap h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: #991b1b;
+}
+
+.sr-delconf-modal-title-wrap p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: #b91c1c;
+}
+
+.sr-delconf-modal-content {
+  padding: 22px 24px;
+}
+
+.sr-delconf-modal-msg {
+  font-size: 13.5px;
+  color: #334155;
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+
+.sr-delconf-modal-info-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sr-delconf-modal-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.sr-delconf-modal-row .label {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.sr-delconf-modal-row .value {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.sr-delconf-modal-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+.sr-delconf-btn-cancel {
+  height: 38px;
+  padding: 0 18px;
+  font-size: 13px;
+  font-weight: 600;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #475569;
+  transition: all 0.15s ease;
+}
+
+.sr-delconf-btn-cancel:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.sr-delconf-btn-danger {
+  height: 38px;
+  padding: 0 20px;
+  font-size: 13px;
+  font-weight: 700;
+  background: #dc2626;
+  border: none;
+  color: #ffffff;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.15s ease;
+}
+
+.sr-delconf-btn-danger:hover:not(:disabled) {
+  background: #b91c1c;
+  box-shadow: 0 4px 12px rgba(185, 28, 28, 0.4);
+  transform: translateY(-1px);
+}
+
+.sr-delconf-btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

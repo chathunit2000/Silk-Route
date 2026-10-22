@@ -1,0 +1,144 @@
+/* ==========================================================================
+   on-credit select page Styles (Card-Based UI Design)
+   ========================================================================== */
+
+/* Account Banner Strip */
+.sr-credit-account-banner {
+  background: linear-gradient(135deg, #ffffff 0%, #fbfcfe 100%);
+  border: 1px solid var(--sr-border, #e2e8f0);
+  border-left: 5px solid #0C457A;
+  border-radius: var(--sr-radius, 12px);
+  padding: 16px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(12, 69, 122, 0.06);
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.sr-credit-account-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sr-credit-account-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(12, 69, 122, 0.1);
+  color: #0C457A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sr-credit-account-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.sr-credit-account-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+}
+
+.sr-credit-account-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0C457A;
+}
+
+.sr-credit-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  color: #0C457A;
+  border: 1.5px solid #cbd5e1;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.sr-credit-switch-btn:hover {
+  background: #f1f5f9;
+  border-color: #0C457A;
+  transform: translateY(-1px);
+}
+
+/* Special Offers Header Strip */
+.sr-credit-special-offers-header {
+  background: #ffffff;
+  border: 1px solid var(--sr-border, #e2e8f0);
+  border-radius: var(--sr-radius, 12px);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.sr-credit-special-offers-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sr-credit-title-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #831b53;
+  background: rgba(131, 27, 83, 0.08);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.sr-credit-special-offers-title-wrap h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: #1e293b;
+  letter-spacing: -0.01em;
+}
+
+.sr-credit-special-offers-title-wrap p {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.sr-credit-terms-pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #831b53;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: #fdf2f8;
+  border: 1px solid #fbcfe8;
+  transition: all 0.2s ease;
+}
+
+.sr-credit-terms-pill:hover {
+  background: #fce7f3;
+  color: #701345;
+}

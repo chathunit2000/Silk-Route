@@ -1,0 +1,308 @@
+.sr-flight-report {
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  animation: srFadeIn 0.25s ease-out;
+}
+
+.sr-flight-report-card {
+  border-radius: 12px;
+}
+
+.sr-flight-report-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, #f8fbff 0%, #eef4fb 100%);
+  border-top: 0;
+}
+
+.sr-flight-report-banner h2 {
+  color: #0a2240;
+  font-size: 19px;
+  font-weight: 750;
+}
+
+.sr-flight-report-banner p {
+  margin: 5px 0 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.sr-flight-report-badge {
+  padding: 6px 10px;
+  border: 1px solid #bfdbfe;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.sr-flight-report-toolbar {
+  align-items: flex-end;
+  padding: 16px 22px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.sr-flight-report-connection {
+  max-width: 44%;
+  align-self: center;
+  font-size: 12px;
+}
+
+.sr-flight-report-connection span:last-child {
+  overflow-wrap: anywhere;
+}
+
+.sr-flight-report-connection .is-error {
+  background: #dc2626;
+}
+
+.sr-flight-report-controls {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.sr-flight-report-date-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sr-flight-report-date-field label {
+  color: #475569;
+  font-size: 12px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.sr-flight-report-date-field input {
+  width: 175px;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  outline: none;
+  background: #ffffff;
+  color: #1e293b;
+  font: inherit;
+  font-size: 13px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sr-flight-report-date-field input:focus {
+  border-color: #1474be;
+  box-shadow: 0 0 0 3px rgba(20, 116, 190, 0.12);
+}
+
+.sr-flight-report-help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border: 1px solid #94a3b8;
+  border-radius: 50%;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: help;
+}
+
+.sr-flight-report-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sr-flight-report-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 13px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.sr-flight-report-actions .sr-flight-report-search-btn,
+.sr-flight-report-actions .sr-flight-report-download-btn {
+  border: 1px solid #1474be;
+  background: #1474be;
+  color: #ffffff;
+}
+
+.sr-flight-report-actions .sr-flight-report-search-btn:hover,
+.sr-flight-report-actions .sr-flight-report-download-btn:hover:not(:disabled) {
+  border-color: #0c4a6e;
+  background: #0c4a6e;
+}
+
+.sr-flight-report-actions .sr-flight-report-reset-btn {
+  height: 36px;
+  margin: 0;
+  padding: 0 13px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.sr-flight-report-actions .sr-flight-report-download-btn:disabled {
+  border-color: #94a3b8;
+  background: #94a3b8;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.sr-flight-report-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 18px 22px 14px;
+  padding: 14px 16px;
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
+  background: #f8fbff;
+}
+
+.sr-flight-report-summary-label {
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.sr-flight-report-summary h3 {
+  margin: 5px 0 0;
+  color: #0f2947;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.sr-flight-report-period-separator {
+  margin: 0 10px;
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.sr-flight-report-result-count {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #e0f2fe;
+  color: #075985;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.sr-flight-report-table-wrap {
+  border-top: 1px solid #e2e8f0;
+}
+
+.sr-flight-report-table {
+  min-width: 900px;
+  font-size: 12px;
+}
+
+.sr-flight-report-table thead th {
+  padding: 11px 9px;
+}
+
+.sr-flight-report-table tbody td {
+  padding: 11px 9px;
+  text-align: center;
+}
+
+.sr-flight-report-table tbody td:nth-child(2),
+.sr-flight-report-table tbody td:nth-child(3),
+.sr-flight-report-table tbody td:last-child {
+  text-align: left;
+}
+
+.sr-flight-report-table .sr-flight-report-error {
+  color: #b91c1c;
+}
+
+@media (max-width: 768px) {
+  .sr-flight-report-banner,
+  .sr-flight-report-toolbar {
+    align-items: flex-start;
+  }
+
+  .sr-flight-report-toolbar {
+    flex-direction: column;
+  }
+
+  .sr-flight-report-connection {
+    max-width: 100%;
+  }
+
+  .sr-flight-report-controls {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 540px) {
+  .sr-flight-report-banner {
+    padding: 16px;
+  }
+
+  .sr-flight-report-banner h2 {
+    font-size: 16px;
+  }
+
+  .sr-flight-report-badge {
+    display: none;
+  }
+
+  .sr-flight-report-toolbar {
+    padding: 14px 16px;
+  }
+
+  .sr-flight-report-controls {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sr-flight-report-date-field {
+    flex-wrap: wrap;
+  }
+
+  .sr-flight-report-date-field input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sr-flight-report-actions {
+    width: 100%;
+  }
+
+  .sr-flight-report-actions button {
+    flex: 1;
+    padding: 0 8px;
+  }
+
+  .sr-flight-report-summary {
+    align-items: flex-start;
+    flex-direction: column;
+    margin: 14px 16px;
+  }
+
+  .sr-flight-report-summary h3 {
+    font-size: 13px;
+  }
+}

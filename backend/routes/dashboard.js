@@ -79,6 +79,7 @@ router.get("/", async (req, res) => {
         todaysArrivals: { value: arrivalsRow?.count || 0, change: "" },
         todaysDepartures: { value: departuresRow?.count || 0, change: "" },
         pendingPayments: { value: pendingPaymentsRow?.count || 0, meta: "" },
+        pendingReservations: { value: pendingPaymentsRow?.count || 0, meta: "" },
         confirmedReservations: { value: confirmedRow?.count || 0, change: "" },
       },
       status: statusMap,

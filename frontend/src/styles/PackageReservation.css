@@ -777,7 +777,7 @@
   align-items: end;
 }
 
-/* Step 2: Passenger row with Refreshment (Ruby Package) */
+/* Step 2: Passenger row with Refreshment (Ruby, Amethyst, and Topaz Arrival Packages) */
 .sr-step2-pax-grid.has-refreshment {
   display: grid;
   grid-template-columns: 85px 1.3fr 1fr 1.15fr;
@@ -832,20 +832,20 @@
   pointer-events: none;
 }
 
-/* Step 1: Pax + Refreshment Row for Ruby Package */
-.sr-ruby-pax-refreshment-row {
+/* Step 1: Passenger count row for Ruby Package */
+.sr-ruby-pax-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   align-items: start;
 }
 
-.sr-ruby-pax-refreshment-row .sr-ruby-pax-section {
+.sr-ruby-pax-row .sr-ruby-pax-section {
   max-width: 100%;
 }
 
 @media (max-width: 640px) {
-  .sr-ruby-pax-refreshment-row {
+  .sr-ruby-pax-row {
     grid-template-columns: 1fr;
     gap: 16px;
   }
@@ -1040,4 +1040,18 @@
   background: #0f62a4;
   box-shadow: 0 6px 18px rgba(22, 119, 197, 0.42);
   transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .sr-step2-submit-btn {
+    width: 100%;
+    min-width: 0;
+    padding: 14px 20px;
+  }
+  .sr-res-header-bar {
+    padding: 12px 14px;
+  }
+  .sr-res-subbar {
+    padding: 12px 16px;
+  }
 }

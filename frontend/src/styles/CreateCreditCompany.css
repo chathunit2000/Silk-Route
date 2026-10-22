@@ -1,0 +1,209 @@
+/* ==========================================================================
+   Create New Credit Company / Credit Reservation Page Styles
+   Matching the exact layout and gradient from the user screenshot
+   ========================================================================== */
+
+.sr-create-comp-page-wrap {
+  width: 100%;
+  min-height: calc(100vh - 60px);
+  /* Pure white at top transitioning smoothly into steel/sky blue at bottom */
+  background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 18%, #e8eff6 42%, #c2d6e9 78%, #9dbddb 100%);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 28px 60px;
+  box-sizing: border-box;
+}
+
+/* Top bar with back button */
+.sr-create-comp-top-bar {
+  max-width: 650px;
+  width: 100%;
+  margin: 0 auto 16px auto;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.sr-create-comp-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid #767676;
+  color: #111827;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  transition: all 0.15s ease;
+}
+
+.sr-create-comp-back-btn:hover {
+  background: #f1f5f9;
+  border-color: #333333;
+}
+
+/* Center form container */
+.sr-create-comp-container {
+  max-width: 600px;
+  width: 100%;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Red mandatory note at top matching screenshot */
+.sr-create-comp-mandatory-note {
+  color: #b91c1c; /* Crimson / dark red */
+  font-size: 12.5px;
+  font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin-bottom: 26px;
+  text-align: center;
+  width: 100%;
+}
+
+/* Form structure */
+.sr-create-comp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 480px;
+}
+
+/* Two-column layout for label and input */
+.sr-create-comp-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Field label matching screenshot */
+.sr-create-comp-label {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #262626;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  text-align: left;
+}
+
+.sr-create-comp-label .star {
+  color: #b91c1c; /* Red asterisk */
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+/* Title dropdown */
+.sr-create-comp-select {
+  width: 65px;
+  padding: 3px 6px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #000000;
+  background-color: #ffffff;
+  border: 1px solid #767676;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.sr-create-comp-select:focus {
+  border-color: #1e3a5f;
+}
+
+/* Standard text input matching screenshot */
+.sr-create-comp-input {
+  width: 100%;
+  max-width: 280px;
+  padding: 3px 6px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #000000;
+  background-color: #ffffff;
+  border: 1px solid #767676;
+  border-radius: 2px;
+  outline: none;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.sr-create-comp-input:focus {
+  border-color: #1e3a5f;
+}
+
+/* Contact No. input has noticeably shorter width in screenshot */
+.sr-create-comp-input.short-input {
+  max-width: 170px;
+}
+
+/* Action row with submit button */
+.sr-create-comp-action-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+/* Submit button matching screenshot */
+.sr-create-comp-submit-btn {
+  background: linear-gradient(180deg, #f9f9f9 0%, #e6e6e6 100%);
+  border: 1px solid #767676;
+  color: #000000;
+  padding: 2px 16px;
+  font-size: 13px;
+  font-family: inherit;
+  border-radius: 2px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  width: fit-content;
+  min-width: 65px;
+  text-align: center;
+  transition: all 0.1s ease;
+}
+
+.sr-create-comp-submit-btn:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #ececec 100%);
+  border-color: #444444;
+}
+
+.sr-create-comp-submit-btn:active {
+  background: #dedede;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.sr-create-comp-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Feedback notices */
+.sr-create-comp-notice {
+  margin-top: 18px;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.sr-create-comp-notice.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #f87171;
+}
+
+.sr-create-comp-notice.success {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #86efac;
+}

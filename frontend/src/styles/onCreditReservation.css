@@ -1,0 +1,439 @@
+/* ===================================================================
+   Silk Route Airport Services - On Credit Reservations Styles
+   Modern, elegant, and visually pleasing palette matching system standard
+   =================================================================== */
+
+.sr-credit-page {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: srFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes srFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* User Greeting Strip */
+.sr-credit-user-strip {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 2px 6px;
+}
+
+.sr-credit-user-greeting {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #475569;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sr-credit-user-name {
+  color: #0c457a;
+  font-weight: 700;
+}
+
+.sr-credit-divider {
+  color: #cbd5e1;
+  font-size: 11px;
+}
+
+.sr-credit-logout-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sr-credit-logout-btn:hover {
+  text-decoration: underline;
+  color: #dc2626;
+}
+
+/* Main Premium Card */
+.sr-credit-card {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px -2px rgba(12, 69, 122, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Banner */
+.sr-credit-header-banner {
+  background: linear-gradient(135deg, #f8fafc 0%, #edf4fc 100%);
+  border-bottom: 1px solid #e2e8f0;
+  padding: 22px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sr-credit-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sr-credit-icon-pill {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #0c457a 0%, #1e5fa0 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(12, 69, 122, 0.22);
+  flex-shrink: 0;
+}
+
+.sr-credit-header-banner h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.015em;
+}
+
+.sr-credit-header-sub {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.sr-credit-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.sr-credit-badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+/* Card Body */
+.sr-credit-body {
+  padding: 38px 32px 28px;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Form */
+.sr-credit-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.sr-credit-field-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sr-credit-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1e293b;
+  letter-spacing: -0.01em;
+}
+
+.sr-credit-select-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.sr-credit-select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 12px 42px 12px 16px;
+  font-size: 14px;
+  color: #0f172a;
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.sr-credit-select:hover {
+  background: #ffffff;
+  border-color: #94a3b8;
+}
+
+.sr-credit-select:focus {
+  background: #ffffff;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.sr-credit-select-arrow {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+}
+
+/* Company Overview Card */
+.sr-credit-summary-card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: srFadeIn 0.25s ease-out;
+}
+
+.sr-credit-summary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sr-credit-summary-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #059669;
+  background: #ecfdf5;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid #a7f3d0;
+}
+
+.sr-credit-summary-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.sr-credit-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.sr-credit-stat-box {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border: 1px solid #f1f5f9;
+}
+
+.stat-label {
+  font-size: 11.5px;
+  color: #64748b;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.stat-value {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.stat-value.text-blue {
+  color: #0c457a;
+}
+
+.stat-value.text-muted {
+  color: #475569;
+}
+
+.stat-value.text-danger {
+  color: #dc2626;
+}
+
+.stat-value.text-success {
+  color: #059669;
+}
+
+.sr-credit-summary-badge.status-danger {
+  color: #dc2626;
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.sr-credit-summary-badge.status-warning {
+  color: #b45309;
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+.sr-credit-alert-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-left: 4px solid #dc2626;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #991b1b;
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+.sr-credit-alert-banner-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #dc2626;
+}
+
+.sr-credit-alert-banner-content strong {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  margin-bottom: 2px;
+  color: #7f1d1d;
+}
+
+.sr-credit-alert-banner-content span {
+  font-size: 13px;
+  color: #991b1b;
+}
+
+/* Action button */
+.sr-credit-action-row {
+  width: 100%;
+}
+
+.sr-credit-submit-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #0c457a 0%, #175492 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 24px;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(12, 69, 122, 0.22);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sr-credit-submit-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #093863 0%, #124578 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(12, 69, 122, 0.28);
+}
+
+.sr-credit-submit-btn:disabled {
+  background: #e2e8f0;
+  color: #94a3b8;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Bottom Bar */
+.sr-credit-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 20px;
+  margin-top: 36px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.sr-credit-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sr-credit-back-btn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.sr-credit-tech-support {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  color: #64748b;
+}
+
+.sr-credit-tech-support strong {
+  color: #0c457a;
+}

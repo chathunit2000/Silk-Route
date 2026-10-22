@@ -92,6 +92,38 @@ export default function Login({ onLogin }) {
             <span>{loading ? "Signing in…" : "Sign in"}</span>
           </button>
         </form>
+
+        <div className="login-quick-roles" style={{ marginTop: 22, paddingTop: 16, borderTop: "1px solid rgba(255, 255, 255, 0.12)", textAlign: "center" }}>
+          <div style={{ fontSize: 11, color: "#94a3b8", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+            Quick fill by user type:
+          </div>
+          <div style={{ display: "flex", gap: 6, justifyContent: "center", flexWrap: "wrap" }}>
+            <button
+              type="button"
+              onClick={() => { setUserId("admin"); setPassword("admin"); }}
+              style={{ fontSize: 11, padding: "5px 10px", background: "rgba(239, 68, 68, 0.15)", color: "#fca5a5", border: "1px solid rgba(239, 68, 68, 0.35)", borderRadius: 4, cursor: "pointer", fontWeight: 600 }}
+              title="Sign in as Administrator"
+            >
+              Admin (admin)
+            </button>
+            <button
+              type="button"
+              onClick={() => { setUserId("mi.fin"); setPassword("123"); }}
+              style={{ fontSize: 11, padding: "5px 10px", background: "rgba(59, 130, 246, 0.15)", color: "#93c5fd", border: "1px solid rgba(59, 130, 246, 0.35)", borderRadius: 4, cursor: "pointer", fontWeight: 600 }}
+              title="Sign in as Finance User"
+            >
+              Finance (mi.fin)
+            </button>
+            <button
+              type="button"
+              onClick={() => { setUserId("cip"); setPassword("admin"); }}
+              style={{ fontSize: 11, padding: "5px 10px", background: "rgba(16, 185, 129, 0.15)", color: "#6ee7b7", border: "1px solid rgba(16, 185, 129, 0.35)", borderRadius: 4, cursor: "pointer", fontWeight: 600 }}
+              title="Sign in as Normal User"
+            >
+              Normal User (cip)
+            </button>
+          </div>
+        </div>
       </section>
     </main>
   );

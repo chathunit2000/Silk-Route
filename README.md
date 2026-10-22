@@ -41,7 +41,9 @@ npm install
 cp .env.example .env   # then fill in your MySQL credentials
 npm run dev            # or: npm start
 ```
-The API runs on `http://localhost:4000`. `GET /api/dashboard` returns the stat cards, status counts, recent reservations, and recent activity in one payload.
+The API runs on `http://localhost:4000`. `GET /api/dashboard` returns the stat cards, status counts, recent reservations, and recent activity in one payload. Ending sales summarizes reservations created between the shift start and end times into the `sessionincome` table.
+
+To email reservation receipt PDFs, configure `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, and `SMTP_FROM` in `backend/.env`. For Gmail, create a Google App Password and use `smtp.gmail.com`, port `465` with `SMTP_SECURE=true` (implicit TLS), or port `587` with `SMTP_SECURE=false` (STARTTLS). Do not use your normal Google account password. Keep SMTP credentials private and out of source control. If STARTTLS times out, check that the port/security setting matches and that the network allows outbound SMTP.
 
 ### 3. Frontend
 ```bash

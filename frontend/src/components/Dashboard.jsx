@@ -4,11 +4,13 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import "../styles/Dashboard.css";
 import { fetchDashboardData } from "../api/dashboardApi";
+import { getUserRole } from "../utils/userRoles";
 
 const FALLBACK_DATA = {
   stats: {
     todaysArrivals: { value: 12, change: "+20%" },
     todaysDepartures: { value: 15, change: "+25%" },
+    pendingReservations: { value: 8, meta: "3.8h" },
     pendingPayments: { value: 8, meta: "3.8h" },
     confirmedReservations: { value: 28, change: "↑ 12%" },
   },
@@ -37,15 +39,15 @@ const FALLBACK_DATA = {
 const STAT_CARDS = [
   { key: "todaysArrivals", label: "Today's Arrivals", icon: "plane", tint: "blue" },
   { key: "todaysDepartures", label: "Today's Departures", icon: "plane-up", tint: "purple" },
-  { key: "pendingPayments", label: "Pending Payments", icon: "clock", tint: "orange" },
+  { key: "pendingReservations", label: "Pending Reservations", icon: "clock", tint: "orange" },
   { key: "confirmedReservations", label: "Confirmed Reservations", icon: "check", tint: "green" },
 ];
 
 const QUICK_ACTIONS = [
   { key: "new-reservation", label: "New Reservation", icon: "plus" },
   { key: "search-booking", label: "Search Booking", icon: "search" },
-  { key: "pending-payments", label: "Pending Payments", icon: "card" },
-  { key: "daily-audit", label: "Daily Audit Report", icon: "chart" },
+  { key: "pendingReservations", label: "Pending Reservations", icon: "card" },
+  { key: "daily-audit", label: "Daily Arrival Report", icon: "chart" },
   { key: "daily-departure", label: "Daily Departure Report", icon: "plane" },
 ];
 
@@ -116,10 +118,19 @@ function ActivityIcon({ name }) {
 
 export default function Dashboard({ user, onLogout, onNavigate }) {
   const navigate = useNavigate();
+  const role = getUserRole(user);
   const [data, setData] = useState(FALLBACK_DATA);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const activeQuickActions =
+    role === "finance"
+      ? [
+          { key: "pendingReservations", label: "Add Payment", icon: "card" },
+          { key: "search-booking", label: "Search Booking", icon: "search" },
+        ]
+      : QUICK_ACTIONS;
 
   useEffect(() => {
     let cancelled = false;
@@ -146,6 +157,7 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         onNavigate={onNavigate}
+        user={user}
       />
       <div className="sr-main">
         <Header
@@ -169,7 +181,10 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
 
           <section className="sr-stat-grid">
             {STAT_CARDS.map((card) => {
-              const stat = data.stats[card.key] || {};
+              const stat =
+                data.stats[card.key] ||
+                (card.key === "pendingReservations" ? data.stats.pendingPayments : null) ||
+                {};
               return (
                 <div className="sr-stat-card" key={card.key}>
                   <div className="sr-stat-card-top">
@@ -189,7 +204,7 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
 
           <h3 className="sr-section-title">Quick Actions</h3>
           <section className="sr-quick-actions">
-            {QUICK_ACTIONS.map((action) => (
+            {activeQuickActions.map((action) => (
               <button
                 className="sr-quick-action"
                 key={action.key}
@@ -199,7 +214,10 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
                     navigate("/packages");
                   } else if (action.key === "search-booking") {
                     navigate("/search");
-                  } else if (action.key === "pending-payments") {
+                  } else if (
+                    action.key === "pending-payments" ||
+                    action.key === "pendingReservations"
+                  ) {
                     navigate("/pending-payments");
                   } else if (action.key === "daily-audit") {
                     navigate("/daily-arrival-report");
@@ -239,7 +257,12 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
             <div className="sr-panel sr-reservations">
               <div className="sr-panel-header">
                 <h3>Recent Reservations</h3>
-                <Link to="/reservation-confirmed" className="sr-view-all">View All →</Link>
+                <Link
+                  to={role === "finance" ? "/pending-payments" : "/reservation-confirmed"}
+                  className="sr-view-all"
+                >
+                  View All →
+                </Link>
               </div>
               <div className="sr-table-wrap">
                 <table className="sr-table">
@@ -267,7 +290,13 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
                           <button
                             className="sr-view-link"
                             type="button"
-                            onClick={() => navigate("/reservation-confirmed")}
+                            onClick={() =>
+                              navigate(
+                                role === "finance"
+                                  ? "/pending-payments"
+                                  : "/reservation-confirmed"
+                              )
+                            }
                           >
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                               <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />

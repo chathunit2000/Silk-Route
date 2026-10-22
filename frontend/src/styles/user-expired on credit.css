@@ -1,0 +1,424 @@
+/* ==========================================================================
+   user-expired on credit.css
+   Modern, Premium Silk Route Corporate Error / Bank Guarantee Expired Screen
+   Harmonized with the rest of the VIP design system (cards, badges, buttons, typography)
+   ========================================================================== */
+
+.uec-page-container {
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 12px 16px 48px;
+  animation: uecFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes uecFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Breadcrumb & Top Bar */
+.uec-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding: 14px 20px;
+  background: #ffffff;
+  border: 1px solid var(--sr-border, #d5dfec);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(12, 33, 62, 0.04);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.uec-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f1f5f9;
+  color: #1e293b;
+  border: 1px solid #cbd5e1;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.uec-back-btn:hover {
+  background: #0C457A;
+  color: #ffffff;
+  border-color: #0C457A;
+  transform: translateX(-2px);
+}
+
+.uec-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.uec-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #dc2626;
+}
+
+/* Premium Card Wrapper */
+.uec-card {
+  background: #ffffff;
+  border: 1px solid #fecaca;
+  border-radius: 14px;
+  box-shadow: 0 8px 26px rgba(185, 28, 28, 0.06), 0 2px 8px rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Card Header Banner */
+.uec-card-header {
+  background: linear-gradient(135deg, #8b2346 0%, #681532 100%);
+  color: #ffffff;
+  padding: 22px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+}
+
+.uec-card-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.uec-alert-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fed7aa;
+  flex-shrink: 0;
+}
+
+.uec-card-header-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.uec-badge-pill {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.uec-heading {
+  font-size: 19px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+/* Card Body */
+.uec-card-body {
+  padding: 32px 36px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* Alert Summary Box */
+.uec-alert-summary {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-left: 5px solid #dc2626;
+  padding: 18px 22px;
+  border-radius: 8px;
+}
+
+.uec-alert-summary-icon {
+  color: #dc2626;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.uec-alert-summary-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.uec-text-msg {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #991b1b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.uec-expired-date-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #7f1d1d;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.uec-date-tag {
+  background: #ffffff;
+  border: 1px solid #fca5a5;
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-weight: 800;
+  color: #b91c1c;
+  font-family: monospace;
+  font-size: 14px;
+}
+
+/* Account Info Strip */
+.uec-account-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.uec-account-strip-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.uec-account-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.uec-account-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0c213e;
+}
+
+.uec-account-strip-stats {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.uec-account-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.uec-account-stat-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.uec-account-stat-val.text-danger {
+  color: #dc2626;
+}
+
+.uec-account-stat-val.text-success {
+  color: #059669;
+}
+
+/* Action Button Row */
+.uec-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 6px 0 8px;
+  flex-wrap: wrap;
+}
+
+.uec-home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #0C457A;
+  color: #ffffff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(12, 69, 122, 0.25);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.uec-home-btn:hover {
+  background: #08335c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(12, 69, 122, 0.35);
+}
+
+.uec-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  color: #475569;
+  border: 1.5px solid #cbd5e1;
+  padding: 11px 22px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.uec-secondary-btn:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+/* Modern Help & Support Section */
+.uec-help-card {
+  background: #fafaf9;
+  border: 1px solid #e7e5e4;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.uec-help-bar {
+  background: #8b2346;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 8px 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.uec-help-content {
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.uec-help-text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.uec-help-text {
+  font-size: 13.5px;
+  color: #44403c;
+  margin: 0;
+  font-weight: 500;
+}
+
+.uec-help-subtext {
+  font-size: 12px;
+  color: #78716c;
+  margin: 0;
+}
+
+.uec-phone-badges {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.uec-phone-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid #d6d3d1;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1c1917;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.uec-phone-pill:hover {
+  border-color: #8b2346;
+  color: #8b2346;
+  box-shadow: 0 2px 6px rgba(139, 35, 70, 0.15);
+}
+
+.uec-phone-pill svg {
+  color: #8b2346;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .uec-card-body {
+    padding: 22px 20px;
+  }
+
+  .uec-card-header {
+    padding: 18px 20px;
+  }
+
+  .uec-help-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

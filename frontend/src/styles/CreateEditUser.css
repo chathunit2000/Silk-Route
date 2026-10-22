@@ -1,0 +1,804 @@
+/* ===================================================================
+   Silk Route Airport Services - Create / Edit User Page Styles
+   Matching exact UI screenshot from the official Silk Route system
+   =================================================================== */
+
+.sr-user-page {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: srUserFadeIn 0.25s ease-out;
+}
+
+@keyframes srUserFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Page Header & Breadcrumb Bar */
+.sr-user-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: #ffffff;
+  padding: 16px 22px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(12, 69, 122, 0.04);
+}
+
+.sr-user-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sr-user-title-wrap h2 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 700;
+  color: #0c213e;
+  letter-spacing: -0.01em;
+}
+
+.sr-user-title-wrap p {
+  margin: 3px 0 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* Top Action Mode Switcher: Add User & Edit User Buttons */
+.sr-user-mode-switcher {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.sr-user-mode-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 20px;
+  font-size: 13.5px;
+  font-weight: 700;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #475569;
+  background: transparent;
+}
+
+.sr-user-mode-btn:hover:not(.active) {
+  color: #0c457a;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.sr-user-mode-btn.active {
+  background: #0c457a;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(12, 69, 122, 0.25);
+}
+
+.sr-user-mode-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ===================================================================
+   Exact Recreated "User Registration" Card (From Screenshot)
+   =================================================================== */
+
+.sr-registration-card-wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.sr-registration-card {
+  width: 100%;
+  max-width: 960px;
+  background: #ffffff;
+  border: 1px solid #94a3b8;
+  border-radius: 2px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* Top Tab Bar: "User Registration" */
+.sr-registration-header {
+  background: #ccd7e6;
+  border-bottom: 1px solid #8d9ba8;
+  padding: 8px 18px;
+}
+
+.sr-registration-header h3 {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #1e293b;
+  letter-spacing: 0.01em;
+}
+
+/* Form Container with Soft Airport Sky Gradient */
+.sr-registration-body {
+  background: linear-gradient(180deg, #dbe8f7 0%, #b8d2ef 45%, #7ea8dc 100%);
+  padding: 36px 40px 48px;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Mandatory Field Note */
+.sr-registration-notice {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1d4ed8;
+  margin-bottom: 28px;
+  letter-spacing: 0.01em;
+}
+
+.sr-registration-notice .asterisk,
+.sr-form-label .asterisk {
+  color: #dc2626;
+  font-weight: 800;
+  margin-left: 2px;
+}
+
+/* Form Layout (Two-Column Label / Input Alignment) */
+.sr-registration-form {
+  width: 100%;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sr-form-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.sr-form-label {
+  width: 190px;
+  flex-shrink: 0;
+  text-align: left;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1e293b;
+  user-select: none;
+}
+
+.sr-form-control-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* Inputs & Selects styled exactly like legacy airport system */
+.sr-input-base {
+  background: #ffffff;
+  border: 1px solid #64748b;
+  border-radius: 2px;
+  padding: 4px 8px;
+  font-size: 13.5px;
+  color: #0f172a;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.sr-input-base:focus {
+  border-color: #0c457a;
+  box-shadow: 0 0 0 2px rgba(12, 69, 122, 0.2);
+}
+
+.sr-input-base:disabled {
+  background: #f1f5f9;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+/* Specific Field Widths to match screenshot */
+.sr-input-title {
+  width: 95px;
+  cursor: pointer;
+}
+
+.sr-input-name {
+  width: 100%;
+  max-width: 380px;
+}
+
+.sr-input-epf {
+  width: 140px;
+}
+
+.sr-input-login {
+  width: 230px;
+}
+
+.sr-input-password {
+  width: 230px;
+}
+
+.sr-input-email {
+  width: 100%;
+  max-width: 320px;
+}
+
+.sr-input-contact {
+  width: 230px;
+}
+
+.sr-input-usertype {
+  width: 140px;
+  cursor: pointer;
+}
+
+/* Submit Button Row */
+.sr-form-submit-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.sr-submit-btn-legacy {
+  background: #e2e8f0;
+  border: 1px solid #64748b;
+  border-radius: 3px;
+  padding: 4px 24px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: background 0.15s, transform 0.1s;
+}
+
+.sr-submit-btn-legacy:hover:not(:disabled) {
+  background: #cbd5e1;
+  border-color: #475569;
+}
+
+.sr-submit-btn-legacy:active:not(:disabled) {
+  transform: translateY(1px);
+  background: #94a3b8;
+}
+
+.sr-submit-btn-legacy:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Messages & Alerts */
+.sr-alert-banner {
+  width: 100%;
+  max-width: 620px;
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  animation: srUserFadeIn 0.2s ease-out;
+}
+
+.sr-alert-success {
+  background: #dcfce7;
+  border: 1px solid #86efac;
+  color: #166534;
+}
+
+.sr-alert-error {
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+}
+
+.sr-alert-close {
+  background: transparent;
+  border: none;
+  color: currentColor;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0 4px;
+}
+
+/* ===================================================================
+   "Edit User" Directory & Search View
+   =================================================================== */
+
+.sr-edit-user-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  padding: 22px;
+  box-shadow: 0 2px 8px rgba(12, 69, 122, 0.04);
+}
+
+.sr-edit-search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sr-search-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 7px 14px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.sr-search-input-wrap input {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 13.5px;
+  color: #1e293b;
+}
+
+.sr-user-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+}
+
+.sr-user-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+
+.sr-user-table th {
+  background: #f1f5f9;
+  color: #334155;
+  font-weight: 700;
+  padding: 10px 14px;
+  border-bottom: 1px solid #cbd5e1;
+  white-space: nowrap;
+}
+
+.sr-user-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #1e293b;
+  vertical-align: middle;
+}
+
+.sr-user-table tr:hover td {
+  background: #f8fafc;
+}
+
+.sr-badge-role {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.sr-badge-role.admin {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.sr-badge-role.internal {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.sr-badge-status {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.sr-badge-status.inactive {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.sr-table-edit-btn {
+  background: #0c457a;
+  color: #ffffff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.sr-table-edit-btn:hover {
+  background: #2f6fed;
+}
+
+/* Edit Modal / Form Card */
+.sr-edit-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: srUserFadeIn 0.2s ease-out;
+}
+
+.sr-edit-modal-card {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 660px;
+  max-height: 92vh;
+  overflow-y: auto;
+  border: 1px solid #cbd5e1;
+  display: flex;
+  flex-direction: column;
+}
+
+.sr-edit-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0c457a;
+  color: #ffffff;
+  padding: 14px 22px;
+}
+
+.sr-edit-modal-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.sr-edit-modal-close {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.sr-edit-modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sr-edit-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+.sr-btn-save {
+  background: #0c457a;
+  color: #ffffff;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.sr-btn-save:hover {
+  background: #2f6fed;
+}
+
+.sr-btn-cancel {
+  background: #e2e8f0;
+  color: #334155;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sr-btn-cancel:hover {
+  background: #cbd5e1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sr-registration-body {
+    padding: 24px 16px 36px;
+  }
+
+  .sr-form-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .sr-form-label {
+    width: 100%;
+  }
+
+  .sr-input-name,
+  .sr-input-epf,
+  .sr-input-login,
+  .sr-input-password,
+  .sr-input-email,
+  .sr-input-contact,
+  .sr-input-usertype {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .sr-user-header-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Modern registration and edit forms */
+.sr-registration-card {
+  max-width: 1040px;
+  border: 1px solid #d5dfec;
+  border-radius: 12px;
+  box-shadow: 0 8px 26px rgba(12, 33, 62, 0.08);
+}
+
+.sr-registration-header {
+  padding: 16px 22px;
+  border-bottom: 1px solid #e2e8f0;
+  background: linear-gradient(135deg, #f8fbff 0%, #eef4fb 100%);
+}
+
+.sr-registration-header h3 {
+  color: #0a2240;
+  font-size: 17px;
+}
+
+.sr-registration-body {
+  min-height: auto;
+  align-items: stretch;
+  padding: 26px 32px 32px;
+  background: #ffffff;
+}
+
+.sr-registration-notice {
+  max-width: none;
+  margin-bottom: 22px;
+  padding: 12px 16px;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #1e40af;
+  text-align: left;
+  font-size: 13px;
+}
+
+.sr-registration-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 22px;
+  max-width: none;
+}
+
+.sr-registration-form .sr-form-row {
+  min-width: 0;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 7px;
+}
+
+.sr-form-label {
+  width: auto;
+  color: #334155;
+  font-size: 12.5px;
+  font-weight: 650;
+}
+
+.sr-form-control-wrap {
+  width: 100%;
+  min-width: 0;
+}
+
+.sr-input-base,
+.sr-registration-form .sr-input-base {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  min-height: 40px;
+  padding: 8px 11px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #1e293b;
+  font-size: 13px;
+  box-shadow: none;
+}
+
+.sr-input-base:hover:not(:disabled) {
+  border-color: #94a3b8;
+}
+
+.sr-input-base:focus {
+  border-color: #1474be;
+  box-shadow: 0 0 0 3px rgba(20, 116, 190, 0.12);
+}
+
+.sr-registration-form .sr-input-title,
+.sr-registration-form .sr-input-usertype {
+  cursor: pointer;
+}
+
+.sr-form-submit-row {
+  grid-column: 1 / -1;
+  justify-content: flex-end;
+  margin-top: 4px;
+  padding-top: 18px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.sr-submit-btn-legacy {
+  min-height: 40px;
+  padding: 0 24px;
+  border: 1px solid #1474be;
+  border-radius: 6px;
+  background: #1474be;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 3px 8px rgba(20, 116, 190, 0.18);
+}
+
+.sr-submit-btn-legacy:hover:not(:disabled) {
+  border-color: #0c4a6e;
+  background: #0c4a6e;
+}
+
+.sr-submit-btn-legacy:active:not(:disabled) {
+  background: #083b60;
+}
+
+.sr-alert-banner {
+  max-width: none;
+  border-radius: 8px;
+}
+
+.sr-edit-modal-card {
+  max-width: 760px;
+  border: 1px solid #d5dfec;
+  border-radius: 12px;
+  box-shadow: 0 20px 55px rgba(15, 23, 42, 0.24);
+}
+
+.sr-edit-modal-header {
+  padding: 17px 22px;
+  background: linear-gradient(110deg, #0c457a 0%, #1474be 100%);
+}
+
+.sr-edit-modal-body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 20px;
+  padding: 24px;
+}
+
+.sr-edit-modal-body .sr-form-row {
+  min-width: 0;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 7px;
+}
+
+.sr-edit-modal-body .sr-form-label,
+.sr-edit-modal-body .sr-form-control-wrap {
+  width: 100%;
+}
+
+.sr-edit-modal-body .sr-input-base {
+  width: 100%;
+  max-width: none;
+}
+
+.sr-edit-modal-actions {
+  padding: 16px 24px;
+}
+
+.sr-btn-save,
+.sr-btn-cancel {
+  min-height: 40px;
+  border-radius: 6px;
+}
+
+.sr-btn-save {
+  background: #1474be;
+}
+
+.sr-btn-save:hover {
+  background: #0c4a6e;
+}
+
+.sr-btn-cancel {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+}
+
+.sr-btn-cancel:hover {
+  background: #f1f5f9;
+}
+
+@media (max-width: 768px) {
+  .sr-registration-body {
+    padding: 22px 18px 26px;
+  }
+
+  .sr-registration-form,
+  .sr-edit-modal-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sr-form-submit-row {
+    grid-column: auto;
+  }
+
+  .sr-edit-modal-card {
+    max-height: 94vh;
+  }
+
+  .sr-edit-modal-body {
+    padding: 20px;
+  }
+}

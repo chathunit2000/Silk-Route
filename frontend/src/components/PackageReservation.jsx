@@ -11,9 +11,17 @@ import {
   PACKAGES_DATA,
   isArrivalPackage,
   isDeparturePackage,
+  packageHasRefreshment,
   getTodayDateString,
   getTodayDateTimeString,
+  calculatePackagePricing,
 } from "../data/packagesData";
+
+function toDateTimeInput(value, fallback) {
+  if (!value) return fallback;
+  const normalized = String(value).replace(" ", "T");
+  return normalized.length === 10 ? `${normalized}T00:00` : normalized.slice(0, 16);
+}
 
 export default function PackageReservation({
   user,
@@ -27,6 +35,7 @@ export default function PackageReservation({
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const isCreditReservation = location.state?.isCreditReservation === true;
   const [step, setStep] = useState(() => {
     if (location.pathname.includes("/confirmation") || location.pathname.includes("/confirm-reservation")) return 3;
     const s = parseInt(searchParams.get("step") || "1", 10);
@@ -72,17 +81,23 @@ export default function PackageReservation({
 
 
   // Step 1: Flight & Passenger count state
-  const [paxCount, setPaxCount] = useState(1);
+  const [paxCount, setPaxCount] = useState(() =>
+    Math.max(1, parseInt(location.state?.initialPaxCount, 10) || 1)
+  );
   const [arrivalDate, setArrivalDate] = useState(() => {
     const today = getTodayDateString();
-    return `${today}T10:00`;
+    return toDateTimeInput(location.state?.initialArrivalDate, `${today}T10:00`);
   });
-  const [arrivalFlightNumber, setArrivalFlightNumber] = useState("");
+  const [arrivalFlightNumber, setArrivalFlightNumber] = useState(
+    location.state?.initialArrivalFlight || ""
+  );
   const [departureDate, setDepartureDate] = useState(() => {
     const today = getTodayDateString();
-    return `${today}T14:30`;
+    return toDateTimeInput(location.state?.initialDepartureDate, `${today}T14:30`);
   });
-  const [departureFlightNumber, setDepartureFlightNumber] = useState("");
+  const [departureFlightNumber, setDepartureFlightNumber] = useState(
+    location.state?.initialDepartureFlight || ""
+  );
   const [validationError, setValidationError] = useState("");
 
   const arrivalDateRef = useRef(null);
@@ -91,21 +106,15 @@ export default function PackageReservation({
   const hasArrival = isArrivalPackage(selectedPkg);
   const hasDeparture = isDeparturePackage(selectedPkg);
   const isRuby = selectedPkg?.id?.toLowerCase() === "ruby";
+  const hasRefreshment = packageHasRefreshment(selectedPkg);
 
-  // Step 1 & 2 Refreshment Selection (for Ruby Package)
-  const [refreshment, setRefreshment] = useState("Vegetarian");
+  // Dynamic pricing with passenger discount tiers (5-9: 5%, 10-14: 10%, 15-19: 15%, 20-24: 20%, >=25: 25%)
+  const pricing = calculatePackagePricing(selectedPkg?.price || 0, paxCount);
 
   // Step 2: Passenger & Contact Details (matching Image 2)
   const [passengers, setPassengers] = useState([
     { title: "Mr", name: "", passportNo: "", refreshment: "Vegetarian" },
   ]);
-
-  const handleGlobalRefreshmentChange = (val) => {
-    setRefreshment(val);
-    setPassengers((prev) =>
-      prev.map((p) => ({ ...p, refreshment: val }))
-    );
-  };
 
   // Adjust passengers list whenever paxCount changes
   useEffect(() => {
@@ -117,7 +126,7 @@ export default function PackageReservation({
             title: "Mr",
             name: "",
             passportNo: "",
-            refreshment: refreshment || "Vegetarian",
+            refreshment: "Vegetarian",
           });
         }
       } else if (next.length > paxCount) {
@@ -125,7 +134,7 @@ export default function PackageReservation({
       }
       return next;
     });
-  }, [paxCount, refreshment]);
+  }, [paxCount]);
 
   const [payIn, setPayIn] = useState("Rupees");
 
@@ -164,7 +173,7 @@ export default function PackageReservation({
       setValidationError("");
       navigate(`/package-reservation/${found.id}${location.search}`, {
         replace: true,
-        state: { packageData: found },
+        state: { ...location.state, packageData: found },
       });
     }
   };
@@ -240,15 +249,39 @@ export default function PackageReservation({
       return;
     }
 
-    // Ensure first passenger has name
-    const primaryName = (passengers[0]?.name || leadName || "").trim();
-    if (!primaryName) {
-      setValidationError("Passenger name is required.");
+    const missingPassenger = passengers.findIndex(
+      (passenger) =>
+        !passenger.title?.trim() ||
+        !passenger.name?.trim() ||
+        !passenger.passportNo?.trim()
+    );
+    if (missingPassenger !== -1) {
+      setValidationError(
+        `Please enter the title, name, and passport number for passenger ${missingPassenger + 1}.`
+      );
+      return;
+    }
+    if (!payIn.trim()) {
+      setValidationError("Please select a payment currency.");
+      return;
+    }
+    if (!leadContactNumber.trim()) {
+      setValidationError("Lead passenger contact number is required.");
+      return;
+    }
+    if (!leadEmail.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(leadEmail.trim())) {
+      setValidationError("Enter a valid lead passenger e-mail address.");
+      return;
+    }
+    if (!leadName.trim()) {
+      setValidationError("Lead passenger name is required.");
       return;
     }
 
+    const primaryName = passengers[0].name.trim();
     const bookingId = "BK" + Math.floor(10000 + Math.random() * 90000);
-    const totalAmount = selectedPkg.price * paxCount;
+    const bookingPricing = calculatePackagePricing(selectedPkg.price, paxCount);
+    const totalAmount = bookingPricing.finalTotal;
 
     let flightSummary = "";
     if (hasArrival && hasDeparture) {
@@ -263,14 +296,21 @@ export default function PackageReservation({
 
     setConfirmedBooking({
       bookingId,
+      isCreditReservation,
+      creditCompanyId: location.state?.company?.company_id,
+      creditCompany: location.state?.company,
       isRuby,
-      refreshment: passengers[0]?.refreshment || refreshment || "Vegetarian",
+      hasRefreshment,
+      refreshment: hasRefreshment ? (passengers[0]?.refreshment || "Vegetarian") : "",
       packageName: selectedPkg.name,
       packageBadge: selectedPkg.badge,
       passengerTitle: passengers[0]?.title || "Mr",
       passengerName: primaryName,
       passportNo: passengers[0]?.passportNo || "N/A",
-      passengersList: passengers,
+      passengersList: passengers.map((p) => ({
+        ...p,
+        refreshment: hasRefreshment ? (p.refreshment || "Vegetarian") : "",
+      })),
       paxCount,
       payIn,
       leadContactNumber: leadContactNumber.trim() || "N/A",
@@ -290,12 +330,19 @@ export default function PackageReservation({
       hasArrival,
       hasDeparture,
       selectedPkg,
-      passengers,
+      passengers: passengers.map((p) => ({
+        ...p,
+        refreshment: hasRefreshment ? (p.refreshment || "Vegetarian") : "",
+      })),
       arrivalFlightNumber: arrivalFlightNumber.trim() || "N/A",
       arrivalDate: hasArrival ? arrivalDate.replace("T", " ") : "N/A",
       departureFlightNumber: departureFlightNumber.trim() || "N/A",
       departureDate: hasDeparture ? departureDate.replace("T", " ") : "N/A",
       unitPrice: selectedPkg.price,
+      baseAmount: bookingPricing.baseTotal,
+      discountRate: bookingPricing.discountRate,
+      discountPercent: bookingPricing.discountPercent,
+      discountAmount: bookingPricing.discountAmount,
       totalAmount,
       dateBooked: new Date().toLocaleString(),
     });
@@ -314,6 +361,7 @@ export default function PackageReservation({
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         onNavigate={onNavigate}
+        user={user}
       />
       <div className="sr-main">
         <Header
@@ -333,11 +381,16 @@ export default function PackageReservation({
                     selectedPkg,
                     hasArrival,
                     hasDeparture,
+                    hasRefreshment,
+                    refreshment: hasRefreshment ? (passengers[0]?.refreshment || "Vegetarian") : "",
                     arrivalDate,
                     arrivalFlightNumber,
                     departureDate,
                     departureFlightNumber,
-                    passengers,
+                    passengers: passengers.map((p) => ({
+                      ...p,
+                      refreshment: hasRefreshment ? (p.refreshment || "Vegetarian") : "",
+                    })),
                     paxCount,
                     payIn,
                     leadName,
@@ -354,6 +407,11 @@ export default function PackageReservation({
                     vehicleNos,
                     comments,
                     unitPrice: selectedPkg?.price || 21,
+                    baseAmount: pricing.baseTotal,
+                    discountRate: pricing.discountRate,
+                    discountPercent: pricing.discountPercent,
+                    discountAmount: pricing.discountAmount,
+                    totalAmount: pricing.finalTotal,
                   }
                 }
                 onBack={() => {
@@ -435,7 +493,23 @@ export default function PackageReservation({
                   <div className="sr-step2-pkg-pill">
                     {selectedPkg.name} &bull; {paxCount}{" "}
                     {paxCount === 1 ? "Passenger" : "Passengers"} &bull; $
-                    {selectedPkg.price * paxCount} USD
+                    {pricing.finalTotal.toFixed(2)} USD
+                    {pricing.discountPercent > 0 && (
+                      <span
+                        style={{
+                          marginLeft: "8px",
+                          background: "#16a34a",
+                          color: "#ffffff",
+                          padding: "2px 8px",
+                          borderRadius: "10px",
+                          fontSize: "11px",
+                          fontWeight: "700",
+                          display: "inline-block",
+                        }}
+                      >
+                        {pricing.discountPercent}% OFF
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -469,15 +543,16 @@ export default function PackageReservation({
                     {passengers.map((pax, index) => (
                       <div
                         key={index}
-                        className={`sr-step2-pax-grid ${isRuby ? "has-refreshment" : ""
+                        className={`sr-step2-pax-grid ${hasRefreshment ? "has-refreshment" : ""
                           }`}
                       >
                         <div className="sr-step2-field">
-                          <label className="sr-step2-field-label">TITLE</label>
+                          <label className="sr-step2-field-label">TITLE *</label>
                           <div className="sr-step2-title-select-wrap">
                             <select
                               className="sr-step2-title-select"
                               value={pax.title}
+                              required
                               onChange={(e) =>
                                 handlePassengerChange(
                                   index,
@@ -524,19 +599,20 @@ export default function PackageReservation({
                                 e.target.value
                               )
                             }
-                            required={index === 0}
+                            required
                           />
                         </div>
 
                         <div className="sr-step2-field">
                           <label className="sr-step2-field-label">
-                            PASSPORT NO
+                            PASSPORT NO *
                           </label>
                           <input
                             type="text"
                             className="sr-step2-input"
                             placeholder="Passport number"
                             value={pax.passportNo}
+                            required
                             onChange={(e) =>
                               handlePassengerChange(
                                 index,
@@ -547,7 +623,7 @@ export default function PackageReservation({
                           />
                         </div>
 
-                        {isRuby && (
+                        {hasRefreshment && (
                           <div className="sr-step2-field">
                             <label className="sr-step2-field-label">
                               REFRESHMENT
@@ -594,17 +670,25 @@ export default function PackageReservation({
                     <h3 className="sr-step2-section-title">Payment Details</h3>
                     <div className="sr-step2-payment-row">
                       <div className="sr-step2-field">
-                        <label className="sr-step2-field-label">PAY IN</label>
+                        <label className="sr-step2-field-label">PAY IN *</label>
                         <div className="sr-step2-payin-wrap">
                           <select
                             className="sr-step2-payin-select"
                             value={payIn}
+                            required
                             onChange={(e) => setPayIn(e.target.value)}
+                            disabled={isCreditReservation}
                           >
-                            <option value="Rupees">Rupees</option>
-                            <option value="US $ ">US $ (USD)</option>
-                            <option value="EUR">EUR</option>
-                            <option value="GBP">GBP</option>
+                            {isCreditReservation ? (
+                              <option value="Rupees">Rupees (Corporate Credit)</option>
+                            ) : (
+                              <>
+                                <option value="Rupees">Rupees</option>
+                                <option value="US $ ">US $ (USD)</option>
+                                <option value="EUR">EUR</option>
+                                <option value="GBP">GBP</option>
+                              </>
+                            )}
                           </select>
                           <div className="sr-step2-title-btn-icon">
                             <svg
@@ -665,13 +749,14 @@ export default function PackageReservation({
                     <div className="sr-step2-grid-2col">
                       <div className="sr-step2-field">
                         <label className="sr-step2-field-label">
-                          CONTACT NUMBER
+                          CONTACT NUMBER *
                         </label>
                         <input
                           type="text"
                           className="sr-step2-input"
                           placeholder="Contact phone number"
                           value={leadContactNumber}
+                          required
                           onChange={(e) =>
                             setLeadContactNumber(e.target.value)
                           }
@@ -679,12 +764,13 @@ export default function PackageReservation({
                       </div>
 
                       <div className="sr-step2-field">
-                        <label className="sr-step2-field-label">E-MAIL</label>
+                        <label className="sr-step2-field-label">E-MAIL *</label>
                         <input
                           type="email"
                           className="sr-step2-input"
                           placeholder="e.g. dilrukshi.it@airport.lk"
                           value={leadEmail}
+                          required
                           onChange={(e) => setLeadEmail(e.target.value)}
                         />
                       </div>
@@ -694,12 +780,13 @@ export default function PackageReservation({
                       className="sr-step2-field"
                       style={{ maxWidth: "48.5%" }}
                     >
-                      <label className="sr-step2-field-label">NAME</label>
+                      <label className="sr-step2-field-label">NAME *</label>
                       <input
                         type="text"
                         className="sr-step2-input"
                         placeholder="Lead passenger name"
                         value={leadName}
+                        required
                         onChange={(e) => setLeadName(e.target.value)}
                       />
                     </div>
@@ -1212,11 +1299,11 @@ export default function PackageReservation({
                         )}
                       </div>
 
-                      {/* Number of Passengers & Refreshment Preference Row */}
+                      {/* Number of Passengers */}
                       <div
                         className={
                           isRuby
-                            ? "sr-ruby-pax-refreshment-row"
+                            ? "sr-ruby-pax-row"
                             : "sr-ruby-pax-single-row"
                         }
                       >
@@ -1236,10 +1323,10 @@ export default function PackageReservation({
                                 setPaxCount(Number(e.target.value))
                               }
                             >
-                              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20].map(
+                              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30].map(
                                 (num) => (
                                   <option key={num} value={num}>
-                                    {num} {num === 1 ? "Passenger" : "Passengers"}
+                                    {num} {num === 1 ? "" : " "}
                                   </option>
                                 )
                               )}
@@ -1256,46 +1343,6 @@ export default function PackageReservation({
                             </div>
                           </div>
                         </div>
-
-                        {isRuby && (
-                          <div className="sr-ruby-pax-section">
-                            <label
-                              className="sr-ruby-label"
-                              htmlFor="sr-ruby-refreshment"
-                            >
-                              Refreshment*
-                            </label>
-                            <div className="sr-ruby-select-wrap">
-                              <select
-                                id="sr-ruby-refreshment"
-                                className="sr-ruby-select"
-                                value={refreshment}
-                                onChange={(e) =>
-                                  handleGlobalRefreshmentChange(e.target.value)
-                                }
-                              >
-                                <option value="Vegetarian">Vegetarian</option>
-                                <option value="Non-Vegetarian">
-                                  Non-Vegetarian
-                                </option>
-                                <option value="None">None</option>
-                              </select>
-                              <div className="sr-ruby-select-icon">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="currentColor"
-                                >
-                                  <path d="M7 10l5 5 5-5z" />
-                                </svg>
-                              </div>
-                            </div>
-                            <div className="sr-ruby-hint">
-                              EXECUTIVE LOUNGE REFRESHMENT SELECTION
-                            </div>
-                          </div>
-                        )}
                       </div>
 
                       {/* Actions Row */}
@@ -1396,9 +1443,7 @@ export default function PackageReservation({
                                 <polyline points="20 6 9 17 4 12" />
                               </svg>
                               <span>
-                                {item === "Complimentary Refreshments" && isRuby
-                                  ? `${item} (${refreshment})`
-                                  : item}
+                                {item}
                               </span>
                             </div>
                           ))}
@@ -1415,6 +1460,16 @@ export default function PackageReservation({
                           <strong>&times; {paxCount}</strong>
                         </div>
                         <div className="sr-res-pricing-row">
+                          <span>Subtotal</span>
+                          <strong>${pricing.baseTotal.toFixed(2)} USD</strong>
+                        </div>
+                        {pricing.discountPercent > 0 && (
+                          <div className="sr-res-pricing-row" style={{ color: "#16a34a" }}>
+                            <span>Passenger Discount ({pricing.discountPercent}%)</span>
+                            <strong>-${pricing.discountAmount.toFixed(2)} USD</strong>
+                          </div>
+                        )}
+                        <div className="sr-res-pricing-row">
                           <span>VIP Lounge &amp; Formalities</span>
                           <span style={{ color: "#16a34a", fontWeight: 700 }}>
                             Included
@@ -1423,7 +1478,7 @@ export default function PackageReservation({
                         <div className="sr-res-pricing-row is-total">
                           <span>Total Payable</span>
                           <span className="price-tag">
-                            ${selectedPkg.price * paxCount} USD
+                            ${pricing.finalTotal.toFixed(2)} USD
                           </span>
                         </div>
                       </div>

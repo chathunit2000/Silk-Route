@@ -24,6 +24,46 @@ export function getTodayDateTimeString(hoursOffset = 0) {
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
 
+/**
+ * Tiered discount rate based on number of passengers:
+ * - 1 to 4 passengers: 0% discount (standard rate)
+ * - 5 to 9 passengers: 5% discount
+ * - 10 to 14 passengers: 10% discount
+ * - 15 to 19 passengers: 15% discount
+ * - 20 to 24 passengers: 20% discount
+ * - 25 and above passengers: 25% discount
+ */
+export function getPassengerDiscountRate(paxCount) {
+  const count = parseInt(paxCount, 10) || 1;
+  if (count >= 25) return 0.25;
+  if (count >= 20) return 0.20;
+  if (count >= 15) return 0.15;
+  if (count >= 10) return 0.10;
+  if (count >= 5) return 0.05;
+  return 0;
+}
+
+/**
+ * Calculates base price, discount, and final discounted total.
+ */
+export function calculatePackagePricing(unitPrice, paxCount) {
+  const count = parseInt(paxCount, 10) || 1;
+  const price = Number(unitPrice) || 0;
+  const baseTotal = price * count;
+  const discountRate = getPassengerDiscountRate(count);
+  const discountPercent = Math.round(discountRate * 100);
+  const discountAmount = Number((baseTotal * discountRate).toFixed(2));
+  const finalTotal = Number((baseTotal - discountAmount).toFixed(2));
+
+  return {
+    baseTotal,
+    discountRate,
+    discountPercent,
+    discountAmount,
+    finalTotal,
+  };
+}
+
 export function isArrivalPackage(pkg) {
   if (!pkg) return false;
   return (
@@ -41,6 +81,39 @@ export function isDeparturePackage(pkg) {
     pkg.category === "lounge" ||
     (pkg.inclusions && pkg.inclusions.some((i) => i.toLowerCase().includes("departure") || i.toLowerCase().includes("lounge")))
   );
+}
+
+export function packageHasRefreshment(pkg) {
+  if (!pkg) return false;
+  if (typeof pkg === "string") {
+    const s = pkg.toLowerCase();
+    if (s.includes("ruby")) return true;
+    if (s.includes("amethyst")) return true;
+    if (s.includes("topaz") && s.includes("arrival")) return true;
+    return false;
+  }
+  const id = (pkg.id || "").toLowerCase();
+  const name = (pkg.name || "").toLowerCase();
+  const category = (pkg.category || "").toLowerCase();
+
+  // Ruby Package
+  if (id === "ruby" || id.includes("ruby") || name.includes("ruby")) {
+    return true;
+  }
+  // Amethyst Package
+  if (id === "amethyst" || id.includes("amethyst") || name.includes("amethyst")) {
+    return true;
+  }
+  // Topaz Package (only for arrival)
+  if (id.includes("topaz") || name.includes("topaz")) {
+    return id.includes("arrival") || name.includes("arrival") || category === "arrival";
+  }
+  if (pkg.inclusions && Array.isArray(pkg.inclusions)) {
+    if (pkg.inclusions.some((i) => i.toLowerCase().includes("refreshment"))) {
+      return true;
+    }
+  }
+  return false;
 }
 
 export const PACKAGES_DATA = [
@@ -89,7 +162,8 @@ export const PACKAGES_DATA = [
     category: "arrival-departure",
     inclusions: [
       "Silk Route Arrival",
-      "Silk Route Departure"
+      "Silk Route Departure",
+      "Complimentary Refreshments"
     ],
     openingHours: "24 hours",
     childrenPolicy: "Children under 02 Years free of charge",
@@ -104,7 +178,8 @@ export const PACKAGES_DATA = [
     image: vipSofasImg,
     category: "arrival",
     inclusions: [
-      "Silk Route Arrival"
+      "Silk Route Arrival",
+      "Complimentary Refreshments"
     ],
     openingHours: "24 hours",
     childrenPolicy: "Children under 02 Years free of charge",

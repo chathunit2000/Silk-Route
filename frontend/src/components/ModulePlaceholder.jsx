@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import "../styles/Dashboard.css";
+import { isAdmin } from "../utils/userRoles";
 
 export default function ModulePlaceholder({
   user,
@@ -14,12 +15,20 @@ export default function ModulePlaceholder({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
+  // Guard: delete confirm reservation is restricted to Admin only
+  useEffect(() => {
+    if (navKey === "delete confirm reservation" && user && !isAdmin(user)) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [user, navKey, navigate]);
+
   return (
     <div className="sr-app">
       <Sidebar
         active={navKey}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        user={user}
       />
       <div className="sr-main">
         <Header

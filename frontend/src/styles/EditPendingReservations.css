@@ -1,0 +1,633 @@
+/* ===================================================================
+   Silk Route Airport Services - Modern Edit Pending Reservation Styles
+   Consistent with project UI design system (EditConfirmed / PendingPaymentDetails)
+   =================================================================== */
+
+.sr-editpend-page-wrap {
+  width: 100%;
+  max-width: 1020px;
+  margin: 0 auto 36px;
+  animation: srFadeIn 0.25s ease-out;
+}
+
+@keyframes srFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Card Container */
+.sr-editpend-card-modern {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #d8e3ed;
+  box-shadow: 0 4px 20px rgba(12, 33, 62, 0.06);
+  overflow: hidden;
+  font-family: inherit;
+  color: #334155;
+}
+
+/* 1. Silk Route Dual-Tone Header Banner */
+.sr-editpend-banner {
+  display: flex;
+  align-items: stretch;
+  background: #f19f12;
+  position: relative;
+  min-height: 52px;
+  overflow: hidden;
+}
+
+.sr-editpend-banner-tab {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #1474be;
+  color: #ffffff;
+  padding: 12px 42px 12px 24px;
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 50%, calc(100% - 24px) 100%, 0 100%);
+  z-index: 2;
+  box-shadow: 3px 0 10px rgba(0, 0, 0, 0.15);
+}
+
+.sr-editpend-plane-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f7b731;
+  flex-shrink: 0;
+  transform: rotate(-10deg);
+}
+
+.sr-editpend-banner-title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.sr-editpend-banner-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 24px 0 12px;
+  background: #f19f12;
+}
+
+.sr-editpend-silk-emblem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #663d00;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.sr-editpend-silk-emblem svg {
+  color: #663d00;
+}
+
+/* 2. Sub-strip with Back / User Greeting / Logout */
+.sr-editpend-substrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 36px;
+  background: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.sr-editpend-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sr-editpend-back-btn:hover {
+  background: #1474be;
+  color: #ffffff;
+  border-color: #1474be;
+}
+
+.sr-editpend-user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: #334155;
+  margin-left: auto;
+}
+
+.sr-editpend-user-info .greeting {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.sr-editpend-user-info .divider {
+  color: #94a3b8;
+}
+
+.sr-editpend-logout-btn-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #1474be;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.sr-editpend-logout-btn-link:hover {
+  text-decoration: underline;
+  color: #0c4a6e;
+}
+
+/* 3. Selector Toolbar for picking pending reservations */
+.sr-editpend-picker-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 36px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.sr-editpend-picker-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 300px;
+}
+
+.sr-editpend-picker-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.sr-editpend-select-input {
+  flex: 1;
+  max-width: 480px;
+  height: 36px;
+  padding: 0 12px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #1e293b;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sr-editpend-select-input:focus {
+  border-color: #1474be;
+  box-shadow: 0 0 0 3px rgba(20, 116, 190, 0.12);
+}
+
+/* 4. Main Body Container */
+.sr-editpend-body-modern {
+  padding: 24px 44px 44px;
+  background: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .sr-editpend-body-modern {
+    padding: 16px 20px 30px;
+  }
+  .sr-editpend-substrip,
+  .sr-editpend-picker-bar {
+    padding: 10px 18px;
+  }
+}
+
+/* Reference Strip */
+.sr-editpend-ref-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 12px 20px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.sr-editpend-ref-left {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.sr-editpend-ref-tag {
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sr-editpend-ref-val {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: 0.02em;
+}
+
+.sr-editpend-status-pill {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sr-editpend-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f59e0b;
+}
+
+/* Callout Info Alert */
+.sr-editpend-callout {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fffbeb;
+  border: 1px solid #fef3c7;
+  border-radius: 8px;
+  padding: 14px 20px;
+  margin-bottom: 26px;
+}
+
+.sr-editpend-callout-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #f59e0b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #d97706;
+}
+
+.sr-editpend-callout-text h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #92400e;
+}
+
+.sr-editpend-callout-text p {
+  margin: 3px 0 0;
+  font-size: 12.5px;
+  color: #b45309;
+}
+
+/* Section Container */
+.sr-editpend-section-modern {
+  margin-bottom: 28px;
+}
+
+.sr-editpend-section-heading {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #f1f5f9;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Passenger Table Modern */
+.sr-editpend-table-modern {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.sr-editpend-table-modern thead th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+  padding: 10px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.sr-editpend-table-modern tbody td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 13.5px;
+  color: #1e293b;
+  background: #ffffff;
+}
+
+.sr-editpend-table-modern tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.sr-editpend-input-clean {
+  width: 100%;
+  height: 34px;
+  padding: 0 10px;
+  font-size: 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  background: #f8fafc;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+}
+
+.sr-editpend-input-clean:focus {
+  border-color: #1474be;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(20, 116, 190, 0.1);
+}
+
+.sr-editpend-pax-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  color: #1e293b;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sr-editpend-pax-btn:hover {
+  background: #1474be;
+  color: #ffffff;
+  border-color: #1474be;
+}
+
+.sr-editpend-delete-pax-btn {
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #dc2626;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all 0.12s ease;
+}
+
+.sr-editpend-delete-pax-btn:hover {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+/* Flight Details Dual Card Grid */
+.sr-editpend-flight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.sr-editpend-flight-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+
+.sr-editpend-flight-card.arrival {
+  border-top: 3px solid #0284c7;
+}
+
+.sr-editpend-flight-card.departure {
+  border-top: 3px solid #1474be;
+}
+
+.sr-editpend-flight-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.sr-editpend-flight-header svg {
+  color: #1474be;
+}
+
+.sr-editpend-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.sr-editpend-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sr-editpend-field-group label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.sr-editpend-field-group label .required {
+  color: #dc2626;
+}
+
+/* Comments Textarea */
+.sr-editpend-textarea-modern {
+  width: 100%;
+  min-height: 70px;
+  padding: 10px 14px;
+  font-size: 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #f8fafc;
+  color: #0f172a;
+  outline: none;
+  resize: vertical;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.sr-editpend-textarea-modern:focus {
+  border-color: #1474be;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(20, 116, 190, 0.1);
+}
+
+/* Total Card matching PendingPaymentDetails */
+.sr-editpend-total-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #f8fafc 0%, #edf5fc 100%);
+  border: 1px solid #c8e2f8;
+  border-radius: 8px;
+  padding: 16px 24px;
+  margin-bottom: 24px;
+}
+
+.sr-editpend-total-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e40af;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sr-editpend-total-val {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+/* Action Strip */
+.sr-editpend-actions-strip {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  padding-top: 18px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.sr-editpend-btn-secondary {
+  height: 40px;
+  padding: 0 18px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sr-editpend-btn-secondary:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.sr-editpend-btn-primary {
+  height: 40px;
+  padding: 0 24px;
+  background: #1474be;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 8px rgba(20, 116, 190, 0.25);
+}
+
+.sr-editpend-btn-primary:hover:not(:disabled) {
+  background: #0d5ea1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(20, 116, 190, 0.35);
+}
+
+.sr-editpend-btn-primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Feedback banners */
+.sr-editpend-alert-banner {
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sr-editpend-alert-banner.success {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.sr-editpend-alert-banner.error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+}

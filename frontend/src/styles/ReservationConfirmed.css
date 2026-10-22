@@ -1,0 +1,493 @@
+/* ===================================================================
+   Silk Route Airport Services - Reservation Confirmed Page Styles
+   Consistent with modern project UI design system
+   =================================================================== */
+
+.sr-confirmed-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  animation: srFadeIn 0.25s ease-out;
+}
+
+@keyframes srFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* User Greeting Strip */
+.sr-confirmed-user-strip {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4px 8px;
+}
+
+.sr-confirmed-user-greeting {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #059669; /* Green tone for confirmed state */
+}
+
+.sr-confirmed-divider {
+  margin: 0 8px;
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.sr-confirmed-logout-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #1474be;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.sr-confirmed-logout-btn:hover {
+  text-decoration: underline;
+  color: #0c4a6e;
+}
+
+/* Stat Cards Strip */
+.sr-confirmed-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 4px;
+}
+
+.sr-confirmed-stat-card {
+  background: #ffffff;
+  border: 1px solid #d5dfec;
+  border-radius: 8px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 10px rgba(12, 33, 62, 0.04);
+}
+
+.sr-confirmed-stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sr-confirmed-stat-icon.green {
+  background: #ecfdf5;
+  color: #10b981;
+}
+
+.sr-confirmed-stat-icon.blue {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.sr-confirmed-stat-icon.amber {
+  background: #fffbeb;
+  color: #f59e0b;
+}
+
+.sr-confirmed-stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.sr-confirmed-stat-val {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.1;
+}
+
+.sr-confirmed-stat-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* Main Card Container */
+.sr-confirmed-card {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #d5dfec;
+  box-shadow: 0 4px 20px rgba(12, 33, 62, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Dotted / Solid Header Banner */
+.sr-confirmed-header-banner {
+  background: #e8ecf1;
+  border-top: 1px dotted #838e9d;
+  border-bottom: 1px dotted #838e9d;
+  padding: 12px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sr-confirmed-header-banner h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: #0a2240;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Toolbar Strip */
+.sr-confirmed-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 22px 10px;
+}
+
+.sr-confirmed-connected-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #059669;
+}
+
+.sr-confirmed-connected-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+.sr-confirmed-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sr-confirmed-search-input {
+  width: 280px;
+  height: 34px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 0 12px;
+  font-size: 13px;
+  color: #1e293b;
+  outline: none;
+  background: #f8fafc;
+  transition: all 0.15s ease;
+}
+
+.sr-confirmed-search-input:focus {
+  background: #ffffff;
+  border-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.15);
+}
+
+.sr-confirmed-filter-select {
+  height: 34px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #334155;
+  background: #f8fafc;
+  outline: none;
+  cursor: pointer;
+}
+
+.sr-confirmed-refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  color: #1e293b;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sr-confirmed-refresh-btn:hover {
+  background: #10b981;
+  color: #ffffff;
+  border-color: #10b981;
+}
+
+/* Data Table */
+.sr-confirmed-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.sr-confirmed-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  border-top: 1px solid #cbd5e1;
+}
+
+.sr-confirmed-table thead th {
+  background: #edf2f7;
+  color: #1e293b;
+  font-weight: 700;
+  padding: 10px 8px;
+  border-right: 1px solid #cbd5e1;
+  border-bottom: 2px solid #cbd5e1;
+  text-align: center;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+.sr-confirmed-table thead th:last-child {
+  border-right: none;
+}
+
+.sr-confirmed-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.sr-confirmed-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.sr-confirmed-table tbody tr.is-recently-confirmed {
+  background: #ecfdf5;
+  box-shadow: inset 4px 0 0 #10b981;
+}
+
+.sr-confirmed-table tbody td {
+  padding: 10px 10px;
+  border-right: 1px solid #cbd5e1;
+  border-bottom: 1px solid #cbd5e1;
+  color: #1e293b;
+  vertical-align: middle;
+}
+
+.sr-confirmed-table tbody td:last-child {
+  border-right: none;
+}
+
+/* Cell Elements */
+.sr-status-confirmed-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sr-payment-ref-badge {
+  display: inline-block;
+  background: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-family: monospace, inherit;
+}
+
+.sr-voucher-btn {
+  background: #1474be;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(20, 116, 190, 0.2);
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.sr-voucher-btn:hover {
+  background: #0f5c99;
+  box-shadow: 0 2px 6px rgba(15, 92, 153, 0.3);
+}
+
+/* Empty State */
+.sr-confirmed-empty {
+  padding: 50px 20px;
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* Pagination Bar */
+.sr-confirmed-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 22px;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  font-size: 13px;
+  color: #475569;
+}
+
+.sr-confirmed-page-btns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sr-confirmed-page-btn {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #1e293b;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sr-confirmed-page-btn.active {
+  background: #10b981;
+  color: #ffffff;
+  border-color: #10b981;
+}
+
+.sr-confirmed-page-btn:hover:not(.active):not(:disabled) {
+  background: #e2e8f0;
+}
+
+.sr-confirmed-page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===================================================================
+   Responsive Mobile & Tablet Rules
+   =================================================================== */
+
+@media (max-width: 900px) {
+  .sr-confirmed-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sr-confirmed-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .sr-confirmed-controls {
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .sr-confirmed-search-input {
+    width: 100%;
+  }
+
+  .sr-confirmed-filter-select {
+    width: 100%;
+  }
+
+  .sr-confirmed-refresh-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .sr-confirmed-table {
+    min-width: 860px;
+  }
+
+  .sr-confirmed-pagination {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+  }
+
+  .sr-confirmed-page-btns {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .sr-confirmed-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sr-confirmed-header-banner {
+    padding: 10px 14px;
+  }
+
+  .sr-confirmed-header-banner h2 {
+    font-size: 15px;
+  }
+
+  .sr-confirmed-user-strip {
+    justify-content: center;
+  }
+
+  .sr-confirmed-stat-card {
+    padding: 12px 14px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .sr-sidebar,
+  .sr-header,
+  .sr-confirmed-toolbar,
+  .sr-confirmed-pagination,
+  .sr-voucher-btn {
+    display: none !important;
+  }
+}

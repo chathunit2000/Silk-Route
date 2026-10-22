@@ -1,10 +1,41 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+import PendingPaymentDetails from "./PendingPaymentDetails";
+import FinanceAddPayment from "./FinanceAddPayment";
+import { isFinance } from "../utils/userRoles";
 import "../styles/Dashboard.css";
 import "../styles/PendingPayments.css";
 
-export default function PendingPayments({ user, onLogout, onNavigate }) {
+// Helper to sanitize date/time display and prevent legacy 1899/0000 or trailing slashes
+function formatDisplayDateTime(val) {
+  if (!val) return "-";
+  const s = String(val).trim();
+  if (
+    !s ||
+    s === "-" ||
+    s.startsWith("00-00-0000") ||
+    s.startsWith("0000") ||
+    s.includes("1899") ||
+    s.includes("1900")
+  ) {
+    return "-";
+  }
+  if (s.endsWith("/")) {
+    const cleaned = s.slice(0, -1).trim();
+    return cleaned || "-";
+  }
+  return s;
+}
+
+function formatDisplayFlight(flightNo) {
+  if (!flightNo) return null;
+  const s = String(flightNo).trim();
+  if (!s || s === "-" || s.toLowerCase() === "n/a") return null;
+  return s;
+}
+
+function StandardPendingPayments({ user, onLogout, onNavigate }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,10 +46,8 @@ export default function PendingPayments({ user, onLogout, onNavigate }) {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 15;
 
-  // Selected reservation for the update modal
+  // Selected reservation for the update view
   const [selectedRes, setSelectedRes] = useState(null);
-  const [isUpdating, setIsUpdating] = useState(false);
-  const [updateMsg, setUpdateMsg] = useState("");
 
   // Fetch pending reservations from backend + local newly created bookings
   const fetchPendingReservations = useCallback(async () => {
@@ -74,7 +103,7 @@ export default function PendingPayments({ user, onLogout, onNavigate }) {
             reportedBy: "7198",
             package: "Topaz Departure",
             referenceNo: "185917-MAN-PKG-E",
-            arrivalDateTime: "00-00-0000 /",
+            arrivalDateTime: "-",
             arrivalFlightNo: "",
             departureDateTime: "11-09-2026 / 01:50",
             departureFlightNo: "UL306",
@@ -87,7 +116,7 @@ export default function PendingPayments({ user, onLogout, onNavigate }) {
         ].map((item, idx) => ({ ...item, no: idx + 1 }));
         setReservations(fallbackList);
       } catch {
-        setError("Failed to load pending payments.");
+        setError("Failed to load pending reservations.");
       }
     } finally {
       setLoading(false);
@@ -116,79 +145,48 @@ export default function PendingPayments({ user, onLogout, onNavigate }) {
   const totalPages = Math.ceil(filtered.length / pageSize) || 1;
   const paginated = filtered.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
-  // Handle Approve Payment / Mark as Confirmed
-  const handleApprovePayment = async () => {
-    if (!selectedRes) return;
-    setIsUpdating(true);
-    setUpdateMsg("");
-
-    try {
-      const res = await fetch(`http://localhost:4000/api/reservations/pending/${selectedRes.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          bankMessage: "Approved",
-          updatedBy: user?.username || "Administrator",
-        }),
-      });
-
-      if (res.ok) {
-        setUpdateMsg("Payment marked as Approved successfully!");
-      }
-    } catch (err) {
-      console.warn("Backend update failed, updating locally:", err);
-    }
-
-    // Remove from local pending storage
-    try {
-      const saved = localStorage.getItem("silkroute_pending_reservations");
-      if (saved) {
-        const list = JSON.parse(saved);
-        const updated = list.filter((item) => item.referenceNo !== selectedRes.referenceNo);
-        localStorage.setItem("silkroute_pending_reservations", JSON.stringify(updated));
-      }
-    } catch (e) {
-      console.error(e);
-    }
-
-    // Remove from local component state
-    setReservations((prev) => prev.filter((r) => r.referenceNo !== selectedRes.referenceNo));
-
-    setTimeout(() => {
-      setIsUpdating(false);
-      setSelectedRes(null);
-      setUpdateMsg("");
-    }, 1200);
-  };
-
-  // Handle Save details
-  const handleSaveChanges = async (updatedFields) => {
-    if (!selectedRes) return;
-    setIsUpdating(true);
-    setUpdateMsg("");
-
-    try {
-      await fetch(`http://localhost:4000/api/reservations/pending/${selectedRes.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedFields),
-      });
-      setUpdateMsg("Reservation details updated successfully!");
-    } catch (err) {
-      console.warn("Backend update error:", err);
-    }
-
-    // Update state
-    setReservations((prev) =>
-      prev.map((r) => (r.id === selectedRes.id ? { ...r, ...updatedFields } : r))
+  // If user clicked "Update" on a pending reservation, show the Booking Details page view
+  if (selectedRes) {
+    return (
+      <div className="sr-app">
+        <Sidebar
+          active="pending-payments"
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          onNavigate={onNavigate}
+          user={user}
+        />
+        <div className="sr-main">
+          <Header
+            onToggleSidebar={() => setSidebarOpen((prev) => !prev)}
+            onLogout={onLogout}
+            user={user}
+          />
+          <main className="sr-content">
+            <PendingPaymentDetails
+              reservationId={selectedRes.id}
+              initialData={selectedRes}
+              user={user}
+              onBack={() => {
+                setSelectedRes(null);
+                fetchPendingReservations();
+              }}
+              onLogout={onLogout}
+              onConfirmedSuccess={(refNo) => {
+                setReservations((prev) =>
+                  prev.filter(
+                    (r) => r.referenceNo !== selectedRes.referenceNo && r.id !== selectedRes.id
+                  )
+                );
+                setSelectedRes(null);
+                fetchPendingReservations();
+              }}
+            />
+          </main>
+        </div>
+      </div>
     );
-
-    setTimeout(() => {
-      setIsUpdating(false);
-      setSelectedRes(null);
-      setUpdateMsg("");
-    }, 1000);
-  };
+  }
 
   return (
     <div className="sr-app">
@@ -197,6 +195,7 @@ export default function PendingPayments({ user, onLogout, onNavigate }) {
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         onNavigate={onNavigate}
+        user={user}
       />
 
       <div className="sr-main">
@@ -208,20 +207,7 @@ export default function PendingPayments({ user, onLogout, onNavigate }) {
 
         <main className="sr-content">
           <div className="sr-pending-page">
-            {/* Top Right User Greeting Bar */}
-            <div className="sr-pending-user-strip">
-              <span className="sr-pending-user-greeting">
-                Welcome back {user?.username || "Administrator"}
-                <span className="sr-pending-divider">|</span>
-                <button
-                  type="button"
-                  className="sr-pending-logout-btn"
-                  onClick={onLogout}
-                >
-                  Log out
-                </button>
-              </span>
-            </div>
+
 
             {/* Main Pending Payments Card Container */}
             <div className="sr-pending-card">
@@ -298,7 +284,7 @@ export default function PendingPayments({ user, onLogout, onNavigate }) {
                     {loading ? (
                       <tr>
                         <td colSpan="10" className="sr-pending-empty">
-                          Loading pending payments...
+                          Loading pending reservations...
                         </td>
                       </tr>
                     ) : error ? (
@@ -310,7 +296,7 @@ export default function PendingPayments({ user, onLogout, onNavigate }) {
                     ) : paginated.length === 0 ? (
                       <tr>
                         <td colSpan="10" className="sr-pending-empty">
-                          No pending payment reservations found.
+                          No pending reservations found.
                         </td>
                       </tr>
                     ) : (
@@ -351,17 +337,17 @@ export default function PendingPayments({ user, onLogout, onNavigate }) {
 
                           {/* 5. Arrival Date/Time & Flight No */}
                           <td className="sr-td-datetime">
-                            <span className="sr-sub-line">{row.arrivalDateTime || "-"}</span>
-                            {row.arrivalFlightNo && (
-                              <span className="sr-sub-flight">{row.arrivalFlightNo}</span>
+                            <span className="sr-sub-line">{formatDisplayDateTime(row.arrivalDateTime)}</span>
+                            {formatDisplayFlight(row.arrivalFlightNo) && (
+                              <span className="sr-sub-flight">{formatDisplayFlight(row.arrivalFlightNo)}</span>
                             )}
                           </td>
 
                           {/* 6. Departure Date/Time & Flight No */}
                           <td className="sr-td-datetime">
-                            <span className="sr-sub-line">{row.departureDateTime || "-"}</span>
-                            {row.departureFlightNo && (
-                              <span className="sr-sub-flight">{row.departureFlightNo}</span>
+                            <span className="sr-sub-line">{formatDisplayDateTime(row.departureDateTime)}</span>
+                            {formatDisplayFlight(row.departureFlightNo) && (
+                              <span className="sr-sub-flight">{formatDisplayFlight(row.departureFlightNo)}</span>
                             )}
                           </td>
 
@@ -439,176 +425,27 @@ export default function PendingPayments({ user, onLogout, onNavigate }) {
           </div>
         </main>
       </div>
-
-      {/* Update Modal */}
-      {selectedRes && (
-        <UpdateModal
-          reservation={selectedRes}
-          onClose={() => setSelectedRes(null)}
-          onApprove={handleApprovePayment}
-          onSave={handleSaveChanges}
-          isUpdating={isUpdating}
-          message={updateMsg}
-        />
-      )}
     </div>
   );
 }
 
-// Modal component to view and update pending reservation details
-function UpdateModal({ reservation, onClose, onApprove, onSave, isUpdating, message }) {
-  const [deptFlight, setDeptFlight] = useState(reservation.departureFlightNo || "");
-  const [arrvFlight, setArrvFlight] = useState(reservation.arrivalFlightNo || "");
-  const [amount, setAmount] = useState(reservation.amount || "0.00");
-  const [paxCount, setPaxCount] = useState(reservation.passengerCount || 1);
-  const [comments, setComments] = useState(reservation.comments || "");
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    onSave({
-      departureFlightNo: deptFlight,
-      arrivalFlightNo: arrvFlight,
-      amount: parseFloat(amount) || 0,
-      passengerCount: parseInt(paxCount, 10) || 1,
-      comments,
-    });
-  };
+export default function PendingPayments({ user, onLogout, onNavigate }) {
+  // If user is logged in as finance user, show the finance add payment interface with company selection
+  if (isFinance(user)) {
+    return (
+      <FinanceAddPayment
+        user={user}
+        onLogout={onLogout}
+        onNavigate={onNavigate}
+      />
+    );
+  }
 
   return (
-    <div className="sr-modal-backdrop">
-      <div className="sr-modal-box">
-        <div className="sr-modal-header">
-          <h3>Update Reservation — {reservation.referenceNo}</h3>
-          <button type="button" className="sr-modal-close-btn" onClick={onClose}>
-            &times;
-          </button>
-        </div>
-
-        <form onSubmit={handleFormSubmit}>
-          <div className="sr-modal-body">
-            {message && (
-              <div
-                style={{
-                  background: "#d1fae5",
-                  color: "#065f46",
-                  padding: "10px 14px",
-                  borderRadius: 6,
-                  fontWeight: 600,
-                  fontSize: 13,
-                }}
-              >
-                {message}
-              </div>
-            )}
-
-            <div className="sr-modal-grid-2">
-              <div className="sr-modal-field">
-                <label>PACKAGE</label>
-                <input
-                  type="text"
-                  className="sr-modal-input"
-                  value={reservation.package}
-                  disabled
-                  style={{ background: "#f1f5f9" }}
-                />
-              </div>
-
-              <div className="sr-modal-field">
-                <label>REFERENCE NO</label>
-                <input
-                  type="text"
-                  className="sr-modal-input"
-                  value={reservation.referenceNo}
-                  disabled
-                  style={{ background: "#f1f5f9" }}
-                />
-              </div>
-            </div>
-
-            <div className="sr-modal-grid-2">
-              <div className="sr-modal-field">
-                <label>DEPARTURE FLIGHT NO</label>
-                <input
-                  type="text"
-                  className="sr-modal-input"
-                  value={deptFlight}
-                  onChange={(e) => setDeptFlight(e.target.value)}
-                />
-              </div>
-
-              <div className="sr-modal-field">
-                <label>ARRIVAL FLIGHT NO</label>
-                <input
-                  type="text"
-                  className="sr-modal-input"
-                  value={arrvFlight}
-                  onChange={(e) => setArrvFlight(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="sr-modal-grid-2">
-              <div className="sr-modal-field">
-                <label>AMOUNT ({reservation.currency || "Rs."})</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  className="sr-modal-input"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                />
-              </div>
-
-              <div className="sr-modal-field">
-                <label>PASSENGERS</label>
-                <input
-                  type="number"
-                  min="1"
-                  className="sr-modal-input"
-                  value={paxCount}
-                  onChange={(e) => setPaxCount(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="sr-modal-field">
-              <label>COMMENTS / NOTES</label>
-              <textarea
-                className="sr-modal-textarea"
-                value={comments}
-                onChange={(e) => setComments(e.target.value)}
-                placeholder="Duty staff notes or special requirements..."
-              />
-            </div>
-          </div>
-
-          <div className="sr-modal-footer">
-            <button
-              type="button"
-              className="sr-btn-approve"
-              onClick={onApprove}
-              disabled={isUpdating}
-              title="Mark as paid and confirmed"
-            >
-              &#10003; Approve Payment
-            </button>
-
-            <div className="sr-modal-footer-right">
-              <button
-                type="button"
-                className="sr-btn-cancel"
-                onClick={onClose}
-                disabled={isUpdating}
-              >
-                Cancel
-              </button>
-              <button type="submit" className="sr-btn-save" disabled={isUpdating}>
-                {isUpdating ? "Saving..." : "Save Changes"}
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
+    <StandardPendingPayments
+      user={user}
+      onLogout={onLogout}
+      onNavigate={onNavigate}
+    />
   );
 }

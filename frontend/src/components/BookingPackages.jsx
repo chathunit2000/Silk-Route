@@ -133,6 +133,7 @@ export default function BookingPackages({
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         onNavigate={onNavigate}
+        user={user}
       />
       <div className="sr-main">
         <Header

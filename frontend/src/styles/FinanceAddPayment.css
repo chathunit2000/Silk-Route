@@ -1,0 +1,1232 @@
+/* ==========================================================================
+   Finance Add Payment & Credit Company Management Styles
+   Matches the classic Silk Route legacy corporate payment interface
+   ========================================================================== */
+
+.sr-finance-page-wrap {
+  width: 100%;
+  min-height: calc(100vh - 60px);
+  /* The exact blue-grey gradient from the screenshot */
+  background: linear-gradient(180deg, #b0c4db 0%, #c4d4e6 25%, #dbe5f0 55%, #edf3f8 100%);
+  display: flex;
+  flex-direction: column;
+  padding: 30px 24px 60px;
+  box-sizing: border-box;
+}
+
+/* Back navigation & header bar */
+.sr-fin-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto 20px auto;
+}
+
+.sr-fin-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid #b8c8d8;
+  color: #1e3a5f;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.sr-fin-back-btn:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+/* Main Container matching the screenshot's centered prompt */
+.sr-fin-select-card {
+  max-width: 720px;
+  width: 100%;
+  margin: 40px auto;
+  padding: 40px 30px 50px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Company Selection Row matching the screenshot */
+.sr-fin-select-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+/* Exact maroon / dark-red label from the image */
+.sr-fin-select-label {
+  color: #8b0000; /* Deep maroon */
+  font-weight: 700;
+  font-size: 15px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+/* Select dropdown styled after the system screenshot */
+.sr-fin-company-select {
+  padding: 4px 10px;
+  font-size: 13.5px;
+  font-family: inherit;
+  color: #111827;
+  background-color: #ffffff;
+  border: 1px solid #767676;
+  border-radius: 2px;
+  min-width: 260px;
+  max-width: 380px;
+  outline: none;
+  cursor: pointer;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.sr-fin-company-select:focus {
+  border-color: #1e3a5f;
+  outline: 1px solid #1e3a5f;
+}
+
+/* Exact classic submit button matching screenshot */
+.sr-fin-submit-btn {
+  background: linear-gradient(180deg, #f9f9f9 0%, #e6e6e6 100%);
+  border: 1px solid #767676;
+  color: #111827;
+  padding: 3px 18px;
+  font-size: 13px;
+  font-family: inherit;
+  border-radius: 3px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  margin-bottom: 18px;
+  min-width: 75px;
+  text-align: center;
+  transition: all 0.1s ease;
+}
+
+.sr-fin-submit-btn:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #ececec 100%);
+  border-color: #555555;
+}
+
+.sr-fin-submit-btn:active {
+  background: #dedede;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.sr-fin-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Create New Credit Company button requested by user under the submit button */
+.sr-fin-create-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #1e3a5f 0%, #0f233d 100%);
+  color: #ffffff;
+  border: 1px solid #0f233d;
+  padding: 8px 22px;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(15, 35, 61, 0.25);
+  transition: all 0.2s ease;
+  margin-top: 6px;
+}
+
+.sr-fin-create-btn:hover {
+  background: linear-gradient(135deg, #2b4d7c 0%, #173256 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(15, 35, 61, 0.3);
+}
+
+.sr-fin-create-btn:active {
+  transform: translateY(0);
+}
+
+/* Error / Notice box */
+.sr-fin-notice-box {
+  margin-top: 14px;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sr-fin-notice-box.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #f87171;
+}
+
+.sr-fin-notice-box.success {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #86efac;
+}
+
+/* ==========================================================================
+   Details & Payment Section (shown after submitting company)
+   ========================================================================== */
+.sr-fin-details-view {
+  max-width: 950px;
+  width: 100%;
+  margin: 10px auto 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Company Credit Overview Card */
+.sr-fin-overview-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 22px 24px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.sr-fin-overview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.sr-fin-overview-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.sr-fin-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.sr-fin-status-pill.status-valid {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #86efac;
+}
+
+.sr-fin-status-pill.status-danger {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.sr-fin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.sr-fin-stat-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sr-fin-stat-box .label {
+  font-size: 11.5px;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.sr-fin-stat-box .value {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.sr-fin-stat-box .value.green {
+  color: #16a34a;
+}
+
+.sr-fin-stat-box .value.red {
+  color: #dc2626;
+}
+
+.sr-fin-stat-box .value.blue {
+  color: #1e3a5f;
+}
+
+/* Payment Form Card */
+.sr-fin-payment-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 22px 24px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.sr-fin-payment-card h4 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e3a5f;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 10px;
+}
+
+.sr-fin-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.sr-fin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sr-fin-field label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.sr-fin-field input,
+.sr-fin-field textarea {
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  font-size: 13.5px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.sr-fin-field input:focus,
+.sr-fin-field textarea:focus {
+  border-color: #1e3a5f;
+  box-shadow: 0 0 0 2px rgba(30, 58, 95, 0.1);
+}
+
+.sr-fin-pay-submit-btn {
+  background: #16a34a;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 9px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 4px rgba(22, 163, 74, 0.2);
+}
+
+.sr-fin-pay-submit-btn:hover {
+  background: #15803d;
+}
+
+.sr-fin-pay-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Payment History Table */
+.sr-fin-history-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 22px 24px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.sr-fin-history-card h4 {
+  margin: 0 0 14px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e3a5f;
+}
+
+.sr-fin-table-wrap {
+  overflow-x: auto;
+}
+
+.sr-fin-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+
+.sr-fin-history-table th {
+  background: #f1f5f9;
+  color: #334155;
+  font-weight: 700;
+  padding: 10px 12px;
+  border-bottom: 2px solid #cbd5e1;
+  white-space: nowrap;
+}
+
+.sr-fin-history-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #1e293b;
+}
+
+.sr-fin-history-table tr:hover {
+  background: #f8fafc;
+}
+
+/* ==========================================================================
+   Modal for "Create a New Credit Company"
+   ========================================================================== */
+.sr-fin-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.sr-fin-modal-card {
+  background: #ffffff;
+  border-radius: 8px;
+  max-width: 580px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  animation: srFinPop 0.2s ease-out;
+}
+
+@keyframes srFinPop {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.sr-fin-modal-header {
+  padding: 18px 24px;
+  background: #1e3a5f;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.sr-fin-modal-header h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.sr-fin-modal-close-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.sr-fin-modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sr-fin-modal-footer {
+  padding: 16px 24px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.sr-fin-modal-cancel-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  padding: 8px 18px;
+  border-radius: 4px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sr-fin-modal-submit-btn {
+  background: #1e3a5f;
+  border: none;
+  color: #ffffff;
+  padding: 8px 22px;
+  border-radius: 4px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sr-fin-modal-submit-btn:hover {
+  background: #2b4d7c;
+}
+
+.sr-finance-page-wrap {
+  background: #f1f5f9;
+  padding: 32px 28px 64px;
+}
+
+.sr-fin-details-view {
+  max-width: 1040px;
+  gap: 18px;
+  margin-top: 0;
+}
+
+.sr-fin-details-view .sr-fin-top-bar {
+  max-width: none;
+  margin-bottom: 0;
+}
+
+.sr-fin-back-btn {
+  min-height: 38px;
+  padding: 0 14px;
+  border-color: #dbe3ee;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #334155;
+  font-size: 13px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.sr-fin-back-btn:hover {
+  border-color: #bfccdc;
+  background: #f8fafc;
+}
+
+.sr-fin-facility-heading {
+  padding: 22px 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px 16px 0 0;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 20px;
+  font-weight: 750;
+  letter-spacing: -0.025em;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.045);
+}
+
+.sr-fin-expiry-warning {
+  min-height: 46px;
+  margin-top: -18px;
+  padding: 0 18px;
+  border: 1px solid #fecaca;
+  border-radius: 0 0 10px 10px;
+  background: #fff1f2;
+  color: #b42318;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.sr-fin-expiry-form {
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 0 4px 2px;
+  color: #475569;
+  font-size: 13px;
+}
+
+.sr-fin-expiry-form input {
+  min-height: 40px;
+  padding: 7px 11px;
+  border: 1px solid #d5deea;
+  border-radius: 9px;
+  background: #ffffff;
+  font-size: 13px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sr-fin-expiry-form input:focus,
+.sr-fin-legacy-field input:focus,
+.sr-fin-legacy-field textarea:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.14);
+}
+
+.sr-fin-expiry-form button {
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid #d5deea;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 650;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.sr-fin-expiry-form button:hover:not(:disabled) {
+  border-color: #b8c6d8;
+  background: #f8fafc;
+}
+
+.sr-fin-balance-summary {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sr-fin-balance-summary div {
+  min-height: 94px;
+  padding: 16px 18px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.035);
+}
+
+.sr-fin-balance-summary div:first-child {
+  border-color: #bfdbfe;
+  background: linear-gradient(145deg, #eff6ff, #ffffff 76%);
+}
+
+.sr-fin-balance-summary div span {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.sr-fin-balance-summary strong {
+  color: #0f172a;
+  font-size: 20px;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+
+.sr-fin-payment-card-legacy,
+.sr-fin-history-card-legacy {
+  padding: 22px 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.035);
+}
+
+.sr-fin-payment-card-legacy form {
+  align-items: stretch;
+  gap: 18px;
+}
+
+.sr-fin-legacy-payment-fields {
+  width: 100%;
+  gap: 16px;
+}
+
+.sr-fin-legacy-field {
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 16px;
+}
+
+.sr-fin-legacy-field label {
+  color: #334155;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.sr-fin-legacy-field input,
+.sr-fin-legacy-field textarea {
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid #d5deea;
+  border-radius: 9px;
+  background: #ffffff;
+  font-size: 14px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sr-fin-legacy-field textarea {
+  min-height: 76px;
+}
+
+.sr-fin-payment-card-legacy .sr-fin-pay-submit-btn {
+  min-height: 42px;
+  align-self: flex-end;
+  padding: 0 22px;
+  border: 1px solid #1d4ed8;
+  border-radius: 9px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.18);
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.sr-fin-payment-card-legacy .sr-fin-pay-submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: #1d4ed8;
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.24);
+}
+
+.sr-fin-payment-card-legacy .sr-fin-pay-submit-btn:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.sr-fin-history-card-legacy {
+  margin-top: 0;
+  padding-bottom: 18px;
+}
+
+.sr-fin-history-card-legacy h4 {
+  margin: 0 0 16px;
+  color: #0f172a;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.sr-fin-history-card-legacy .sr-fin-table-wrap {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.sr-fin-history-card-legacy .sr-fin-history-table {
+  min-width: 760px;
+  font-size: 13px;
+}
+
+.sr-fin-history-card-legacy .sr-fin-history-table th {
+  padding: 12px 14px;
+  background: #f8fafc;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 11px;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.sr-fin-history-card-legacy .sr-fin-history-table td {
+  padding: 12px 14px;
+  color: #334155;
+}
+
+.sr-fin-history-card-legacy .sr-fin-history-table tbody tr:nth-child(even) {
+  background: #fbfdff;
+}
+
+.sr-fin-history-card-legacy .sr-fin-history-table tbody tr:hover {
+  background: #f1f7ff;
+}
+
+.sr-fin-details-view > .sr-fin-notice-box {
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 10px;
+}
+
+@media (max-width: 700px) {
+  .sr-finance-page-wrap {
+    padding: 22px 14px 40px;
+  }
+
+  .sr-fin-details-view {
+    gap: 14px;
+  }
+
+  .sr-fin-facility-heading {
+    padding: 18px;
+    border-radius: 13px 13px 0 0;
+    font-size: 17px;
+  }
+
+  .sr-fin-balance-summary {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .sr-fin-balance-summary div {
+    min-height: 78px;
+  }
+
+  .sr-fin-payment-card-legacy,
+  .sr-fin-history-card-legacy {
+    padding: 18px 16px;
+    border-radius: 12px;
+  }
+
+  .sr-fin-legacy-field {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .sr-fin-payment-card-legacy .sr-fin-pay-submit-btn {
+    width: 100%;
+  }
+}
+
+.sr-finance-page-wrap {
+  min-height: calc(100vh - 72px);
+  background:
+    radial-gradient(ellipse at top left, rgba(20, 116, 190, 0.07), transparent 38%),
+    #f4f7fb;
+  padding: 36px 28px 56px;
+}
+
+.sr-fin-selection-view {
+  width: 100%;
+  max-width: 1000px;
+  margin: 14px auto 0;
+}
+
+.sr-fin-selection-intro {
+  margin: 0 auto 24px;
+  max-width: 760px;
+  text-align: center;
+}
+
+.sr-fin-section-eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: #1474be;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.sr-fin-selection-intro h1 {
+  margin: 0;
+  color: #0a2240;
+  font-size: clamp(26px, 3vw, 34px);
+  font-weight: 780;
+  letter-spacing: -0.04em;
+}
+
+.sr-fin-selection-intro p {
+  margin: 9px 0 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.sr-fin-select-card {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 26px;
+  align-items: stretch;
+  border: 1px solid #e0e8f2;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 14px 36px rgba(15, 42, 74, 0.08);
+}
+
+.sr-fin-select-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #edf1f6;
+}
+
+.sr-fin-select-icon,
+.sr-fin-payment-icon,
+.sr-fin-account-mark {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  background: #eaf4fd;
+  color: #1474be;
+}
+
+.sr-fin-select-icon svg,
+.sr-fin-payment-icon svg,
+.sr-fin-account-mark svg {
+  width: 23px;
+  height: 23px;
+}
+
+.sr-fin-select-card-heading h2 {
+  margin: 0;
+  color: #0f2947;
+  font-size: 17px;
+  font-weight: 730;
+}
+
+.sr-fin-select-card-heading p {
+  margin: 5px 0 0;
+  color: #718096;
+  font-size: 13px;
+}
+
+.sr-fin-select-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+  padding-top: 22px;
+}
+
+.sr-fin-select-row {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  margin: 0;
+}
+
+.sr-fin-select-label {
+  color: #334155;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.sr-fin-company-select {
+  width: 100%;
+  max-width: none;
+  min-height: 46px;
+  padding: 0 13px;
+  border: 1px solid #d5deea;
+  border-radius: 9px;
+  color: #1e293b;
+  font-size: 14px;
+  box-shadow: none;
+}
+
+.sr-fin-company-select:focus {
+  border-color: #1474be;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(20, 116, 190, 0.13);
+}
+
+.sr-fin-select-form .sr-fin-submit-btn,
+.sr-fin-select-form .sr-fin-create-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 44px;
+  margin: 0;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.sr-fin-select-form .sr-fin-submit-btn {
+  border: 1px solid #1474be;
+  background: #1474be;
+  color: #ffffff;
+}
+
+.sr-fin-select-form .sr-fin-submit-btn:hover:not(:disabled) {
+  border-color: #0c4a6e;
+  background: #0c4a6e;
+}
+
+.sr-fin-select-form .sr-fin-create-btn {
+  margin-top: 0;
+  border: 1px solid #d7e2ee;
+  background: #ffffff;
+  color: #1e3a5f;
+}
+
+.sr-fin-select-form .sr-fin-create-btn:hover {
+  transform: none;
+  border-color: #b9cde0;
+  background: #f8fbff;
+  box-shadow: none;
+}
+
+.sr-fin-select-card > .sr-fin-notice-box {
+  margin: 16px 0 0;
+}
+
+.sr-fin-facility-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 24px 26px;
+  border: 1px solid #e0e8f2;
+  border-radius: 16px;
+  background: linear-gradient(130deg, #ffffff 0%, #f7fbff 100%);
+  box-shadow: 0 8px 24px rgba(15, 42, 74, 0.05);
+}
+
+.sr-fin-facility-heading .sr-fin-section-eyebrow {
+  margin-bottom: 7px;
+}
+
+.sr-fin-facility-heading h1 {
+  margin: 0;
+  color: #0a2240;
+  font-size: 23px;
+  font-weight: 750;
+  letter-spacing: -0.025em;
+}
+
+.sr-fin-facility-heading p {
+  margin: 7px 0 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.sr-fin-account-mark {
+  width: 52px;
+  height: 52px;
+  background: #eaf4fd;
+}
+
+.sr-fin-expiry-warning {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: -18px;
+  padding: 0 18px;
+}
+
+.sr-fin-expiry-form {
+  flex-wrap: wrap;
+}
+
+.sr-fin-payment-card-legacy,
+.sr-fin-history-card-legacy {
+  border-color: #e0e8f2;
+  border-radius: 15px;
+  box-shadow: 0 8px 24px rgba(15, 42, 74, 0.045);
+}
+
+.sr-fin-payment-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid #edf1f6;
+}
+
+.sr-fin-payment-heading .sr-fin-section-eyebrow {
+  margin-bottom: 6px;
+}
+
+.sr-fin-payment-heading h2 {
+  margin: 0;
+  color: #0f2947;
+  font-size: 18px;
+  font-weight: 740;
+  letter-spacing: -0.02em;
+}
+
+.sr-fin-payment-heading p {
+  margin: 6px 0 0;
+  color: #718096;
+  font-size: 13px;
+}
+
+.sr-fin-payment-icon {
+  width: 44px;
+  height: 44px;
+}
+
+.sr-fin-record-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 18px;
+}
+
+.sr-fin-legacy-payment-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.sr-fin-legacy-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sr-fin-legacy-field label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.sr-fin-legacy-field label > span:not(.sr-fin-optional-label) {
+  color: #dc2626;
+}
+
+.sr-fin-optional-label {
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.sr-fin-legacy-field input,
+.sr-fin-legacy-field textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 11px 13px;
+  border: 1px solid #d5deea;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #1e293b;
+  font: inherit;
+  font-size: 14px;
+}
+
+.sr-fin-legacy-field textarea {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.sr-fin-record-form .sr-fin-pay-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  align-self: flex-end;
+  padding: 0 20px;
+  border: 1px solid #1474be;
+  border-radius: 9px;
+  background: #1474be;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(20, 116, 190, 0.16);
+}
+
+.sr-fin-record-form .sr-fin-pay-submit-btn:hover:not(:disabled) {
+  border-color: #0c4a6e;
+  background: #0c4a6e;
+  box-shadow: 0 6px 14px rgba(12, 74, 110, 0.2);
+}
+
+.sr-fin-history-card-legacy h4 {
+  color: #0f2947;
+}
+
+@media (max-width: 700px) {
+  .sr-finance-page-wrap {
+    padding: 24px 16px 36px;
+  }
+
+  .sr-fin-selection-view {
+    margin-top: 4px;
+  }
+
+  .sr-fin-selection-intro {
+    margin-bottom: 20px;
+  }
+
+  .sr-fin-selection-intro p {
+    font-size: 13px;
+  }
+
+  .sr-fin-select-card {
+    padding: 21px 18px;
+    border-radius: 14px;
+  }
+
+  .sr-fin-facility-heading {
+    padding: 20px;
+  }
+
+  .sr-fin-facility-heading h1 {
+    font-size: 19px;
+  }
+
+  .sr-fin-facility-heading p {
+    line-height: 1.5;
+  }
+
+  .sr-fin-legacy-payment-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .sr-fin-record-form .sr-fin-pay-submit-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .sr-fin-facility-heading {
+    align-items: flex-start;
+  }
+
+  .sr-fin-account-mark {
+    width: 42px;
+    height: 42px;
+  }
+
+  .sr-fin-payment-heading {
+    align-items: flex-start;
+  }
+
+  .sr-fin-payment-icon {
+    width: 38px;
+    height: 38px;
+  }
+}

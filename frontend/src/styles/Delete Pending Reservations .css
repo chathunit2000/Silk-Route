@@ -1,0 +1,702 @@
+/* ===================================================================
+   Silk Route Airport Services - Delete Pending Reservations Page Styles
+   Professional Silk Route Modern Design System
+   Consistent with Delete Confirm Reservation / PendingPayments
+   =================================================================== */
+
+.sr-delpend-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto 36px;
+  animation: srFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes srFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 1. Breadcrumb & Navigation Header Bar */
+.sr-delpend-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: #ffffff;
+  padding: 16px 24px;
+  border-radius: 10px;
+  border: 1px solid #d8e3ed;
+  box-shadow: 0 2px 10px rgba(15, 34, 58, 0.04);
+}
+
+.sr-delpend-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sr-delpend-back-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: #0f172a;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.2);
+}
+
+.sr-delpend-back-btn:hover {
+  background: #1474be;
+  transform: translateX(-2px);
+  box-shadow: 0 4px 12px rgba(20, 116, 190, 0.3);
+}
+
+.sr-delpend-title-wrap h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.sr-delpend-title-wrap p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.sr-delpend-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sr-delpend-badge-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #fecaca;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.sr-delpend-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25);
+  animation: srPulse 2s infinite;
+}
+
+@keyframes srPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* 2. Security Notice Banner */
+.sr-delpend-notice-banner {
+  background: linear-gradient(135deg, #fff5f5 0%, #fee2e2 100%);
+  border: 1px solid #fca5a5;
+  border-left: 5px solid #dc2626;
+  border-radius: 8px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.06);
+}
+
+.sr-delpend-notice-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #dc2626;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.sr-delpend-notice-content {
+  font-size: 13px;
+  color: #7f1d1d;
+  line-height: 1.5;
+}
+
+.sr-delpend-notice-title {
+  font-weight: 800;
+  margin-right: 6px;
+}
+
+/* 3. Stats Strip */
+.sr-delpend-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.sr-delpend-stat-card {
+  background: #ffffff;
+  border: 1px solid #d8e3ed;
+  border-radius: 10px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 10px rgba(15, 34, 58, 0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sr-delpend-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(15, 34, 58, 0.07);
+}
+
+.sr-delpend-stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sr-delpend-stat-icon.red {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.sr-delpend-stat-icon.amber {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.sr-delpend-stat-icon.blue {
+  background: #eff6ff;
+  color: #1474be;
+}
+
+.sr-delpend-stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.sr-delpend-stat-val {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.sr-delpend-stat-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* 4. Main Card Container */
+.sr-delpend-card {
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #d8e3ed;
+  box-shadow: 0 4px 20px rgba(15, 34, 58, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Card Header Banner */
+.sr-delpend-card-header {
+  background: linear-gradient(135deg, #f8fafc 0%, #edf5fc 100%);
+  border-bottom: 1px solid #d8e3ed;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.sr-delpend-card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sr-delpend-card-icon {
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+}
+
+.sr-delpend-card-title-group h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: #0a2240;
+  letter-spacing: -0.01em;
+}
+
+/* Toolbar & Filters */
+.sr-delpend-card-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.sr-delpend-search-input {
+  width: 300px;
+  height: 38px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 0 14px;
+  font-size: 13px;
+  color: #0f172a;
+  outline: none;
+  background: #ffffff;
+  transition: all 0.15s ease;
+}
+
+.sr-delpend-search-input:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
+.sr-delpend-refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 38px;
+  padding: 0 16px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  color: #1e293b;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sr-delpend-refresh-btn:hover {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+}
+
+/* 5. Modern Data Table */
+.sr-delpend-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.sr-delpend-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.sr-delpend-table thead th {
+  background: #f8fafc;
+  color: #475569;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 12px 14px;
+  border-bottom: 2px solid #e2e8f0;
+  text-align: left;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.sr-delpend-table thead th.center {
+  text-align: center;
+}
+
+.sr-delpend-table tbody tr {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.15s ease;
+}
+
+.sr-delpend-table tbody tr:hover {
+  background-color: #fff1f2;
+}
+
+.sr-delpend-table tbody td {
+  padding: 12px 14px;
+  color: #1e293b;
+  vertical-align: middle;
+}
+
+.sr-delpend-td-center {
+  text-align: center;
+}
+
+.sr-delpend-td-amount {
+  text-align: center;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.sr-delpend-td-datetime {
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.sr-delpend-sub-line {
+  display: block;
+  color: #475569;
+  font-size: 12px;
+}
+
+.sr-delpend-sub-flight {
+  display: inline-block;
+  margin-top: 2px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.sr-delpend-ref-badge {
+  font-family: monospace, inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.sr-delpend-pax-name {
+  display: block;
+  font-size: 11.5px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.sr-delpend-td-access {
+  text-align: center;
+  font-family: monospace, inherit;
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
+/* Action Delete Button */
+.sr-delete-btn-pro {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.sr-delete-btn-pro:hover:not(:disabled) {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+  transform: translateY(-1px);
+}
+
+.sr-delete-btn-pro:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Empty State */
+.sr-delpend-empty-state {
+  padding: 60px 20px;
+  text-align: center;
+  color: #64748b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.sr-delpend-empty-state svg {
+  color: #94a3b8;
+}
+
+/* 6. Pagination Bar */
+.sr-delpend-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 16px 24px;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  font-size: 13px;
+  color: #475569;
+}
+
+.sr-delpend-page-btns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sr-delpend-page-btn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #1e293b;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.sr-delpend-page-btn:hover:not(:disabled) {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.sr-delpend-page-btn.is-active {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.25);
+}
+
+.sr-delpend-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Feedback banners */
+.sr-delpend-alert-banner {
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.sr-delpend-alert-banner.success {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.sr-delpend-alert-banner.error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+/* 7. Professional Confirmation Modal */
+.sr-delpend-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+  padding: 16px;
+}
+
+.sr-delpend-modal-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  width: 100%;
+  max-width: 480px;
+  overflow: hidden;
+  animation: srModalIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes srModalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.sr-delpend-modal-top {
+  padding: 20px 24px;
+  background: #fef2f2;
+  border-bottom: 1px solid #fee2e2;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sr-delpend-modal-warning-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fee2e2;
+  border: 2px solid #ef4444;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sr-delpend-modal-title-wrap h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: #991b1b;
+}
+
+.sr-delpend-modal-title-wrap p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: #b91c1c;
+}
+
+.sr-delpend-modal-content {
+  padding: 22px 24px;
+}
+
+.sr-delpend-modal-msg {
+  font-size: 13.5px;
+  color: #334155;
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+
+.sr-delpend-modal-info-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sr-delpend-modal-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.sr-delpend-modal-row .label {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.sr-delpend-modal-row .value {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.sr-delpend-modal-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+.sr-delpend-btn-cancel {
+  height: 38px;
+  padding: 0 18px;
+  font-size: 13px;
+  font-weight: 600;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #475569;
+  transition: all 0.15s ease;
+}
+
+.sr-delpend-btn-cancel:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.sr-delpend-btn-danger {
+  height: 38px;
+  padding: 0 20px;
+  font-size: 13px;
+  font-weight: 700;
+  background: #dc2626;
+  border: none;
+  color: #ffffff;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.15s ease;
+}
+
+.sr-delpend-btn-danger:hover:not(:disabled) {
+  background: #b91c1c;
+  box-shadow: 0 4px 12px rgba(185, 28, 28, 0.4);
+  transform: translateY(-1px);
+}
+
+.sr-delpend-btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

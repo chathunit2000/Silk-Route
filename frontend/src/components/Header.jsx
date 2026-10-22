@@ -1,9 +1,11 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/Dashboard.css";
+import { getUserRole, getRoleDisplayName } from "../utils/userRoles";
 
 export default function Header({ onToggleSidebar, onLogout, user }) {
   const navigate = useNavigate();
+  const role = getUserRole(user);
 
   return (
     <header className="sr-header">
@@ -67,10 +69,45 @@ export default function Header({ onToggleSidebar, onLogout, user }) {
           <span>Airport and Aviation Services<br />(Sri Lanka) Private Limited</span>
         </span>
         <div className="sr-header-avatar-wrap">
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", marginRight: 8 }}>
+            <span style={{ fontSize: 13, fontWeight: 600, color: "#f8fafc" }}>
+              {user?.name || user?.user_id || user?.username || "User"}
+            </span>
+            <span
+              style={{
+                fontSize: 10,
+                fontWeight: 700,
+                textTransform: "uppercase",
+                padding: "1px 6px",
+                borderRadius: 4,
+                letterSpacing: "0.5px",
+                background:
+                  role === "admin"
+                    ? "rgba(239, 68, 68, 0.2)"
+                    : role === "finance"
+                    ? "rgba(59, 130, 246, 0.2)"
+                    : "rgba(16, 185, 129, 0.2)",
+                color:
+                  role === "admin"
+                    ? "#f87171"
+                    : role === "finance"
+                    ? "#60a5fa"
+                    : "#34d399",
+                border:
+                  role === "admin"
+                    ? "1px solid rgba(239, 68, 68, 0.4)"
+                    : role === "finance"
+                    ? "1px solid rgba(59, 130, 246, 0.4)"
+                    : "1px solid rgba(16, 185, 129, 0.4)",
+              }}
+            >
+              {getRoleDisplayName(user)}
+            </span>
+          </div>
           <button
             className="sr-header-avatar"
             aria-label="Account"
-            title={user ? `Signed in as ${user.username || "Admin"}` : "Account"}
+            title={user ? `Signed in as ${user.name || user.user_id || "User"} (${getRoleDisplayName(user)})` : "Account"}
             type="button"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">

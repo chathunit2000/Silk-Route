@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/Dashboard.css";
 import { NAV_ROUTES } from "../routes/navRoutes";
+import { getUserRole } from "../utils/userRoles";
 
 
 function Icon({ name }) {
@@ -242,9 +243,77 @@ function Icon({ name }) {
   }
 }
 
-export default function Sidebar({ active, onNavigate, isOpen = false, onClose }) {
+export default function Sidebar({ active, onNavigate, isOpen = false, onClose, user: propUser }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const activeSection = NAV_ROUTES.find(
+    (item) => item.path === location.pathname
+  )?.section;
+  const [reportsOpen, setReportsOpen] = useState(activeSection === "Reports");
+  const [manageReservationsOpen, setManageReservationsOpen] = useState(
+    activeSection === "Manage Reservations"
+  );
+
+  useEffect(() => {
+    if (activeSection === "Reports") {
+      setReportsOpen(true);
+    }
+    if (activeSection === "Manage Reservations") {
+      setManageReservationsOpen(true);
+    }
+  }, [activeSection]);
+
+  const currentUser = propUser || (() => {
+    try {
+      return JSON.parse(localStorage.getItem("silkroute_user") || "null");
+    } catch {
+      return null;
+    }
+  })();
+
+  const role = getUserRole(currentUser);
+
+  // Filter routes according to user type:
+  // - Admin: All routes available
+  // - Normal user: Cannot access user management or reservation deletion
+  // - Finance user: Only "Add Payment" (pending-payments) and "Search" sections
+  const allowedRoutes = NAV_ROUTES.filter((item) => {
+    if (item.allowedRoles && !item.allowedRoles.includes(role)) {
+      return false;
+    }
+    if (role === "admin") {
+      return true;
+    }
+    if (role === "finance") {
+      return (
+        item.key === "dashboard" ||
+        item.key === "pending-payments" ||
+        item.key === "search"
+      );
+    }
+    // Normal user restrictions
+    if (
+      item.key === "create-edit-user" ||
+      item.key === "delete confirm reservation" ||
+      item.key === "delete pending payments" ||
+      item.path === "/create-edit-user" ||
+      item.path === "/delete-confirm-reservation" ||
+      item.path === "/delete-pending-payments"
+    ) {
+      return false;
+    }
+    return true;
+  }).map((item) => {
+    // For finance user, show "Add Payment" instead of "Pending Reservations"
+    if (role === "finance" && item.key === "pending-payments") {
+      return {
+        ...item,
+        label: "Add Payment",
+        icon: "credit-card",
+      };
+    }
+    return item;
+  });
 
   const isItemActive = (item) => {
     if (active) {
@@ -275,6 +344,70 @@ export default function Sidebar({ active, onNavigate, isOpen = false, onClose })
     }
   };
 
+  const groupedRoutes = allowedRoutes.reduce(
+    (groups, item) => {
+      if (item.section === "Reports") {
+        groups.reports.push(item);
+      } else if (item.section === "Manage Reservations") {
+        groups.manageReservations.push(item);
+      } else {
+        groups.main.push(item);
+      }
+      return groups;
+    },
+    { main: [], reports: [], manageReservations: [] }
+  );
+
+  const renderNavItem = (item) => (
+    <button
+      key={item.key}
+      className={`sr-sidebar-item ${isItemActive(item) ? "is-active" : ""}`}
+      onClick={() => handleItemClick(item)}
+      title={item.label}
+      type="button"
+    >
+      <span className="sr-sidebar-icon-wrap">
+        <Icon name={item.icon} />
+      </span>
+      <span className="sr-sidebar-label">{item.label}</span>
+    </button>
+  );
+
+  const renderSection = (label, id, items, isOpen, onToggle) => (
+    items.length > 0 && (
+      <div className="sr-sidebar-section">
+        <button
+          className="sr-sidebar-section-toggle"
+          type="button"
+          aria-expanded={isOpen}
+          aria-controls={id}
+          onClick={onToggle}
+        >
+          <span>{label}</span>
+          <svg
+            className={`sr-sidebar-section-chevron ${isOpen ? "is-open" : ""}`}
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+        {isOpen && (
+          <div id={id} className="sr-sidebar-section-items">
+            {items.map(renderNavItem)}
+          </div>
+        )}
+      </div>
+    )
+  );
+
   return (
     <>
       <div
@@ -298,23 +431,23 @@ export default function Sidebar({ active, onNavigate, isOpen = false, onClose })
           </button>
         </div>
         <nav className="sr-sidebar-nav">
-          {NAV_ROUTES.map((item) => (
-            <button
-              key={item.key}
-              className={`sr-sidebar-item ${isItemActive(item) ? "is-active" : ""}`}
-              onClick={() => handleItemClick(item)}
-              title={item.label}
-              type="button"
-            >
-              <span className="sr-sidebar-icon-wrap">
-                <Icon name={item.icon} />
-              </span>
-              <span className="sr-sidebar-label">{item.label}</span>
-            </button>
-          ))}
+          {groupedRoutes.main.map(renderNavItem)}
+          {renderSection(
+            "Manage Reservations",
+            "sr-sidebar-manage-reservations",
+            groupedRoutes.manageReservations,
+            manageReservationsOpen,
+            () => setManageReservationsOpen((open) => !open)
+          )}
+          {renderSection(
+            "Reports",
+            "sr-sidebar-reports",
+            groupedRoutes.reports,
+            reportsOpen,
+            () => setReportsOpen((open) => !open)
+          )}
         </nav>
       </aside>
     </>
   );
 }
-
